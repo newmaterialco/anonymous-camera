@@ -1,0 +1,18 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "filename" : "ac_glyph 2.pdf",
+      "compression-type" : "automatic"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "properties" : {
+    "compression-type" : "lossless",
+    "template-rendering-intent" : "template",
+    "preserves-vector-representation" : true
+  }
+}

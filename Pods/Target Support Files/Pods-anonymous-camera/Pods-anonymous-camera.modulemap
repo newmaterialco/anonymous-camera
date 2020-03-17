@@ -1,0 +1,6 @@
+framework module Pods_anonymous_camera {
+  umbrella header "Pods-anonymous-camera-umbrella.h"
+
+  export *
+  module * { export * }
+}
