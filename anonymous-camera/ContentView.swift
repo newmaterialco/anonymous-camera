@@ -45,6 +45,9 @@ struct ACViewfinder: View {
     @Binding var isRecording : Bool
     @State internal var shutterPosition : CGPoint = CGPoint.zero
     
+    internal var threeByFourAspectRatio : CGFloat = 3.0/4.0
+    internal var sixteenByNineAspectRatio : CGFloat = 9.0/16.0
+    
     var body: some View {
         ZStack {
             ZStack{
@@ -75,16 +78,14 @@ struct ACViewfinder: View {
                     .simultaneousGesture(
                         DragGesture(minimumDistance: 0, coordinateSpace: .named("test"))
                             .onChanged({ value in
-                                print("DRAAAAAGGG")
-
-                                withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                                withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.9, blendDuration: 0)) {
                                     self.isRecording = true
                                 }
                                 
                                 self.shutterPosition = value.location
                             })
                             .onEnded({ value in
-                                withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                                withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.9, blendDuration: 0)) {
                                     self.isRecording = false
                                 }
                                 
@@ -93,7 +94,7 @@ struct ACViewfinder: View {
                     )
                 }
             }
-            .aspectRatio(isRecording ? 0.56 : 0.75, contentMode: .fit)
+            .aspectRatio(isRecording ? sixteenByNineAspectRatio : threeByFourAspectRatio, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
             .overlay(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)

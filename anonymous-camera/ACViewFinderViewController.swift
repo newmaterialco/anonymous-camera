@@ -30,7 +30,7 @@ class ACViewfinderViewController: UIViewController {
          }
          #endif
         
-        self.view.backgroundColor = .darkGray
+        self.view.backgroundColor = .black
         
         #if !targetEnvironment(simulator)
         anonymous.showCamera(facing: .back)
