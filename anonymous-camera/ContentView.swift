@@ -20,10 +20,12 @@ struct ContentView: View {
             Spacer()
             ACViewfinder(isRecording: $isRecording)
                 .edgesIgnoringSafeArea(.all)
+                .zIndex(1)
             
             if !isRecording {
                 Spacer()
                 ACFilterSelector(settings: settings)
+                    .transition(AnyTransition.move(edge: .bottom).combined(with: AnyTransition.opacity))
             }
             Spacer()
         }
@@ -47,7 +49,6 @@ struct ACViewfinder: View {
         ZStack {
             ZStack{
                 ACViewfinderView()
-                    .aspectRatio(isRecording ? 0.56 : 0.75, contentMode: .fill)
                     .saturation(sceneInformation.sceneIsActive ? 1 : 0)
                     .blur(radius: sceneInformation.sceneIsActive ? 0 : 100)
                     .animation(Animation.easeInOut, value: sceneInformation.sceneIsActive)
@@ -105,13 +106,14 @@ struct ACViewfinder: View {
         }
     }
 }
-
 struct ACFilterSelector: View {
     
     @ObservedObject var settings : ACSettingsStore
     @EnvironmentObject var sceneInformation : ACScene
     
     let generator = UISelectionFeedbackGenerator()
+    
+    
     
     var body: some View {
         ZStack {
@@ -122,13 +124,13 @@ struct ACFilterSelector: View {
                             TapGesture()
                                 .onEnded({ _ in
                                     self.generator.selectionChanged()
-                                    self.settings.select(filter: filter)
+                                    
+                                    withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.69, blendDuration: 0)) {
+                                        self.settings.select(filter: filter)
+                                    }
                                 })
                     )}
             }
-            .animation(
-                Animation.interactiveSpring(response: 0.4, dampingFraction: 0.69, blendDuration: 0)
-            )
         }
     }
 }
