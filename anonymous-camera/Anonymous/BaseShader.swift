@@ -44,7 +44,7 @@ open class BaseShader: NSObject {
         return coordBuffer
     }
     
-    public func updateCoords(device: MTLDevice, resolution: CGSize, viewport: CGSize) {
+    open func updateCoords(device: MTLDevice, resolution: CGSize, viewport: CGSize) {
         let resolutionRatio = resolution.width / resolution.height
         let viewportRatio = viewport.height / viewport.width
         let width = resolutionRatio / viewportRatio

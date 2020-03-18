@@ -33,7 +33,7 @@ class ACViewfinderViewController: UIViewController {
         self.view.backgroundColor = .black
         
         #if !targetEnvironment(simulator)
-        anonymous.showCamera(facing: .back)
+        anonymous.showCamera(facing: .front)
         anonymous.watermark = UIImage(named: "AC_WATERMARK")
         anonymous.showMask(type: .none, detection: .face)
         #endif

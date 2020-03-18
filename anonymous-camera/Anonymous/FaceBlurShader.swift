@@ -22,8 +22,8 @@ class FaceBlurShader: FaceShader {
         computeFrom(device: device, name: "faceBlurCompute")
     }
     
-    override func addUniforms(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, size: CGSize) {
-        renderSize = size
+    override func updateCoords(device: MTLDevice, resolution: CGSize, viewport: CGSize) {
+        renderSize = viewport
     }
     
     override func postRender(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, drawable: CAMetalDrawable, commandBuffer: MTLCommandBuffer) {
