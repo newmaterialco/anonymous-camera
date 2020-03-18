@@ -63,6 +63,7 @@ extension ACViewfinderViewController: AnonDelegate {
 //        viewfinder.interface.updateFaceRectangles(withRectangles: rects)
     }
     func rotationChange(orientation: UIDeviceOrientation) {
+        Device.shared.orientation = orientation
                 
 //        if !orientation.isFlat {
 //                if orientation != currentOrientation {
