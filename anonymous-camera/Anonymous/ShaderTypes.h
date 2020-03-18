@@ -29,4 +29,9 @@ typedef struct {
     float invert;
 } BodyUniforms;
 
+typedef struct {
+    float mirrored;
+    float aspectScale;
+} VertexUniforms;
+
 #endif /* Header_h */

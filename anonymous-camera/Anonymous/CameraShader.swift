@@ -109,6 +109,7 @@ public class CameraShader: NSObject {
             mtkView.depthStencilPixelFormat = .depth32Float
             mtkView.colorPixelFormat = .bgra8Unorm
             mtkView.sampleCount = 1
+            mtkView.drawableSize = CGSize(width: 1080, height: 1920)
             useShader(shader: basicShader, index: index)
             index += 1
         }
@@ -144,6 +145,7 @@ public class CameraShader: NSObject {
     private var photoFeed = -1
     private var videoFeed = -1
     private var frameSkip = 0
+    private var viewHeights: [Int: CGFloat] = [:]
     
     private func loadMetal() {
         if let device = sharedMetalDevice {
@@ -205,6 +207,14 @@ public class CameraShader: NSObject {
                                 size = CGSize(width: sourceResolution.height, height: sourceResolution.width)
                             }
                             if cameraTypeChange && index == 0 && view.width > 0 { updateRenderLayer() }
+                            else {
+                                var viewHeight: CGFloat = 0.0
+                                if let h = viewHeights[index] { viewHeight = h }
+                                if viewHeight != view.height {
+                                    updateRenderLayer()
+                                    viewHeights[index] = view.height
+                                }
+                            }
                             if usedShader.hasRenders() {
                                 var pass = 0
                                 while pass != -1 {

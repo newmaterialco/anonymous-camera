@@ -20,6 +20,7 @@ open class BaseShader: NSObject {
     private var texCoordVertex: [Float] = [0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0]
     private var pipelines: [MTLRenderPipelineState] = []
     private var computes: [MTLComputePipelineState] = []
+    private var aspectScale: CGFloat = 1.0
     
     var uniformBufferAddress: UnsafeMutableRawPointer?
     var positionBuffer: MTLBuffer?
@@ -53,6 +54,7 @@ open class BaseShader: NSObject {
         let coordDataCount = texCoordVertex.count * MemoryLayout<Float>.size
         coordBuffer = device.makeBuffer(bytes: texCoordVertex, length: coordDataCount, options: [])
         coordBuffer?.label = "\(theClassName)CoordBuffer"
+        aspectScale = (viewport.width / viewport.height) / (resolution.height / resolution.width)
     }
     
     public func render(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, texY: CVMetalTexture, texCbCr: CVMetalTexture, mirrored: Bool, size: CGSize) -> Bool {
@@ -63,9 +65,11 @@ open class BaseShader: NSObject {
             encoder.setRenderPipelineState(pipeline)
             encoder.setVertexBuffer(positionBuffer, offset: 0, index: 0)
             encoder.setVertexBuffer(coordBuffer(pass: pass), offset: 0, index: 1)
-            var vertexUniforms: Float = 0.0
-            if mirrored { vertexUniforms = 1.0 }
-            encoder.setVertexBytes(&vertexUniforms, length: MemoryLayout<Float>.size, index: 3)
+            var vertexUniforms = VertexUniforms()
+            if mirrored { vertexUniforms.mirrored = -1.0 }
+            else { vertexUniforms.mirrored = 1.0 }
+            vertexUniforms.aspectScale = aspectScale.float
+            encoder.setVertexBytes(&vertexUniforms, length: MemoryLayout<VertexUniforms>.size, index: 3)
             encoder.setFragmentTexture(CVMetalTextureGetTexture(texY), index: 1)
             encoder.setFragmentTexture(CVMetalTextureGetTexture(texCbCr), index: 2)
             addUniforms(pass: pass, encoder: encoder, device: device, size: size)

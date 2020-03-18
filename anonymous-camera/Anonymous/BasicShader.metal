@@ -28,16 +28,10 @@ float4 ycbcrToRGBTransform(float4 y, float4 CbCr) {
     return ycbcrToRGBTransform * ycbcr;
 }
 
-vertex ImageColorInOut oneInputVertex(constant packed_float2 *position [[buffer(0)]], constant packed_float2 *texturecoord [[buffer(1)]], uint vid [[vertex_id]], constant float& mirror [[ buffer(3) ]]) {
+vertex ImageColorInOut oneInputVertex(constant packed_float2 *position [[buffer(0)]], constant packed_float2 *texturecoord [[buffer(1)]], uint vid [[vertex_id]], constant VertexUniforms& uniforms [[ buffer(3) ]]) {
     ImageColorInOut outputVertices;
-    if(mirror == 0.0) {
-        outputVertices.position = float4(position[vid], 0, 1.0);
-    }
-    else {
-        outputVertices.position = float4(-position[vid].x, position[vid].y, 0, 1.0);
-    }
+    outputVertices.position = float4((position[vid].x * uniforms.mirrored) * uniforms.aspectScale, position[vid].y * uniforms.aspectScale, 0, 1.0);
     outputVertices.texCoord = texturecoord[vid];
-    
     return outputVertices;
 }
 
