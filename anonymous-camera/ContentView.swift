@@ -12,16 +12,22 @@ struct ContentView: View {
     
     @EnvironmentObject var sceneInformation : ACScene
     @ObservedObject var settings = ACSettingsStore()
-            
+    
+    @State var isRecording : Bool = false
+    
     var body: some View {
-                
         VStack {
             Spacer()
-            ACViewfinder()
-            Spacer()
-            ACFilterSelector(settings: settings)
+            ACViewfinder(isRecording: $isRecording)
+                .edgesIgnoringSafeArea(.all)
+            
+            if !isRecording {
+                Spacer()
+                ACFilterSelector(settings: settings)
+            }
             Spacer()
         }
+        .coordinateSpace(name: "test")
     }
 }
 
@@ -34,32 +40,68 @@ struct ContentView_Previews: PreviewProvider {
 struct ACViewfinder: View {
     
     @EnvironmentObject var sceneInformation : ACScene
+    @Binding var isRecording : Bool
+    @State internal var shutterPosition : CGPoint = CGPoint.zero
     
     var body: some View {
         ZStack {
             ZStack{
                 ACViewfinderView()
-                .aspectRatio(0.75, contentMode: .fit)
-                .blur(radius: sceneInformation.sceneIsActive ? 0 : 100)
-                .animation(Animation.easeInOut, value: sceneInformation.sceneIsActive)
+                    .aspectRatio(isRecording ? 0.56 : 0.75, contentMode: .fill)
+                    .saturation(sceneInformation.sceneIsActive ? 1 : 0)
+                    .blur(radius: sceneInformation.sceneIsActive ? 0 : 100)
+                    .animation(Animation.easeInOut, value: sceneInformation.sceneIsActive)
                 
                 GeometryReader { (geometry) in
                     ACViewfinderLandscapeContainer()
-                    .frame(width: geometry.size.height, height: geometry.size.width, alignment: .bottom)
-                    .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
-                    .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
+                        .background(Color.yellow.opacity(0.25))
+                        .frame(width: geometry.size.height, height: geometry.size.width, alignment: .center)
+                        .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
+                        .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
+                }
+                
+                VStack {
+                    Spacer()
+                    HStack {
+                        Rectangle()
+                            .frame(width: 0, height: 0, alignment: .center)
+                    }
+                    .frame(width: 72, height: 72)
+                    .background(Color.red)
+                    .padding()
+                    .position(shutterPosition)
+                    .coordinateSpace(name: "test")
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 0, coordinateSpace: .named("test"))
+                            .onChanged({ value in
+                                print("DRAAAAAGGG")
+
+                                withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                                    self.isRecording = true
+                                }
+                                
+                                self.shutterPosition = value.location
+                            })
+                            .onEnded({ value in
+                                withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                                    self.isRecording = false
+                                }
+                                
+                                self.shutterPosition = CGPoint.zero
+                            })
+                    )
                 }
             }
-            .aspectRatio(0.75, contentMode: .fit)
+            .aspectRatio(isRecording ? 0.56 : 0.75, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
             .overlay(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .stroke(Color.white.opacity(0.1), lineWidth: 2)
-                )
-            .clipShape(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
             )
-            .padding(0)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+            )
+                .padding(0)
         }
     }
 }
@@ -68,9 +110,9 @@ struct ACFilterSelector: View {
     
     @ObservedObject var settings : ACSettingsStore
     @EnvironmentObject var sceneInformation : ACScene
-
+    
     let generator = UISelectionFeedbackGenerator()
-        
+    
     var body: some View {
         ZStack {
             HStack(spacing: sceneInformation.deviceOrientation.isLandscape ? 18 : 12){
@@ -96,20 +138,20 @@ struct ACFilterButton: View {
     @EnvironmentObject var sceneInformation : ACScene
     @State internal var isBeingTouched : Bool = false
     var filter : ACFilter
-
+    
     var body: some View {
         HStack (alignment: .center) {
             Image(uiImage: filter.icon)
                 .foregroundColor(
                     filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
-                )
+            )
                 .rotationEffect(sceneInformation.deviceRotationAngle)
             if (filter.selected && !sceneInformation.deviceOrientation.isLandscape) {
                 Text(filter.name)
                     .font(Font.system(size: 16, weight: .semibold, design: .default))
                     .foregroundColor(
                         filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
-                    )
+                )
                     .multilineTextAlignment(.leading)
                     .lineLimit(1)
             }
@@ -123,49 +165,16 @@ struct ACFilterButton: View {
                     .frame(width: 16)
             }
         )
-        .background(
-            filter.selected ? (filter.modifiesImage ? Color("highlight") : Color(.label)) : Color(.label).opacity(0.12)
+            .background(
+                filter.selected ? (filter.modifiesImage ? Color("highlight") : Color(.label)) : (isBeingTouched ? Color(.label).opacity(0.75) : Color(.label).opacity(0.25))
         )
-        .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
-        .scaleEffect(isBeingTouched ? 0.9 : 1)
-        .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filter.selected ? 1.12 : 1) : 1)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged({ _ in
-                    withAnimation(.easeOut(duration: 0.12)) {
-                        self.isBeingTouched = true
-                    }
-                })
-                .onEnded({ _ in
-                    withAnimation(.easeOut(duration: 0.24)) {
-                        self.isBeingTouched = false
-                    }
-                })
-        )
-    }
-}
-
-struct ACViewfinderLandscapeContainer: View {
-    @EnvironmentObject var sceneInformation : ACScene
-    @State internal var isBeingTouched : Bool = false
-
-    var body: some View {
-        ZStack {
-            HStack {
-                Text("Interview")
-                .font(Font.system(size: 16, weight: .semibold, design: .default))
-            }
-            .padding()
-            .background(Blur(style: .systemChromeMaterialLight))
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-            .padding()
-            .scaleEffect(isBeingTouched ? 0.9 : 1)
-            .offset(y: sceneInformation.deviceOrientation.isLandscape ? 0 : 200)
-            .animation(Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0), value: sceneInformation.deviceOrientation.isLandscape)
+            .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
+            .scaleEffect(isBeingTouched ? 0.92 : 1)
+            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filter.selected ? 1.12 : 1) : 1)
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ _ in
-                        withAnimation(.easeOut(duration: 0.12)) {
+                        withAnimation(.easeOut(duration: 0.08)) {
                             self.isBeingTouched = true
                         }
                     })
@@ -174,18 +183,59 @@ struct ACViewfinderLandscapeContainer: View {
                             self.isBeingTouched = false
                         }
                     })
-            )
+        )
+    }
+}
+
+struct ACViewfinderLandscapeContainer: View {
+    @EnvironmentObject var sceneInformation : ACScene
+    @State internal var isBeingTouched : Bool = false
+    @State internal var interviewModeDraggableOffset : CGFloat = 0
+    
+    var body: some View {
+        ZStack {
+            VStack (alignment: .center) {
+                Spacer()
+                HStack (alignment: .bottom) {
+                    Text("Interview")
+                        .font(Font.system(size: 16, weight: .semibold, design: .default))
+                }
+                .frame(alignment: .bottom)
+                .padding()
+                .background(Blur(style: .systemChromeMaterialLight))
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .padding()
+                .scaleEffect(self.isBeingTouched ? 0.9 : 1)
+                .offset(y: self.sceneInformation.deviceOrientation.isLandscape ? 0 : 200)
+                .offset(x: self.interviewModeDraggableOffset)
+                .animation(Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0), value: self.sceneInformation.deviceOrientation.isLandscape)
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                        .onChanged({ value in
+                            self.interviewModeDraggableOffset = value.translation.width
+                            withAnimation(.easeOut(duration: 0.12)) {
+                                self.isBeingTouched = true
+                            }
+                        })
+                        .onEnded({ _ in
+                            withAnimation(.easeOut(duration: 0.24)) {
+                                self.isBeingTouched = false
+                            }
+                        })
+                )
+                    .background(Color.blue)
+            }
         }
     }
 }
 
 struct Blur: UIViewRepresentable {
     var style: UIBlurEffect.Style = .systemMaterial
-
+    
     func makeUIView(context: Context) -> UIVisualEffectView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }
-
+    
     func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
         uiView.effect = UIBlurEffect(style: style)
     }
