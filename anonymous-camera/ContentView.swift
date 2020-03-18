@@ -52,6 +52,10 @@ struct ACViewfinder: View {
             }
             .aspectRatio(0.75, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .stroke(Color.white.opacity(0.1), lineWidth: 2)
+                )
             .clipShape(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
             )
