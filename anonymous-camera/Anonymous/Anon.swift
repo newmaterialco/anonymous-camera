@@ -39,6 +39,7 @@ class Anon: NSObject {
     struct AnonFace: Identifiable {
         var id = UUID().uuidString
         var rect: CGRect = .zero
+        var showOutline : Bool = false
     }
     
     struct AnonState {

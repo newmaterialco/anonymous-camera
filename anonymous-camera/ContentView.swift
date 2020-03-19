@@ -49,6 +49,7 @@ struct ACViewfinder: View {
     internal var threeByFourAspectRatio : CGFloat = 3.0/4.0
     internal var sixteenByNineAspectRatio : CGFloat = 9.0/16.0
     
+    
     var body: some View {
         ZStack {
             ZStack{
@@ -67,18 +68,15 @@ struct ACViewfinder: View {
                 
                 ZStack {
                     ForEach(anonymisation.faces) { (face) in
-                        RoundedRectangle(cornerRadius: 24, style: .circular)
-                            .foregroundColor(.yellow)
-                            .frame(width: face.rect.width, height: face.rect.height, alignment: .center)
-                            .position(CGPoint(x: face.rect.minX, y: face.rect.minY))
-                            .transition(
-                                AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0.5, y: 0.5)).combined(with: AnyTransition.opacity)
-                            )
-                        
-                        Text("\(face.rect.minY)")
-                            .foregroundColor(.white)
+                        ACFaceRectangle()
+                        .transition(AnyTransition.scale(scale: 0.75).combined(with: AnyTransition.opacity))
+                        .animation(Animation.interactiveSpring(response: 0.1, dampingFraction: 0.98, blendDuration: 0))
+                        .frame(width: face.rect.width, height: face.rect.height, alignment: .center)
+                        .position(CGPoint(x: face.rect.minX, y: face.rect.minY))
+
                     }
                 }
+                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
                 
                 VStack {
                     Spacer()
@@ -150,6 +148,18 @@ struct ACFilterSelector: View {
             }
         }
     }
+}
+
+struct ACFaceRectangle : View {
+    
+    var body: some View {
+        HStack {
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+            .stroke(Color(UIColor(named: "highlight") ?? .clear), lineWidth: 2)
+            .shadow(color: Color(UIColor(named: "highlight") ?? .clear), radius: 12, x: 0, y: 0)
+        }
+    }
+    
 }
 
 struct ACFilterButton: View {
