@@ -31,6 +31,7 @@ typealias AnonSavedToPhotos = (_ : Bool) -> Void
 protocol AnonDelegate {
     func rotationChange(orientation: UIDeviceOrientation)
     func didSwitch(from: Anon.AnonState, to: Anon.AnonState)
+    func updated(faces: [Anon.AnonFace])
 }
 
 class Anon: NSObject {
@@ -577,6 +578,7 @@ class Anon: NSObject {
                     faceTmp.append(AnonFace(id: trackedFace.key.uuidString, rect: r))
                 }
                 self.faces = faceTmp
+                self.delegate?.updated(faces: self.faces)
             }
         }
     }
