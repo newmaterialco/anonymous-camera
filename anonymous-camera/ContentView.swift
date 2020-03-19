@@ -23,8 +23,12 @@ struct ContentView: View {
             
             if !isRecording {
                 Spacer()
-                ACFilterSelector()
-                    .transition(AnyTransition.move(edge: .bottom).combined(with: AnyTransition.opacity))
+                HStack{
+                    Spacer()
+                    ACFilterSelector()
+                    Spacer()
+                }
+                .transition(AnyTransition.move(edge: .bottom).combined(with: AnyTransition.opacity))
             }
             Spacer()
         }
@@ -54,10 +58,6 @@ struct ACViewfinder: View {
         ZStack {
             ZStack{
                 ACViewfinderView()
-                    .saturation(sceneInformation.sceneIsActive ? 1 : 0)
-                    .blur(radius: sceneInformation.sceneIsActive ? 0 : 100)
-                    .animation(Animation.easeInOut, value: sceneInformation.sceneIsActive)
-                
                 GeometryReader { (geometry) in
                     ACViewfinderLandscapeContainer()
                         .background(Color.yellow.opacity(0.25))
@@ -108,19 +108,61 @@ struct ACViewfinder: View {
                     )
                 }
             }
-            .aspectRatio(isRecording ? sixteenByNineAspectRatio : threeByFourAspectRatio, contentMode: .fit)
+            .aspectRatio(isRecording ? sixteenByNineAspectRatio : threekByFourAspectRatio, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
+            .saturation(sceneInformation.sceneIsActive ? 1 : 0.5)
+            .blur(radius: sceneInformation.sceneIsActive ? 0 : 48)
+            .animation(Animation.easeInOut, value: sceneInformation.sceneIsActive)
             .overlay(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .stroke(Color.white.opacity(0.1), lineWidth: 2)
             )
-                .clipShape(
+            .clipShape(
                     RoundedRectangle(cornerRadius: 18, style: .continuous)
             )
-                .padding(0)
+            .padding(0)
         }
     }
 }
+
+struct ACFaceRectangle : View {
+    
+    @State var isBeingTouched : Bool = false
+    
+    var body: some View {
+        HStack {
+            Rectangle()
+            .foregroundColor(Color.clear)
+            .background(
+                LinearGradient(gradient: Gradient(colors: [Color.white.opacity(isBeingTouched ? 0.32 : 0.24), Color.white.opacity(isBeingTouched ? 0.64 : 0.48)]), startPoint: UnitPoint(x: 0.5, y: 0), endPoint: UnitPoint(x: 0.5, y: 1))
+            )
+        }
+        .clipShape(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+            .strokeBorder(lineWidth: 2, antialiased: true)
+            .foregroundColor(Color(UIColor(named: "highlight") ?? .clear))
+        )
+        .scaleEffect(isBeingTouched ? 0.9 : 1)
+        .shadow(color: Color(UIColor(named: "highlight")?.withAlphaComponent(0.25) ?? .clear), radius: 24, x: 0, y: 0)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged({ _ in
+                    withAnimation(.easeOut(duration: 0.08)) {
+                        self.isBeingTouched = true
+                    }
+                })
+                .onEnded({ _ in
+                    withAnimation(.easeOut(duration: 0.24)) {
+                        self.isBeingTouched = false
+                    }
+                })
+        )
+    }
+}
+
 struct ACFilterSelector: View {
     
     @EnvironmentObject var anonymisation : ACAnonymisation
@@ -147,19 +189,8 @@ struct ACFilterSelector: View {
                     )}
             }
         }
+        .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
     }
-}
-
-struct ACFaceRectangle : View {
-    
-    var body: some View {
-        HStack {
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-            .stroke(Color(UIColor(named: "highlight") ?? .clear), lineWidth: 2)
-            .shadow(color: Color(UIColor(named: "highlight") ?? .clear), radius: 12, x: 0, y: 0)
-        }
-    }
-    
 }
 
 struct ACFilterButton: View {
@@ -171,10 +202,12 @@ struct ACFilterButton: View {
     var body: some View {
         HStack (alignment: .center) {
             Image(uiImage: filter.icon)
-                .foregroundColor(
+            .foregroundColor(
                     filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
             )
-                .rotationEffect(sceneInformation.deviceRotationAngle)
+            .rotationEffect(sceneInformation.deviceRotationAngle)
+                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0))
+
             if (filter.selected && !sceneInformation.deviceOrientation.isLandscape) {
                 Text(filter.name)
                 .font(Font.system(size: 16, weight: .semibold, design: .default))
