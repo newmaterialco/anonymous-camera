@@ -20,10 +20,16 @@ class FaceShader: BaseShader {
     var axis: Float = 0
     var widthOfPixel: Float = 0.05
     var scale: Float = 1.0
+    var renderSize: CGSize = .zero
     private var hasFaces: Float = 0
     
     override func obseleteForCurrentFrame() -> Bool {
         return faces.count == 0
+    }
+    
+    override func updateCoords(device: MTLDevice, resolution: CGSize, viewport: CGSize) {
+        super.updateCoords(device: device, resolution: resolution, viewport: viewport)
+        renderSize = viewport
     }
     
     override func addUniforms(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, size: CGSize) {

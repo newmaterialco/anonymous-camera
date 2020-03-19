@@ -21,8 +21,11 @@ float show(float inX, float inY, float x, float y, float w, float h, float aspec
     float cY = y + (h / 2.0);
     float maxSide = w;
     if(h > maxSide) { maxSide = h; }
-    h = maxSide + padding;
-    w = maxSide + padding;
+    if (aspectRatio > 1.0) { maxSide = maxSide / aspectRatio; }
+    else { maxSide = maxSide * aspectRatio; }
+    float pad = padding + 0.04;
+    h = maxSide + pad;
+    w = maxSide + pad;
     if (aspectRatio > 1.0) { h = h * aspectRatio; }
     else { w = w / aspectRatio; }
     float p = (pow((inX - cX), 2.0) / pow((w / 2.0), 2.0)) + (pow((inY - cY), 2.0) / pow((h / 2.0), 2.0));

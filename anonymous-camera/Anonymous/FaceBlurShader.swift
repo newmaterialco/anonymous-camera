@@ -15,16 +15,10 @@ class FaceBlurShader: FaceShader {
     
     var blurRadius: Float = 24.0
     private var blurTexture: MTLTexture?
-    private var renderSize: CGSize = .zero
     
     override func generate(device: MTLDevice) {
         generateFrom(device: device, vertex: "oneInputVertex", fragment: "yuvToRgbFragment")
         computeFrom(device: device, name: "faceBlurCompute")
-    }
-    
-    override func updateCoords(device: MTLDevice, resolution: CGSize, viewport: CGSize) {
-        super.updateCoords(device: device, resolution: resolution, viewport: viewport)
-        renderSize = viewport
     }
     
     override func postRender(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, drawable: CAMetalDrawable, commandBuffer: MTLCommandBuffer) {
