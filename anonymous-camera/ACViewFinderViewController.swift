@@ -60,7 +60,7 @@ extension ACViewfinderViewController: AnonDelegate {
         print("did switch from \(from.camera), \(from.detection), \(from.mask) to \(to.camera), \(to.detection), \(to.mask)")
     }
     func updated(faces: [Anon.AnonFace]) {
-        
+        ACAnonymisation.shared.faces = faces
     }
     func rotationChange(orientation: UIDeviceOrientation) {
         
