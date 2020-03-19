@@ -36,7 +36,7 @@ protocol AnonDelegate {
 
 class Anon: NSObject {
     
-    struct AnonFace {
+    struct AnonFace: Identifiable {
         var id = UUID().uuidString
         var rect: CGRect = .zero
     }
