@@ -14,6 +14,7 @@ class ACAnonymisation : ObservableObject {
     static var shared = ACAnonymisation()
     
     @Published var filters : [ACFilter] = availableFilters
+    @Published var faceRectangles : [Anon.AnonFace] = []
     
     var selectedFilter : ACFilter? {
         didSet {
@@ -41,6 +42,10 @@ class ACAnonymisation : ObservableObject {
                 filters[index].selected = false
             }
         }
+    }
+    
+    func didSwitch(from: Anon.AnonState, to: Anon.AnonState) {
+        print("did switch")
     }
 }
 

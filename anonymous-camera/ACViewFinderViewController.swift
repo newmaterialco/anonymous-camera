@@ -67,33 +67,5 @@ extension ACViewfinderViewController: AnonDelegate {
         if !orientation.isFlat && !(orientation == .portraitUpsideDown) {
             ACScene.shared.deviceOrientation = orientation
         }
-                
-//        if !orientation.isFlat {
-//                if orientation != currentOrientation {
-//
-//                    if orientation.isPortrait {
-//                        self.statusBarAnimationStyle = .slide
-//                        self.shouldHideStatusBar = false
-//                    } else {
-//                        self.statusBarAnimationStyle = .slide
-//                        self.shouldHideStatusBar = true
-//                    }
-//
-//                    UIView.animate(withDuration: 0.26) {
-//                        self.setNeedsStatusBarAppearanceUpdate()
-//                    }
-//
-//                    var shouldAnimate : Bool = true
-//
-//                    if currentOrientation == .unknown && orientation != .unknown {
-//                        shouldAnimate = false
-//                    }
-//
-//                    self.currentOrientation = orientation
-//                    let userInfo : [String : Any] = ["deviceOrientation" : orientation, "shouldAnimate" : shouldAnimate]
-//                    NotificationCenter.default.post(name: .rotationChanged, object: nil, userInfo: userInfo)
-//
-//            }
-//        }
     }
 }
