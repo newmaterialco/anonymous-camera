@@ -11,8 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var sceneInformation : ACScene
-    @ObservedObject var settings = ACSettingsStore()
-    
+    @EnvironmentObject var anonymisation : ACAnonymisation
     @State var isRecording : Bool = false
     
     var body: some View {
@@ -24,7 +23,7 @@ struct ContentView: View {
             
             if !isRecording {
                 Spacer()
-                ACFilterSelector(settings: settings)
+                ACFilterSelector()
                     .transition(AnyTransition.move(edge: .bottom).combined(with: AnyTransition.opacity))
             }
             Spacer()
@@ -109,7 +108,7 @@ struct ACViewfinder: View {
 }
 struct ACFilterSelector: View {
     
-    @ObservedObject var settings : ACSettingsStore
+    @EnvironmentObject var anonymisation : ACAnonymisation
     @EnvironmentObject var sceneInformation : ACScene
     
     let generator = UISelectionFeedbackGenerator()
@@ -119,7 +118,7 @@ struct ACFilterSelector: View {
     var body: some View {
         ZStack {
             HStack(spacing: sceneInformation.deviceOrientation.isLandscape ? 18 : 12){
-                ForEach(settings.filters) { filter in
+                ForEach(anonymisation.filters) { filter in
                     ACFilterButton(filter: filter)
                         .simultaneousGesture(
                             TapGesture()
@@ -127,7 +126,7 @@ struct ACFilterSelector: View {
                                     self.generator.selectionChanged()
                                     
                                     withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.69, blendDuration: 0)) {
-                                        self.settings.select(filter: filter)
+                                        self.anonymisation.select(filter: filter)
                                     }
                                 })
                     )}

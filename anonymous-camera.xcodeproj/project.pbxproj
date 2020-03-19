@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */; };
-		8F0B22A02421798A0096A444 /* ACSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0B229F2421798A0096A444 /* ACSettingsStore.swift */; };
+		8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0B229F2421798A0096A444 /* ACAnonymisation.swift */; };
 		8F0B22A224217B3C0096A444 /* Anon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3FC242177C700497EA6 /* Anon.swift */; };
 		8F0B22A424217B780096A444 /* BodyShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3F6242177C700497EA6 /* BodyShader.swift */; };
 		8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3F8242177C700497EA6 /* CameraShader.swift */; };
@@ -40,7 +40,7 @@
 /* Begin PBXFileReference section */
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
-		8F0B229F2421798A0096A444 /* ACSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSettingsStore.swift; sourceTree = "<group>"; };
+		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
 		8FE3F3D8242176E400497EA6 /* Anonymous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3F3DB242176E400497EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
 				8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */,
-				8F0B229F2421798A0096A444 /* ACSettingsStore.swift */,
+				8F0B229F2421798A0096A444 /* ACAnonymisation.swift */,
 				8FE3F3E1242176E500497EA6 /* Assets.xcassets */,
 				8FE3F3F4242177C700497EA6 /* Anonymous */,
 				8FE3F3F02421770B00497EA6 /* Localizable.strings */,
@@ -314,7 +314,7 @@
 				8F0B22AF24217B9C0096A444 /* FaceShader.swift in Sources */,
 				8F0B22A224217B3C0096A444 /* Anon.swift in Sources */,
 				8F0B22AB24217B8C0096A444 /* FaceBlurShader.metal in Sources */,
-				8F0B22A02421798A0096A444 /* ACSettingsStore.swift in Sources */,
+				8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */,
 				8F0B22AE24217B990096A444 /* FacePixelShader.metal in Sources */,
 				8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */,
 				8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */,
