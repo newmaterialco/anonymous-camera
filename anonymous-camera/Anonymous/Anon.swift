@@ -341,6 +341,7 @@ class Anon: NSObject {
     private var currentEdge: Float = 0
     private var detectionChange = false
     private var fromState: AnonState?
+    private var sourceSize: CGSize = .zero
     
     @objc private func rotated() {
         delegate?.rotationChange(orientation: UIDevice.current.orientation)
@@ -605,7 +606,13 @@ class Anon: NSObject {
     
     private func convertViewRect(_ box: CGRect) -> CGRect {
         let b = convertFaceRect(box)
-        return CGRect(x: b.minX * shaderView.width, y: b.minY * shaderView.height, width: b.width * shaderView.width, height: b.height * shaderView.height)
+        var aspectScale: CGFloat = 1.0
+        if sourceSize.width > 0 && sourceSize.height > 0 {
+            aspectScale = (shaderView.width / shaderView.height) / (sourceSize.width / sourceSize.height)
+        }
+        let h = shaderView.height * aspectScale
+        let y = (h - shaderView.height) / 2
+        return CGRect(x: (b.minX * shaderView.width) + ((b.width * shaderView.width) / 2), y: ((b.minY * h) - y) + ((b.height * h) / 2), width: b.width * shaderView.width, height: b.height * h)
     }
     
     private func processFaces() {
@@ -616,16 +623,9 @@ class Anon: NSObject {
         updateShaders(rects: rects)
         if provideViews {
             DispatchQueue.main.async {
-                let orientation = UIDevice.current.orientation
                 var faceTmp: [AnonFace] = []
                 for trackedFace in self.trackedFaces {
-                    let rect = trackedFace.value
-                    let b = self.convertFaceRect(rect)
-                    var r = self.convertViewRect(b)
-                    if orientation.isLandscape {
-                        r = CGRect(x: r.minX - ((r.height - r.width) / 2), y: r.minY - ((r.width - r.height) / 2), width: r.height, height: r.width)
-                    }
-                    faceTmp.append(AnonFace(id: trackedFace.key.uuidString, rect: r))
+                    faceTmp.append(AnonFace(id: trackedFace.key.uuidString, rect: self.convertViewRect(trackedFace.value)))
                 }
                 self.faces = faceTmp
                 self.delegate?.updated(faces: self.faces)
@@ -676,6 +676,11 @@ class Anon: NSObject {
 
 extension Anon: CameraShaderSampleDelegate {
     func captureOutput(_ output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection, skip: Bool) {
+        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            let width = CVPixelBufferGetWidth(imageBuffer)
+            let height = CVPixelBufferGetHeight(imageBuffer)
+            sourceSize = CGSize(width: height, height: width)
+        }
         if startCount < 5 { startCount += 1 }
         else if (detection == .face || facing == .front) {
             if Platform.hasDepthSegmentation { self.detectFaces(sampleBuffer) }
