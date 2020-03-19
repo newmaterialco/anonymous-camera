@@ -14,7 +14,7 @@ class ACAnonymisation : ObservableObject {
     static var shared = ACAnonymisation()
     
     @Published var filters : [ACFilter] = availableFilters
-    @Published var faceRectangles : [Anon.AnonFace] = []
+    @Published var faces : [Anon.AnonFace] = []
     
     var selectedFilter : ACFilter? {
         didSet {

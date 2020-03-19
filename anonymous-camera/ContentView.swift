@@ -66,7 +66,18 @@ struct ACViewfinder: View {
                 }
                 
                 ZStack {
-                    Rectangle()
+                    ForEach(anonymisation.faces) { (face) in
+                        RoundedRectangle(cornerRadius: 24, style: .circular)
+                            .foregroundColor(.yellow)
+                            .frame(width: face.rect.width, height: face.rect.height, alignment: .center)
+                            .position(CGPoint(x: face.rect.minX, y: face.rect.minY))
+                            .transition(
+                                AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0.5, y: 0.5)).combined(with: AnyTransition.opacity)
+                            )
+                        
+                        Text("\(face.rect.minY)")
+                            .foregroundColor(.white)
+                    }
                 }
                 
                 VStack {
