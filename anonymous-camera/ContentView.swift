@@ -41,6 +41,8 @@ struct ContentView_Previews: PreviewProvider {
 struct ACViewfinder: View {
     
     @EnvironmentObject var sceneInformation : ACScene
+    @EnvironmentObject var anonymisation : ACAnonymisation
+
     @Binding var isRecording : Bool
     @State internal var shutterPosition : CGPoint = CGPoint.zero
     
@@ -61,6 +63,10 @@ struct ACViewfinder: View {
                         .frame(width: geometry.size.height, height: geometry.size.width, alignment: .center)
                         .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
                         .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
+                }
+                
+                ZStack {
+                    Rectangle()
                 }
                 
                 VStack {
@@ -125,7 +131,7 @@ struct ACFilterSelector: View {
                                 .onEnded({ _ in
                                     self.generator.selectionChanged()
                                     
-                                    withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.69, blendDuration: 0)) {
+                                    withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0)) {
                                         self.anonymisation.select(filter: filter)
                                     }
                                 })
@@ -150,12 +156,13 @@ struct ACFilterButton: View {
                 .rotationEffect(sceneInformation.deviceRotationAngle)
             if (filter.selected && !sceneInformation.deviceOrientation.isLandscape) {
                 Text(filter.name)
-                    .font(Font.system(size: 16, weight: .semibold, design: .default))
-                    .foregroundColor(
+                .font(Font.system(size: 16, weight: .semibold, design: .default))
+                .foregroundColor(
                         filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
                 )
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(1)
+                .multilineTextAlignment(.leading)
+                .lineLimit(1)
+                .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
             }
         }
         .padding(18)
