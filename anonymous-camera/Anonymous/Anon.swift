@@ -26,26 +26,30 @@ struct Platform {
     }
 }
 
-struct AnonState {
-    let camera: Anon.CameraFacing
-    let detection: Anon.AnonDetection
-    let mask: Anon.AnonMask
-}
-
-struct DetectedFace {
-    let uuid: UUID
-    let bounds: CGRect
-}
-
 typealias AnonSavedToPhotos = (_ : Bool) -> Void
 
 protocol AnonDelegate {
-    func updatedFaceRects(rects: [CGRect])
     func rotationChange(orientation: UIDeviceOrientation)
-    func didSwitch(from: AnonState, to: AnonState)
+    func didSwitch(from: Anon.AnonState, to: Anon.AnonState)
 }
 
 class Anon: NSObject {
+    
+    struct AnonFace {
+        var id = UUID().uuidString
+        var rect: CGRect = .zero
+    }
+    
+    struct AnonState {
+        let camera: Anon.CameraFacing
+        let detection: Anon.AnonDetection
+        let mask: Anon.AnonMask
+    }
+    
+    private struct DetectedFace {
+        let uuid: UUID
+        let bounds: CGRect
+    }
     
     private struct ProcessingVideo {
         let anonVideo: AnonVideo
@@ -79,6 +83,7 @@ class Anon: NSObject {
     }
     
     let shaderView = MTKView()
+    var faces: [AnonFace] = []
     var widthOfPixel: Float = 0.05
     var blurRadius: Float = 20.0
     var provideViews = true
@@ -268,8 +273,6 @@ class Anon: NSObject {
     // private
     private var detectedFaces: [DetectedFace] = []
     private var trackedFaces: [UUID: CGRect] = [:]
-//    private var heightConstraint: Constraint?
-//    private var widthConstraint: Constraint?
     private var currentEffect: AnonMask = .blur
     private var currentFacing: CameraFacing = .front
     private var currentDetection: AnonDetection = .face
@@ -562,17 +565,18 @@ class Anon: NSObject {
         updateShaders(rects: rects)
         if provideViews {
             DispatchQueue.main.async {
-                var tmp: [CGRect] = []
                 let orientation = UIDevice.current.orientation
-                for rect in rects {
+                var faceTmp: [AnonFace] = []
+                for trackedFace in self.trackedFaces {
+                    let rect = trackedFace.value
                     let b = self.convertFaceRect(rect)
                     var r = self.convertViewRect(b)
                     if orientation.isLandscape {
                         r = CGRect(x: r.minX - ((r.height - r.width) / 2), y: r.minY - ((r.width - r.height) / 2), width: r.height, height: r.width)
                     }
-                    tmp.append(r)
+                    faceTmp.append(AnonFace(id: trackedFace.key.uuidString, rect: r))
                 }
-                self.delegate?.updatedFaceRects(rects: tmp)
+                self.faces = faceTmp
             }
         }
     }
