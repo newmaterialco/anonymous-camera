@@ -60,15 +60,11 @@ class AnonVideo: NSObject {
         }
     }
     
-    func record(anonVoice: Bool) {
+    func record(audio: Bool, anonVoice: Bool) {
         let tmpDirURL = URL(fileURLWithPath: NSTemporaryDirectory())
         if let dest = URL(string: "\(tmpDirURL.absoluteString)\(uuid)_video.m4v"), let audioDest = URL(string: "\(tmpDirURL.absoluteString)\(uuid)_audio.caf"), let outputDest = URL(string: "\(tmpDirURL.absoluteString)\(uuid)_tmp.m4v") {
             videoURL = dest
-            audioURL = audioDest
             outputURL = outputDest
-            if anonVoice {
-                anonAudioURL = URL(string: "\(tmpDirURL.absoluteString)\(uuid)_anon.caf")
-            }
             do { assetWriter = try AVAssetWriter(outputURL: dest, fileType: AVFileType.m4v) }
             catch {}
             if let writer = assetWriter {
@@ -85,13 +81,19 @@ class AnonVideo: NSObject {
                     AVEncoderBitRateKey: 64000,
                     AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
                 ]
-                audioRecorder = try? AVAudioRecorder(url: audioDest, settings: settings)
-                audioRecorder?.delegate = self
-                audioRecorder?.record()
-                let sourcePixelBufferAttributes: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA, kCVPixelBufferWidthKey as String: outputSize.width, kCVPixelBufferHeightKey as String: outputSize.height]
-                if let input = assetWriterVideoInput {
-                    assetWriterPixelBufferInput = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourcePixelBufferAttributes)
-                    writer.add(input)
+                if audio {
+                    audioURL = audioDest
+                    if anonVoice {
+                        anonAudioURL = URL(string: "\(tmpDirURL.absoluteString)\(uuid)_anon.caf")
+                    }
+                    audioRecorder = try? AVAudioRecorder(url: audioDest, settings: settings)
+                    audioRecorder?.delegate = self
+                    audioRecorder?.record()
+                    let sourcePixelBufferAttributes: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA, kCVPixelBufferWidthKey as String: outputSize.width, kCVPixelBufferHeightKey as String: outputSize.height]
+                    if let input = assetWriterVideoInput {
+                        assetWriterPixelBufferInput = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourcePixelBufferAttributes)
+                        writer.add(input)
+                    }
                 }
             }
         }
@@ -161,6 +163,7 @@ class AnonVideo: NSObject {
                     self.tmpHandler = handler
                     audioRecorder.stop()
                 }
+                else { self.createVideo(handler: handler) }
             }
         }
     }
@@ -176,9 +179,9 @@ class AnonVideo: NSObject {
         var videoAsset: AVAsset?
         var audioAsset: AVAsset?
         if let url = videoURL { videoAsset = AVAsset(url: url) }
-        if let url = audioURL { audioAsset = AVAsset(url: url) }
-        if let url = anonAudioURL { audioAsset = AVAsset(url: url) }
-        if let vAsset = videoAsset, let aAsset = audioAsset {
+        if let url = audioURL, let _ = audioRecorder { audioAsset = AVAsset(url: url) }
+        if let url = anonAudioURL, let _ = audioRecorder  { audioAsset = AVAsset(url: url) }
+        if let vAsset = videoAsset {
             if let details = videoDetails(asset: vAsset, composition: composition) {
                 let assetTrack = details.0
                 let compositionTrackId = details.1
@@ -187,7 +190,7 @@ class AnonVideo: NSObject {
                 let compositionTrackPassThroughTimeRange = CMTimeRangeMake(start: CMTime.zero, duration: assetTrack.timeRange.duration - startTime)
                 let assetTrackRange = CMTimeRangeMake(start: startTime, duration: assetTrack.timeRange.duration - startTime)
                 try? compositionTrack.insertTimeRange(assetTrackRange, of: assetTrack, at: CMTime.zero)
-                if let audioTrack = aAsset.tracks(withMediaType: .audio).first {
+                if let audioAsset = audioAsset, let audioTrack = audioAsset.tracks(withMediaType: .audio).first {
                     if let audioCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: composition.unusedTrackID()) {
                         try? audioCompositionTrack.insertTimeRange(assetTrackRange, of: audioTrack, at: CMTime.zero)
                     }

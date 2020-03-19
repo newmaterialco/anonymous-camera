@@ -36,6 +36,53 @@ protocol AnonDelegate {
 
 class Anon: NSObject {
     
+    static func requestMicrophoneAccess(_ block: @escaping (_: AnonPermission) -> Void) {
+        let status = AVAudioSession.sharedInstance().recordPermission
+        if status == .denied { block(.denied) }
+        else if status == .undetermined {
+            AVAudioSession.sharedInstance().requestRecordPermission({ granted in
+                DispatchQueue.main.async {
+                    if !granted { block(.denied) }
+                    else { block(.granted) }
+                }
+            })
+        }
+        else { block(.granted) }
+    }
+    
+    static func requestPhotosAccess(_ block: @escaping (_: AnonPermission) -> Void) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status == .denied || status == .restricted { block(.denied) }
+        else if status == .notDetermined {
+            PHPhotoLibrary.requestAuthorization { auth in
+                DispatchQueue.main.async {
+                    if auth == .authorized { block(.granted) }
+                    else { block(.denied) }
+                }
+            }
+        }
+        else { block(.granted) }
+    }
+    
+    static func requestCameraAccess(_ block: @escaping (_: AnonPermission) -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .denied || status == .restricted { block(.denied) }
+        else if status == .notDetermined {
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { granted in
+                DispatchQueue.main.async {
+                    if !granted { block(.denied) }
+                    else { block(.granted) }
+                }
+            })
+        }
+        else { block(.granted) }
+    }
+    
+    enum AnonPermission {
+        case granted
+        case denied
+    }
+    
     struct AnonFace: Identifiable {
         var id = UUID().uuidString
         var rect: CGRect = .zero
@@ -176,12 +223,15 @@ class Anon: NSObject {
         CameraShader.shared.arDelegate = self
     }
     
-    func startRecord(anonVoice: Bool) {
+    func startRecord(audio: Bool, anonVoice: Bool) {
+        var shouldRecordAudio = audio
+        let status = AVAudioSession.sharedInstance().recordPermission
+        if status != .granted { shouldRecordAudio = false }
         self.video = AnonVideo()
         self.video?.watermark = self.watermark
         self.video?.outputSize = CameraShader.shared.renderResolution
         DispatchQueue.global(qos: .background).async {
-            self.video?.record(anonVoice: anonVoice)
+            self.video?.record(audio: shouldRecordAudio, anonVoice: anonVoice)
             CameraShader.shared.takeVideo(feed: 0, delegate: self)
         }
     }
