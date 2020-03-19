@@ -38,17 +38,19 @@ class AnonVideo: NSObject {
     private var portraitDuration = 0.0
     
     func cleanUp() {
-        if let dest = videoURL, let audioDest = audioURL, let outputDest = outputURL {
+        if let dest = videoURL, let outputDest = outputURL {
             if FileManager.default.fileExists(atPath: dest.absoluteString.replacingOccurrences(of: "file://", with: "")) {
                 do { try FileManager.default.removeItem(at: dest) }
                 catch {}
             }
-            if FileManager.default.fileExists(atPath: audioDest.absoluteString.replacingOccurrences(of: "file://", with: "")) {
-                do { try FileManager.default.removeItem(at: audioDest) }
-                catch {}
-            }
             if FileManager.default.fileExists(atPath: outputDest.absoluteString.replacingOccurrences(of: "file://", with: "")) {
                 do { try FileManager.default.removeItem(at: outputDest) }
+                catch {}
+            }
+        }
+        if let audioDest = audioURL {
+            if FileManager.default.fileExists(atPath: audioDest.absoluteString.replacingOccurrences(of: "file://", with: "")) {
+                do { try FileManager.default.removeItem(at: audioDest) }
                 catch {}
             }
         }

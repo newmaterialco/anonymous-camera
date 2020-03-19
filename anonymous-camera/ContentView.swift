@@ -108,7 +108,7 @@ struct ACViewfinder: View {
                     )
                 }
             }
-            .aspectRatio(isRecording ? sixteenByNineAspectRatio : threekByFourAspectRatio, contentMode: .fit)
+            .aspectRatio(isRecording ? sixteenByNineAspectRatio : threeByFourAspectRatio, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
             .saturation(sceneInformation.sceneIsActive ? 1 : 0.5)
             .blur(radius: sceneInformation.sceneIsActive ? 0 : 48)

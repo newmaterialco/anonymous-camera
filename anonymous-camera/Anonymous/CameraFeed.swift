@@ -44,6 +44,8 @@ class CameraFeed: NSObject {
         case front
         case back
         case backAR
+        case backUltraWide
+        case backTelephoto
     }
     
     // singleton set up - only one camera instance allowed
@@ -53,6 +55,10 @@ class CameraFeed: NSObject {
             instance = CameraFeed()
         }
         return instance!
+    }
+    
+    public static func availableTypes() {
+        
     }
     
     func stop() {
