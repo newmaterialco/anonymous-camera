@@ -9,7 +9,10 @@
 import SwiftUI
 import Combine
 
-class ACSettingsStore : ObservableObject {
+class ACAnonymisation : ObservableObject {
+    
+    static var shared = ACAnonymisation()
+    
     @Published var filters : [ACFilter] = availableFilters
     
     var selectedFilter : ACFilter? {
@@ -28,7 +31,7 @@ class ACSettingsStore : ObservableObject {
             #endif
         }
     }
-    
+        
     func select(filter : ACFilter) {
         for (index, f) in filters.enumerated() {
             if filter.id == f.id {

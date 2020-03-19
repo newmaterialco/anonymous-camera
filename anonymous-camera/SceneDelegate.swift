@@ -14,9 +14,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var sceneInformation = ACScene.shared
+    var anonymisation = ACAnonymisation.shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        let contentView = ContentView().environmentObject(sceneInformation)
+        let contentView = ContentView()
+            .environmentObject(sceneInformation)
+            .environmentObject(anonymisation)
 
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -35,6 +38,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
+        self.sceneInformation.sceneIsActive = false
+
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
