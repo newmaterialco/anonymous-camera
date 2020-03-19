@@ -228,7 +228,6 @@ class Anon: NSObject {
         if status != .granted { shouldRecordAudio = false }
         self.video = AnonVideo()
         self.video?.watermark = self.watermark
-        self.video?.outputSize = CameraShader.shared.renderResolution
         DispatchQueue.global(qos: .background).async {
             self.video?.record(audio: shouldRecordAudio, anonVoice: anonVoice)
             CameraShader.shared.takeVideo(feed: 0, delegate: self)

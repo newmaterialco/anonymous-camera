@@ -16,7 +16,7 @@ typealias AnonVideoComplete = (_ : URL?) -> Void
 class AnonVideo: NSObject {
     
     var watermark: UIImage?
-    var outputSize = CGSize(width: 720, height: 1280)
+    private let outputSize = CGSize(width: 1080, height: 1920)
     let uuid = UUID().uuidString
     
     private var isRecording = false
@@ -90,19 +90,22 @@ class AnonVideo: NSObject {
                     }
                     audioRecorder = try? AVAudioRecorder(url: audioDest, settings: settings)
                     audioRecorder?.delegate = self
-                    audioRecorder?.record()
-                    let sourcePixelBufferAttributes: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA, kCVPixelBufferWidthKey as String: outputSize.width, kCVPixelBufferHeightKey as String: outputSize.height]
-                    if let input = assetWriterVideoInput {
-                        assetWriterPixelBufferInput = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourcePixelBufferAttributes)
-                        writer.add(input)
-                    }
+                }
+                let sourcePixelBufferAttributes: [String: Any] = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA, kCVPixelBufferWidthKey as String: outputSize.width, kCVPixelBufferHeightKey as String: outputSize.height]
+                if let input = assetWriterVideoInput {
+                    assetWriterPixelBufferInput = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: sourcePixelBufferAttributes)
+                    writer.add(input)
                 }
             }
         }
     }
     
     func addFrame(texture: MTLTexture, time: Double) {
+        if texture.height != outputSize.height.int {
+            return
+        }
         if !isRecording {
+            audioRecorder?.record()
             recordingStartTime = CACurrentMediaTime()
             isRecording = true
             if let writer = assetWriter {

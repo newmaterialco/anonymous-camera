@@ -109,7 +109,7 @@ public class CameraShader: NSObject {
             mtkView.depthStencilPixelFormat = .depth32Float
             mtkView.colorPixelFormat = .bgra8Unorm
             mtkView.sampleCount = 1
-            mtkView.drawableSize = CGSize(width: 1080, height: 1920)
+            mtkView.drawableSize = CGSize(width: 1080, height: 1440)
             useShader(shader: basicShader, index: index)
             index += 1
         }
