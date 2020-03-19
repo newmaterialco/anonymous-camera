@@ -32,6 +32,16 @@ class ACAnonymisation : ObservableObject {
             #endif
         }
     }
+    
+    func startRecording () {
+        anonymous.startRecord(audio: true, anonVoice: false)
+    }
+    
+    func finishRecording () {
+        anonymous.endRecord(fixedDate: true, location: nil) { _ in
+            return
+        }
+    }
         
     func select(filter : ACFilter) {
         for (index, f) in filters.enumerated() {

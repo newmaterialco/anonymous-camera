@@ -28,6 +28,7 @@
 		8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40B242177C700497EA6 /* AnonPhoto.swift */; };
 		8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40C242177C700497EA6 /* FacePixelShader.swift */; };
 		8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */; };
+		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
 		8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DB242176E400497EA6 /* AppDelegate.swift */; };
 		8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */; };
 		8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DF242176E400497EA6 /* ContentView.swift */; };
@@ -41,6 +42,7 @@
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
 		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
+		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8FE3F3D8242176E400497EA6 /* Anonymous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3F3DB242176E400497EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				8FE3F3DB242176E400497EA6 /* AppDelegate.swift */,
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
+				8F4CEB802423EDEC00369D46 /* Helpers.swift */,
 				8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */,
 				8F0B229F2421798A0096A444 /* ACAnonymisation.swift */,
 				8FE3F3E1242176E500497EA6 /* Assets.xcassets */,
@@ -310,6 +313,7 @@
 				8F0B22AC24217B8E0096A444 /* BodyPixelShader.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
 				8F0B22B024217BA20096A444 /* Easing.swift in Sources */,
+				8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */,
 				8FE3F40F2421789D00497EA6 /* ACViewFinderViewController.swift in Sources */,
 				8F0B22AF24217B9C0096A444 /* FaceShader.swift in Sources */,
 				8F0B22A224217B3C0096A444 /* Anon.swift in Sources */,

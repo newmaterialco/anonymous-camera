@@ -46,13 +46,12 @@ struct ACViewfinder: View {
     
     @EnvironmentObject var sceneInformation : ACScene
     @EnvironmentObject var anonymisation : ACAnonymisation
-
+    
     @Binding var isRecording : Bool
     @State internal var shutterPosition : CGPoint = CGPoint.zero
     
     internal var threeByFourAspectRatio : CGFloat = 3.0/4.0
     internal var sixteenByNineAspectRatio : CGFloat = 9.0/16.0
-    
     
     var body: some View {
         ZStack {
@@ -68,14 +67,17 @@ struct ACViewfinder: View {
                 
                 ZStack {
                     ForEach(anonymisation.faces) { (face) in
-                        ACFaceRectangle()
-                        .transition(AnyTransition.scale(scale: 0.75).combined(with: AnyTransition.opacity))
-                        .animation(Animation.interactiveSpring(response: 0.1, dampingFraction: 0.98, blendDuration: 0))
-                        .frame(width: face.rect.width, height: face.rect.height, alignment: .center)
-                        .position(CGPoint(x: face.rect.minX, y: face.rect.minY))
-
+                        if !(self.anonymisation.selectedFilter?.modifiesImage ?? false) {
+                            ACFaceRectangle()
+                                .transition(AnyTransition.scale(scale: 0.75).combined(with: AnyTransition.opacity))
+                                .frame(width: face.rect.width, height: face.rect.height, alignment: .center)
+                                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
+                                .position(CGPoint(x: face.rect.minX, y: face.rect.minY))
+                                .animation(nil)
+                        }
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
                 
                 VStack {
@@ -90,8 +92,13 @@ struct ACViewfinder: View {
                     .position(shutterPosition)
                     .coordinateSpace(name: "test")
                     .simultaneousGesture(
-                        DragGesture(minimumDistance: 0, coordinateSpace: .named("test"))
+                        DragGesture(minimumDistance: 0)
                             .onChanged({ value in
+                                
+                                if !self.isRecording {
+                                    self.anonymisation.startRecording()
+                                }
+                                
                                 withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.9, blendDuration: 0)) {
                                     self.isRecording = true
                                 }
@@ -103,12 +110,14 @@ struct ACViewfinder: View {
                                     self.isRecording = false
                                 }
                                 
+                                self.anonymisation.finishRecording()
+                                
                                 self.shutterPosition = CGPoint.zero
                             })
                     )
                 }
             }
-            .aspectRatio(isRecording ? sixteenByNineAspectRatio : threekByFourAspectRatio, contentMode: .fit)
+            .aspectRatio(isRecording ? sixteenByNineAspectRatio : threeByFourAspectRatio, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
             .saturation(sceneInformation.sceneIsActive ? 1 : 0.5)
             .blur(radius: sceneInformation.sceneIsActive ? 0 : 48)
@@ -117,10 +126,10 @@ struct ACViewfinder: View {
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .stroke(Color.white.opacity(0.1), lineWidth: 2)
             )
-            .clipShape(
+                .clipShape(
                     RoundedRectangle(cornerRadius: 18, style: .continuous)
             )
-            .padding(0)
+                .padding(0)
         }
     }
 }
@@ -128,23 +137,19 @@ struct ACViewfinder: View {
 struct ACFaceRectangle : View {
     
     @State var isBeingTouched : Bool = false
+    @EnvironmentObject var anonymisation : ACAnonymisation
     
     var body: some View {
-        HStack {
+        ZStack {
             Rectangle()
-            .foregroundColor(Color.clear)
-            .background(
-                LinearGradient(gradient: Gradient(colors: [Color.white.opacity(isBeingTouched ? 0.32 : 0.24), Color.white.opacity(isBeingTouched ? 0.64 : 0.48)]), startPoint: UnitPoint(x: 0.5, y: 0), endPoint: UnitPoint(x: 0.5, y: 1))
+                .foregroundColor(Color.clear)
+                .background(
+                    LinearGradient(gradient: Gradient(colors: [Color.white.opacity(isBeingTouched ? 0.32 : 0.24), Color.white.opacity(isBeingTouched ? 0.64 : 0.48)]), startPoint: UnitPoint(x: 0.5, y: 0), endPoint: UnitPoint(x: 0.5, y: 1))
             )
         }
-        .clipShape(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-            .strokeBorder(lineWidth: 2, antialiased: true)
-            .foregroundColor(Color(UIColor(named: "highlight") ?? .clear))
-        )
+        .cornerRadius(percentage: 0.25, style: .continuous)
+        .stroke(color: Color(UIColor(named: "highlight")?.withAlphaComponent(1) ?? .clear), lineWidth: 2, cornerPercentage: 0.25, style: .automatic)
+        .opacity(self.anonymisation.selectedFilter?.modifiesImage ?? false ? 0 : 1)
         .scaleEffect(isBeingTouched ? 0.9 : 1)
         .shadow(color: Color(UIColor(named: "highlight")?.withAlphaComponent(0.25) ?? .clear), radius: 24, x: 0, y: 0)
         .simultaneousGesture(
@@ -202,21 +207,21 @@ struct ACFilterButton: View {
     var body: some View {
         HStack (alignment: .center) {
             Image(uiImage: filter.icon)
-            .foregroundColor(
+                .foregroundColor(
                     filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
             )
-            .rotationEffect(sceneInformation.deviceRotationAngle)
+                .rotationEffect(sceneInformation.deviceRotationAngle)
                 .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0))
-
+            
             if (filter.selected && !sceneInformation.deviceOrientation.isLandscape) {
                 Text(filter.name)
-                .font(Font.system(size: 16, weight: .semibold, design: .default))
-                .foregroundColor(
+                    .font(Font.system(size: 16, weight: .semibold, design: .default))
+                    .foregroundColor(
                         filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
                 )
-                .multilineTextAlignment(.leading)
-                .lineLimit(1)
-                .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(1)
+                    .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
             }
         }
         .padding(18)
@@ -228,24 +233,24 @@ struct ACFilterButton: View {
                     .frame(width: 16)
             }
         )
-            .background(
+        .background(
                 filter.selected ? (filter.modifiesImage ? Color("highlight") : Color(.label)) : (isBeingTouched ? Color(.label).opacity(0.75) : Color(.label).opacity(0.25))
         )
-            .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
-            .scaleEffect(isBeingTouched ? 0.92 : 1)
-            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filter.selected ? 1.12 : 1) : 1)
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged({ _ in
-                        withAnimation(.easeOut(duration: 0.08)) {
-                            self.isBeingTouched = true
-                        }
-                    })
-                    .onEnded({ _ in
-                        withAnimation(.easeOut(duration: 0.24)) {
-                            self.isBeingTouched = false
-                        }
-                    })
+        .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
+        .scaleEffect(isBeingTouched ? 0.92 : 1)
+        .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filter.selected ? 1.12 : 1) : 1)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged({ _ in
+                    withAnimation(.easeOut(duration: 0.08)) {
+                        self.isBeingTouched = true
+                    }
+                })
+                .onEnded({ _ in
+                    withAnimation(.easeOut(duration: 0.24)) {
+                        self.isBeingTouched = false
+                    }
+                })
         )
     }
 }
@@ -289,17 +294,5 @@ struct ACViewfinderLandscapeContainer: View {
                     .background(Color.blue)
             }
         }
-    }
-}
-
-struct Blur: UIViewRepresentable {
-    var style: UIBlurEffect.Style = .systemMaterial
-    
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        uiView.effect = UIBlurEffect(style: style)
     }
 }
