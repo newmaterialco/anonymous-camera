@@ -59,8 +59,8 @@ extension ACViewfinderViewController: AnonDelegate {
     func didSwitch(from: Anon.AnonState, to: Anon.AnonState) {
         print("did switch from \(from.camera), \(from.detection), \(from.mask) to \(to.camera), \(to.detection), \(to.mask)")
     }
-    func updatedFaceRects(rects: [CGRect]) {
-//        viewfinder.interface.updateFaceRectangles(withRectangles: rects)
+    func updated(faces: [Anon.AnonFace]) {
+        
     }
     func rotationChange(orientation: UIDeviceOrientation) {
         
