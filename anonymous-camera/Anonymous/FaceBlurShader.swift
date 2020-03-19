@@ -23,10 +23,12 @@ class FaceBlurShader: FaceShader {
     }
     
     override func updateCoords(device: MTLDevice, resolution: CGSize, viewport: CGSize) {
+        super.updateCoords(device: device, resolution: resolution, viewport: viewport)
         renderSize = viewport
     }
     
     override func postRender(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, drawable: CAMetalDrawable, commandBuffer: MTLCommandBuffer) {
+        
         if pass == 0 {
             let descriptor = MTLTextureDescriptor()
             descriptor.depth = 1
