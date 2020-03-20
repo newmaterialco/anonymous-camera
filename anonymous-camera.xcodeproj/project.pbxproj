@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77B312E72424EDA1007172A0 /* face.dae in Resources */ = {isa = PBXBuildFile; fileRef = 77B312E62424EDA1007172A0 /* face.dae */; };
+		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
 		8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */; };
 		8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0B229F2421798A0096A444 /* ACAnonymisation.swift */; };
 		8F0B22A224217B3C0096A444 /* Anon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3FC242177C700497EA6 /* Anon.swift */; };
@@ -45,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77B312E62424EDA1007172A0 /* face.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = face.dae; sourceTree = "<group>"; };
+		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
 		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
 		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -132,9 +136,11 @@
 		8FE3F3DA242176E400497EA6 /* anonymous-camera */ = {
 			isa = PBXGroup;
 			children = (
+				77B312E62424EDA1007172A0 /* face.dae */,
 				8FE3F3DB242176E400497EA6 /* AppDelegate.swift */,
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
+				77B312E82424F2CD007172A0 /* MotionManager.swift */,
 				8FB251712424E1470021600C /* ACNoFilterIconView.swift */,
 				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
 				8FB2516F2424BED70021600C /* ContainerView.swift */,
@@ -263,6 +269,7 @@
 				8FE3F3E8242176E500497EA6 /* LaunchScreen.storyboard in Resources */,
 				8FE3F3E5242176E500497EA6 /* Preview Assets.xcassets in Resources */,
 				8FE3F3E2242176E500497EA6 /* Assets.xcassets in Resources */,
+				77B312E72424EDA1007172A0 /* face.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +329,7 @@
 				8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */,
 				8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */,
 				8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */,
+				77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */,
 				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
 				8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
