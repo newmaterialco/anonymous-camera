@@ -22,7 +22,8 @@ class ACNoFilterIconHostingController: UIViewController {
         super.viewDidLoad()
         
         self.view.addSubview(sceneView)
-        sceneView.autoenablesDefaultLighting = true
+        sceneView.antialiasingMode = .multisampling4X
+        sceneView.autoenablesDefaultLighting = false
         sceneView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
