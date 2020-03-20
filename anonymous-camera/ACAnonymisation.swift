@@ -33,14 +33,36 @@ class ACAnonymisation : ObservableObject {
         }
     }
     
+    func nextLens () {
+        anonymous.nextLens()
+    }
+    
+    func toggleFrontAndBackCamera () {
+        if anonymous.facing == .front {
+            anonymous.showCamera(facing: .back)
+        } else {
+            anonymous.showCamera(facing: .front)
+        }
+    }
+    
+    func takePhoto () {
+        anonymous.takePhoto(fixedDate: false, location: nil) { _ in
+            print("photo")
+            return
+        }
+    }
+    
     func startRecording () {
-//        anonymous.startRecord(audio: false, anonVoice: false)
+        anonymous.startRecord(audio: false, anonVoice: false)
+        print("start recording")
     }
     
     func finishRecording () {
-//        anonymous.endRecord(fixedDate: true, location: nil) { _ in
-//            return
-//        }
+        anonymous.endRecord(fixedDate: true, location: nil) { _ in
+            print("end recording")
+
+            return
+        }
     }
         
     func select(filter : ACFilter) {
