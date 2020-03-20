@@ -14,6 +14,9 @@ import SwifterSwift
 class ACNoFilterIconHostingController: UIViewController {
     
     let sceneView = SCNView()
+    var initialPitch = 0.0
+    var initialRoll = 0.0
+    var initialYaw = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +32,20 @@ class ACNoFilterIconHostingController: UIViewController {
             sceneView.scene = mainScene
             
             MotionManager.shared.start { pitch, roll, yaw in
+                if self.initialPitch == 0 && self.initialRoll == 0 && self.initialYaw == 0 {
+                    self.initialPitch = pitch
+                    self.initialRoll = roll
+                    self.initialYaw = yaw
+                }
+                let diffPitch = pitch - self.initialPitch
+                let diffRoll = roll - self.initialRoll
+                let diffYaw = yaw - self.initialYaw
                 let matrix = SCNMatrix4Identity
-                let pitchRot = SCNMatrix4Rotate(matrix, pitch.degreesToRadians.float, 1, 0, 0)
-                let rollRot = SCNMatrix4Rotate(pitchRot, roll.degreesToRadians.float, 0, 0, 1)
-                let yawRot = SCNMatrix4Rotate(rollRot, yaw.degreesToRadians.float, 0, 1, 0)
+                let pitchRot = SCNMatrix4Rotate(matrix, diffPitch.degreesToRadians.float, 1, 0, 0)
+                let rollRot = SCNMatrix4Rotate(pitchRot, diffRoll.degreesToRadians.float, 0, 0, 1)
+                let yawRot = SCNMatrix4Rotate(rollRot, diffYaw.degreesToRadians.float, 0, 1, 0)
                 mainScene.rootNode.transform = yawRot
             }
-            
-            //mainScene.rootNode.eulerAngles = SCNVector3(0, 15.degreesToRadians, 0)
         }
     }
 }
