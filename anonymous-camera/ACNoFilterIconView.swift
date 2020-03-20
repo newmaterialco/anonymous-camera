@@ -19,10 +19,11 @@ class ACNoFilterIconHostingController: UIViewController {
         super.viewDidLoad()
         
         self.view.addSubview(sceneView)
+        sceneView.autoenablesDefaultLighting = true
         sceneView.snp.makeConstraints { make in
             make.size.equalToSuperview()
         }
-        sceneView.backgroundColor = .white
+        sceneView.backgroundColor = .clear
         if let facePath = Bundle.main.path(forResource: "face", ofType: "dae"), let scene = try? SCNScene(url: URL(fileURLWithPath: facePath), options: nil), let node = scene.rootNode.childNode(withName: "root", recursively: true) {
             let mainScene = SCNScene()
             mainScene.rootNode.addChildNode(node)
@@ -35,8 +36,6 @@ class ACNoFilterIconHostingController: UIViewController {
                 let yawRot = SCNMatrix4Rotate(rollRot, yaw.degreesToRadians.float, 0, 1, 0)
                 mainScene.rootNode.transform = yawRot
             }
-            
-            //mainScene.rootNode.eulerAngles = SCNVector3(0, 15.degreesToRadians, 0)
         }
     }
 }
