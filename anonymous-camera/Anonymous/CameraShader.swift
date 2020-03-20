@@ -86,7 +86,7 @@ public class CameraShader: NSObject {
         CameraFeed.shared.stop()
     }
     
-    public func start(mtkViews: [MTKView], position: AVCaptureDevice.Position, useARFeeed: Bool) {
+    public func start(mtkViews: [MTKView], position: AVCaptureDevice.Position, useARFeeed: Bool, lens: AVCaptureDevice.DeviceType = .builtInWideAngleCamera) {
         shouldMirror = false
         if useARFeeed && position == .back { CameraFeed.shared.start(type: .backAR) }
         else {
@@ -94,7 +94,11 @@ public class CameraShader: NSObject {
                 CameraFeed.shared.start(type: .front)
                 shouldMirror = true
             }
-            else { CameraFeed.shared.start(type: .back) }
+            else {
+                if lens == .builtInTelephotoCamera { CameraFeed.shared.start(type: .backTelephoto) }
+                else if lens == .builtInUltraWideCamera { CameraFeed.shared.start(type: .backUltraWide) }
+                else { CameraFeed.shared.start(type: .back) }
+            }
         }
         sharedMetalDevice = MTLCreateSystemDefaultDevice()
         loadMetal()
@@ -109,7 +113,7 @@ public class CameraShader: NSObject {
             mtkView.depthStencilPixelFormat = .depth32Float
             mtkView.colorPixelFormat = .bgra8Unorm
             mtkView.sampleCount = 1
-            mtkView.drawableSize = CGSize(width: 1080, height: 1920)
+            mtkView.drawableSize = CGSize(width: 1080, height: 1440)
             useShader(shader: basicShader, index: index)
             index += 1
         }

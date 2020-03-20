@@ -36,6 +36,14 @@ protocol AnonDelegate {
 
 class Anon: NSObject {
     
+    var availableLens: [CameraLens] {
+        var tmp: [CameraLens] = [.normal]
+        let types = CameraFeed.availableTypes()
+        if types.contains(.backTelephoto) { tmp.append(.telephoto) }
+        if types.contains(.backUltraWide) { tmp.append(.wide) }
+        return tmp
+    }
+    
     static func requestMicrophoneAccess(_ block: @escaping (_: AnonPermission) -> Void) {
         let status = AVAudioSession.sharedInstance().recordPermission
         if status == .denied { block(.denied) }
@@ -92,6 +100,7 @@ class Anon: NSObject {
         let camera: Anon.CameraFacing
         let detection: Anon.AnonDetection
         let mask: Anon.AnonMask
+        let lens: Anon.CameraLens
     }
     
     private struct DetectedFace {
@@ -149,6 +158,9 @@ class Anon: NSObject {
     var facing: Anon.CameraFacing {
         get { return currentFacing }
     }
+    var lens: Anon.CameraLens {
+        get { return currentLens }
+    }
     var edge: AnonEdge {
         get {
             if currentEdge == 0.0 { return .left }
@@ -174,6 +186,12 @@ class Anon: NSObject {
             }
             else { currentDivider = 0.0 }
         }
+    }
+    
+    enum CameraLens {
+        case normal
+        case wide
+        case telephoto
     }
     
     enum CameraFacing {
@@ -228,7 +246,6 @@ class Anon: NSObject {
         if status != .granted { shouldRecordAudio = false }
         self.video = AnonVideo()
         self.video?.watermark = self.watermark
-        self.video?.outputSize = CameraShader.shared.renderResolution
         DispatchQueue.global(qos: .background).async {
             self.video?.record(audio: shouldRecordAudio, anonVoice: anonVoice)
             CameraShader.shared.takeVideo(feed: 0, delegate: self)
@@ -277,11 +294,12 @@ class Anon: NSObject {
         })
     }
     
-    func showCamera(facing: CameraFacing) {
+    func showCamera(facing: CameraFacing, lens: CameraLens = .normal) {
         if fromState == nil {
-            fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect)
+            fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect, lens: currentLens)
         }
         currentFacing = facing
+        currentLens = lens
         CameraShader.shared.stop()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
             self.addCamera()
@@ -292,7 +310,7 @@ class Anon: NSObject {
     func showMask(type: AnonMask, detection: AnonDetection) {
         if currentDetection != detection {
             if fromState == nil {
-                fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect)
+                fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect, lens: currentLens)
             }
             if (detection == .body || detection == .invert) { currentFacing = .back }
             showCamera(facing: currentFacing)
@@ -302,7 +320,7 @@ class Anon: NSObject {
             return
         }
         if fromState == nil {
-            fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect)
+            fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect, lens: currentLens)
         }
         currentEffect = type
         currentDetection = detection
@@ -315,7 +333,7 @@ class Anon: NSObject {
         if currentDetection == .face { CameraShader.shared.sampleDelegate = self }
         else { CameraShader.shared.sampleDelegate = nil }
         if let fromState = fromState, let delegate = delegate {
-            let currentState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect)
+            let currentState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect, lens: currentLens)
             delegate.didSwitch(from: fromState, to: currentState)
             self.fromState = nil
         }
@@ -327,6 +345,7 @@ class Anon: NSObject {
     private var currentEffect: AnonMask = .blur
     private var currentFacing: CameraFacing = .front
     private var currentDetection: AnonDetection = .face
+    private var currentLens: CameraLens = .normal
     private var photo: AnonPhoto?
     private var video: AnonVideo?
     private var captureHandler: AnonSavedToPhotos?
@@ -366,7 +385,13 @@ class Anon: NSObject {
             CameraShader.shared.start(mtkViews: [shaderView], position: .back, useARFeeed: false)
         }
         else {
-            CameraShader.shared.start(mtkViews: [shaderView], position: .front, useARFeeed: false)
+            if currentLens == .normal { CameraShader.shared.start(mtkViews: [shaderView], position: .front, useARFeeed: false) }
+            else if currentLens == .telephoto {
+                CameraShader.shared.start(mtkViews: [shaderView], position: .front, useARFeeed: false, lens: .builtInTelephotoCamera)
+            }
+            else if currentLens == .wide {
+                CameraShader.shared.start(mtkViews: [shaderView], position: .front, useARFeeed: false, lens: .builtInUltraWideCamera)
+            }
         }
     }
     
