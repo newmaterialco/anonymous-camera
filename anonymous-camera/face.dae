@@ -4,8 +4,8 @@
   <contributor>
    <authoring_tool>SceneKit Collada Exporter v1.0</authoring_tool>
   </contributor>
-  <created>2020-03-20T12:28:08Z</created>
-  <modified>2020-03-20T12:28:08Z</modified>
+  <created>2020-03-20T15:37:01Z</created>
+  <modified>2020-03-20T15:37:01Z</modified>
   <unit meter="0.001000"/>
   <up_axis>Y_UP</up_axis>
  </asset>
@@ -266,7 +266,7 @@
  <library_visual_scenes>
   <visual_scene id="scene21">
    <node id="root" name="root">
-    <node id="e38a3286-2b3c-41a4-a6b3-3c774fb143b6" name="Brep">
+    <node id="e38a3286-2b3c-41a4-a6b3-3c774fb143b6" name="node_a">
      <instance_geometry url="#geometry1">
       <bind_material>
        <technique_common>
@@ -275,7 +275,7 @@
       </bind_material>
      </instance_geometry>
     </node>
-    <node id="c6c46766-8b6e-4754-a24f-d31e979ea9c0" name="Brep">
+    <node id="c6c46766-8b6e-4754-a24f-d31e979ea9c0" name="node_b">
      <instance_geometry url="#geometry6">
       <bind_material>
        <technique_common>
@@ -284,7 +284,7 @@
       </bind_material>
      </instance_geometry>
     </node>
-    <node id="fe758bfa-8caf-4138-9d53-217196a3b95a" name="Brep">
+    <node id="fe758bfa-8caf-4138-9d53-217196a3b95a" name="node_c">
      <instance_geometry url="#geometry11">
       <bind_material>
        <technique_common>
@@ -293,7 +293,7 @@
       </bind_material>
      </instance_geometry>
     </node>
-    <node id="a9855cfe-1238-4cb1-ac15-347a93ad51f6" name="Brep">
+    <node id="a9855cfe-1238-4cb1-ac15-347a93ad51f6" name="node_d">
      <instance_geometry url="#geometry16">
       <bind_material>
        <technique_common>
@@ -302,9 +302,6 @@
       </bind_material>
      </instance_geometry>
     </node>
-    <node id="a02e395f-d8fa-4b3d-a257-b7b9087b47b8" name="Curve"/>
-    <node id="e5dd8e53-3618-4f2a-b5e1-52dad6dbca16" name="Curve"/>
-    <node id="a53c5d3a-917c-4e26-bfc8-b147533ed5bc" name="Curve"/>
    </node>
   </visual_scene>
  </library_visual_scenes>
