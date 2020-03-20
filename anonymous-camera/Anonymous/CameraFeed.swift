@@ -57,8 +57,14 @@ class CameraFeed: NSObject {
         return instance!
     }
     
-    public static func availableTypes() {
-        
+    static func availableTypes() -> [CameraFeedType] {
+        var tmp: [CameraFeedType] = [.front, .back]
+        if Platform.hasDepthSegmentation { tmp.append(.backAR) }
+        var discovery = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInUltraWideCamera], mediaType: .video, position: .back)
+        if !discovery.devices.isEmpty { tmp.append(.backUltraWide) }
+        discovery = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTelephotoCamera], mediaType: .video, position: .back)
+        if !discovery.devices.isEmpty { tmp.append(.backTelephoto) }
+        return tmp
     }
     
     func stop() {
@@ -67,12 +73,14 @@ class CameraFeed: NSObject {
     }
     
     func start(type: CameraFeedType) {
-        if type == .front || type == .back {
+        if type != .none && type != .backAR {
             if let _ = captureSession { destroySession() }
             if let _ = arSession { destroyARSession() }
             var position: AVCaptureDevice.Position = .front
             if type == .back { position = .back }
-            createCaptureSession(position: position)
+            if type == .backUltraWide { createCaptureSession(position: position, lens: .builtInUltraWideCamera) }
+            else if type == .backTelephoto { createCaptureSession(position: position, lens: .builtInTelephotoCamera) }
+            else { createCaptureSession(position: position) }
         }
         else if type == .backAR {
             if let _ = captureSession { destroySession() }
@@ -120,10 +128,10 @@ class CameraFeed: NSObject {
         arSession = nil
     }
     
-    private func createCaptureSession(position: AVCaptureDevice.Position) {
+    private func createCaptureSession(position: AVCaptureDevice.Position, lens: AVCaptureDevice.DeviceType = .builtInWideAngleCamera) {
         let session = AVCaptureSession()
         session.beginConfiguration()
-        let discovery = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: position)
+        let discovery = AVCaptureDevice.DiscoverySession(deviceTypes: [lens], mediaType: .video, position: position)
         for device in discovery.devices {
             #if os(iOS)
             if device.position == position { inputCamera = device }
