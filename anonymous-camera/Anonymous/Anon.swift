@@ -27,6 +27,7 @@ struct Platform {
 }
 
 typealias AnonSavedToPhotos = (_ : Bool) -> Void
+typealias AnonSelfieRotation = (_: Bool, _ : Double, _: Double) -> Void
 
 protocol AnonDelegate {
     func rotationChange(orientation: UIDeviceOrientation)
@@ -188,10 +189,10 @@ class Anon: NSObject {
         }
     }
     
-    enum CameraLens {
+    enum CameraLens: Int {
         case normal
-        case wide
         case telephoto
+        case wide
     }
     
     enum CameraFacing {
@@ -233,6 +234,16 @@ class Anon: NSObject {
                     let detectedFace = DetectedFace(uuid: face.uuid, bounds: face.boundingBox)
                     self.detectedFaces.append(detectedFace)
                 }
+                /*
+                DispatchQueue.main.async {
+                    if self.currentFacing == .front, results.count == 1, let face = results.first as? VNFaceObservation {
+                        if let yaw = face.yaw, let roll = face.roll {
+                            self.selfieRotation?(true, yaw.doubleValue, roll.doubleValue)
+                        }
+                        else { self.selfieRotation?(false, 0, 0) }
+                    }
+                    else { self.selfieRotation?(false, 0, 0) }
+                }*/
                 self.processFaces()
                 self.isProcessing = false
             }
@@ -294,6 +305,19 @@ class Anon: NSObject {
         })
     }
     
+    func nextLens() {
+        if currentFacing == .back {
+            let lens = availableLens
+            if lens.count > 1 {
+                var n = currentLens.rawValue
+                n += 1
+                if n >= lens.count { n = 0 }
+                let l = lens[n]
+                showCamera(facing: .back, lens: l)
+            }
+        }
+    }
+    
     func showCamera(facing: CameraFacing, lens: CameraLens = .normal) {
         if fromState == nil {
             fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect, lens: currentLens)
@@ -339,6 +363,10 @@ class Anon: NSObject {
         }
     }
     
+    func onSelfieRotation(_ block: @escaping AnonSelfieRotation) {
+        selfieRotation = block
+    }
+    
     // private
     private var detectedFaces: [DetectedFace] = []
     private var trackedFaces: [UUID: CGRect] = [:]
@@ -361,6 +389,7 @@ class Anon: NSObject {
     private var detectionChange = false
     private var fromState: AnonState?
     private var sourceSize: CGSize = .zero
+    private var selfieRotation: AnonSelfieRotation?
     
     @objc private func rotated() {
         delegate?.rotationChange(orientation: UIDevice.current.orientation)
