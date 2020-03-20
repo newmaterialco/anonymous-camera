@@ -17,7 +17,7 @@ class ACNoFilterIconHostingController: UIViewController {
     var initialPitch = 0.0
     var initialRoll = 0.0
     var initialYaw = 0.0
-    let constraint = 45.0
+    let constraint = 180.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,13 +44,17 @@ class ACNoFilterIconHostingController: UIViewController {
                 var diffRoll = roll - self.initialRoll
                 var diffYaw = yaw - self.initialYaw
                 
+                diffPitch *= (self.constraint / 360)
+                diffRoll *= (self.constraint / 360)
+                diffYaw *= (self.constraint / 360)
+                /*
                 if diffPitch > self.constraint { diffPitch = self.constraint }
                 else if diffPitch < -self.constraint { diffPitch = -self.constraint }
                 if diffRoll > self.constraint { diffRoll = self.constraint }
                 else if diffRoll < -self.constraint { diffRoll = -self.constraint }
                 if diffYaw > self.constraint { diffYaw = self.constraint }
                 else if diffYaw < -self.constraint { diffYaw = -self.constraint }
-                
+                */
                 let matrix = SCNMatrix4Identity
                 let pitchRot = SCNMatrix4Rotate(matrix, diffPitch.degreesToRadians.float, 1, 0, 0)
                 let rollRot = SCNMatrix4Rotate(pitchRot, diffRoll.degreesToRadians.float, 0, 0, 1)
