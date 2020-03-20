@@ -36,6 +36,7 @@
 		8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516D2424BE780021600C /* MainHostingViewController.swift */; };
 		8FB251702424BED70021600C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516F2424BED70021600C /* ContainerView.swift */; };
 		8FB251722424E1470021600C /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251712424E1470021600C /* ACNoFilterIconView.swift */; };
+		8FB251742424F6740021600C /* ACBlurFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251732424F6740021600C /* ACBlurFilterIconView.swift */; };
 		8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DB242176E400497EA6 /* AppDelegate.swift */; };
 		8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */; };
 		8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DF242176E400497EA6 /* ContentView.swift */; };
@@ -57,6 +58,7 @@
 		8FB2516D2424BE780021600C /* MainHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHostingViewController.swift; sourceTree = "<group>"; };
 		8FB2516F2424BED70021600C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 		8FB251712424E1470021600C /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
+		8FB251732424F6740021600C /* ACBlurFilterIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACBlurFilterIconView.swift; sourceTree = "<group>"; };
 		8FE3F3D8242176E400497EA6 /* Anonymous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3F3DB242176E400497EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
 				77B312E82424F2CD007172A0 /* MotionManager.swift */,
 				8FB251712424E1470021600C /* ACNoFilterIconView.swift */,
+				8FB251732424F6740021600C /* ACBlurFilterIconView.swift */,
 				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
 				8FB2516F2424BED70021600C /* ContainerView.swift */,
 				8F4CEB802423EDEC00369D46 /* Helpers.swift */,
@@ -323,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */,
+				8FB251742424F6740021600C /* ACBlurFilterIconView.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
 				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
 				8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */,

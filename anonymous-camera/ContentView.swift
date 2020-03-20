@@ -194,6 +194,11 @@ struct ACFilterButton: View {
                 ACNoFilterIconView()
                     .frame(width: 24, height: 24, alignment: .center)
                 
+            } else if filter.filterIdentifier == "AC_FILTER_BLUR" {
+                
+                ACBlurFilterIconView()
+                .frame(width: 24, height: 24, alignment: .center)
+            
             } else {
                 Image(uiImage: filter.icon)
                     .foregroundColor(
