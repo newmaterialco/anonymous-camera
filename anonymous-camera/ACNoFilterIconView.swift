@@ -33,17 +33,26 @@ class ACNoFilterIconHostingController: UIViewController {
     let constraint = 180.0
     let faceNodes = ["node_a"]
     let featureNodes = ["node_b", "node_c", "node_d"]
+    var diffuseColors: [String: UIColor] = [:]
     
     func animateFaceColor(faceColor: UIColor, featureColor: UIColor, duration: Double) {
         if let faceNode = faceNode {
             for childNode in faceNode.childNodes {
-                if let name = childNode.name, let geometry = childNode.geometry {
-                    if faceNodes.contains(name) {
-                        geometry.firstMaterial?.diffuse.contents = faceColor
+                if let name = childNode.name, let diffuse = childNode.geometry?.materials.first?.diffuse {
+                    let fromColor = diffuseColors[name]
+                    var toColor: UIColor?
+                    if faceNodes.contains(name) { toColor = faceColor }
+                    else if featureNodes.contains(name) { toColor = featureColor }
+                    if let fromColor = fromColor, let toColor = toColor {
+                        let action = SCNAction.customAction(duration: duration, action: { (node, elapsedTime) in
+                            let percentage = elapsedTime / duration.cgFloat
+                            if let color = fromColor.interpolateRGBColorTo(toColor, fraction: percentage) {
+                                diffuse.contents = color
+                            }
+                        })
+                        childNode.runAction(action)
                     }
-                    else if featureNodes.contains(name) {
-                        geometry.firstMaterial?.diffuse.contents = featureColor
-                    }
+                    diffuseColors[name] = toColor
                 }
             }
         }
@@ -64,7 +73,14 @@ class ACNoFilterIconHostingController: UIViewController {
             mainScene.rootNode.addChildNode(node)
             sceneView.scene = mainScene
             faceNode = node
-            animateFaceColor(faceColor: .white, featureColor: .black, duration: 1.0)
+            
+            for childNode in node.childNodes {
+                if let name = childNode.name, let contents = childNode.geometry?.materials.first?.diffuse.contents, let col = contents as? UIColor {
+                    diffuseColors[name] = col
+                }
+            }
+            
+            animateFaceColor(faceColor: UIColor(red: 1, green: 1, blue: 1, alpha: 1), featureColor: UIColor(red: 0, green: 0, blue: 0, alpha: 1), duration: 0.1)
             
             MotionManager.shared.start { pitch, roll, yaw in
                 if self.initialPitch == 0 && self.initialRoll == 0 && self.initialYaw == 0 {
