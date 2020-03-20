@@ -1,5 +1,5 @@
 //
-//  ACViewFinderViewController.swift
+//  ACCameraFeedViewController.swift
 //  anonymous-camera
 //
 //  Created by Aaron Abentheuer on 17/03/2020.
@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 import SnapKit
 
-class ACViewfinderViewController: UIViewController {
+class ACCameraFeedViewController: UIViewController {
         
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -46,16 +46,22 @@ class ACViewfinderViewController: UIViewController {
 
 struct ACViewfinderView : UIViewControllerRepresentable {
     
-    func makeUIViewController(context: Context) -> ACViewfinderViewController {
-        let vc = ACViewfinderViewController()
+    func makeUIViewController(context: Context) -> ACCameraFeedViewController {
+        let vc = ACCameraFeedViewController()
         return vc
     }
     
-    func updateUIViewController(_ viewController: ACViewfinderViewController, context: Context) {
+    func updateUIViewController(_ viewController: ACCameraFeedViewController, context: Context) {
     }
 }
 
-extension ACViewfinderViewController: AnonDelegate {
+struct ACViewfinderView_Previews: PreviewProvider {
+    static var previews: some View {
+        ACViewfinderView()
+    }
+}
+
+extension ACCameraFeedViewController: AnonDelegate {
     func didSwitch(from: Anon.AnonState, to: Anon.AnonState) {
         print("did switch from \(from.camera), \(from.detection), \(from.mask) to \(to.camera), \(to.detection), \(to.mask)")
     }

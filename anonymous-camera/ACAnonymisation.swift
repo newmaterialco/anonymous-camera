@@ -34,13 +34,13 @@ class ACAnonymisation : ObservableObject {
     }
     
     func startRecording () {
-        anonymous.startRecord(audio: true, anonVoice: false)
+//        anonymous.startRecord(audio: false, anonVoice: false)
     }
     
     func finishRecording () {
-        anonymous.endRecord(fixedDate: true, location: nil) { _ in
-            return
-        }
+//        anonymous.endRecord(fixedDate: true, location: nil) { _ in
+//            return
+//        }
     }
         
     func select(filter : ACFilter) {

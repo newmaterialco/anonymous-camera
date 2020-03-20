@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var anonymisation = ACAnonymisation.shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        let contentView = ContentView()
+        let contentView = ACMainView()
             .environmentObject(sceneInformation)
             .environmentObject(anonymisation)
 
@@ -28,11 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.makeKeyAndVisible()
         }
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        self.sceneInformation.sceneIsActive = false
-    }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
         self.sceneInformation.sceneIsActive = true
     }

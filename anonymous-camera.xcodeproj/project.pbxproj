@@ -29,13 +29,18 @@
 		8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40C242177C700497EA6 /* FacePixelShader.swift */; };
 		8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */; };
 		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
+		8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */; };
+		8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516B2424AB900021600C /* ACInterviewControl.swift */; };
+		8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516D2424BE780021600C /* MainHostingViewController.swift */; };
+		8FB251702424BED70021600C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516F2424BED70021600C /* ContainerView.swift */; };
+		8FB251722424E1470021600C /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251712424E1470021600C /* ACNoFilterIconView.swift */; };
 		8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DB242176E400497EA6 /* AppDelegate.swift */; };
 		8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */; };
 		8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DF242176E400497EA6 /* ContentView.swift */; };
 		8FE3F3E2242176E500497EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E1242176E500497EA6 /* Assets.xcassets */; };
 		8FE3F3E5242176E500497EA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E4242176E500497EA6 /* Preview Assets.xcassets */; };
 		8FE3F3E8242176E500497EA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */; };
-		8FE3F40F2421789D00497EA6 /* ACViewFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */; };
+		8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +48,11 @@
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
 		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
 		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeContainerViewController.swift; sourceTree = "<group>"; };
+		8FB2516B2424AB900021600C /* ACInterviewControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControl.swift; sourceTree = "<group>"; };
+		8FB2516D2424BE780021600C /* MainHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHostingViewController.swift; sourceTree = "<group>"; };
+		8FB2516F2424BED70021600C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		8FB251712424E1470021600C /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
 		8FE3F3D8242176E400497EA6 /* Anonymous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3F3DB242176E400497EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +86,7 @@
 		8FE3F40B242177C700497EA6 /* AnonPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonPhoto.swift; sourceTree = "<group>"; };
 		8FE3F40C242177C700497EA6 /* FacePixelShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePixelShader.swift; sourceTree = "<group>"; };
 		8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BodyPixelShader.metal; sourceTree = "<group>"; };
-		8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACViewFinderViewController.swift; sourceTree = "<group>"; };
+		8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCameraFeedViewController.swift; sourceTree = "<group>"; };
 		A3E726ED89E5B81BB920D9AE /* Pods-anonymous-camera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.debug.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,8 +135,13 @@
 				8FE3F3DB242176E400497EA6 /* AppDelegate.swift */,
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
+				8FB251712424E1470021600C /* ACNoFilterIconView.swift */,
+				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
+				8FB2516F2424BED70021600C /* ContainerView.swift */,
 				8F4CEB802423EDEC00369D46 /* Helpers.swift */,
-				8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */,
+				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
+				8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */,
+				8FB2516B2424AB900021600C /* ACInterviewControl.swift */,
 				8F0B229F2421798A0096A444 /* ACAnonymisation.swift */,
 				8FE3F3E1242176E500497EA6 /* Assets.xcassets */,
 				8FE3F3F4242177C700497EA6 /* Anonymous */,
@@ -302,19 +317,24 @@
 			files = (
 				8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
+				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
 				8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */,
 				8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */,
 				8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */,
+				8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */,
+				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
 				8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
 				8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */,
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,
 				8F0B22AC24217B8E0096A444 /* BodyPixelShader.swift in Sources */,
+				8FB251722424E1470021600C /* ACNoFilterIconView.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
+				8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */,
 				8F0B22B024217BA20096A444 /* Easing.swift in Sources */,
 				8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */,
-				8FE3F40F2421789D00497EA6 /* ACViewFinderViewController.swift in Sources */,
+				8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */,
 				8F0B22AF24217B9C0096A444 /* FaceShader.swift in Sources */,
 				8F0B22A224217B3C0096A444 /* Anon.swift in Sources */,
 				8F0B22AB24217B8C0096A444 /* FaceBlurShader.metal in Sources */,
