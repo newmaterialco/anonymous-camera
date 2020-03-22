@@ -16,17 +16,21 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                ZStack {
-                    Circle()
-                    .foregroundColor(.blue)
-                    .frame(width: 44, height: 44)
+            if !isRecording {
+
+                HStack (spacing: 12) {
+                    ACQuickSetting()
+                    ACQuickSetting()
+                    ACQuickSetting()
                 }
+                .transition(AnyTransition.opacity)
+            } else {
+                Spacer()
             }
-            .padding()
+
             ACViewfinder(isRecording: $isRecording)
                 .edgesIgnoringSafeArea(.all)
-                .zIndex(1)
+                .zIndex(0)
             
             if !isRecording {
                 Spacer()
@@ -45,6 +49,55 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct ACQuickSetting : View {
+    
+    @State var isOn : Bool = true
+    @State var isBeingTouched : Bool = false
+    
+    var body: some View {
+        VStack {
+            ZStack {
+                Circle()
+                .foregroundColor(Color.white.opacity(0.12))
+                .frame(width: 36, height: 36)
+                .padding(12)
+                
+                Image("AC_PRIVACY_LOCATION")
+                .frame(width: 21, height: 21)
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(Color.white)
+                .opacity(isOn ? 1 : 0.5)
+                
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                .foregroundColor(.yellow)
+                .frame(width: 2)
+                .frame(maxHeight: self.isOn ? 2 : 48)
+                .offset(x: 0, y: self.isOn ? -6 : 0)
+                .rotationEffect(Angle(degrees: 45))
+            }
+        }
+        .simultaneousGesture(
+            TapGesture()
+                .onEnded({ _ in
+                    self.isOn.toggle()
+                })
+        )
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged({ _ in
+                    withAnimation(.easeOut(duration: 0.08)) {
+                        self.isBeingTouched = true
+                    }
+                })
+                .onEnded({ _ in
+                    withAnimation(.easeOut(duration: 0.24)) {
+                        self.isBeingTouched = false
+                    }
+                })
+        )
     }
 }
 
@@ -77,7 +130,7 @@ struct ACViewfinderCard : View {
     
     var body : some View {
         VStack {
-            ZStack{
+            ZStack {
                 ACViewfinderView()
                 ZStack {
                     ForEach(anonymisation.faces) { (face) in
@@ -99,6 +152,80 @@ struct ACViewfinderCard : View {
                         .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
                         .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
                 }
+                
+                VStack {
+                    Spacer()
+                    HStack {
+                        
+                        Spacer()
+                        
+                        Circle()
+                        .frame(width: 56, height: 56, alignment: .center)
+                        .foregroundColor(Color.white.opacity(0.5))
+                        .simultaneousGesture(
+                            TapGesture()
+                                .onEnded({ _ in
+                                    ACAnonymisation.shared.nextLens()
+                                })
+                        )
+                        
+                        Spacer()
+                        
+                        Circle()
+                        .frame(width: 72, height: 72, alignment: .center)
+                        .foregroundColor(Color.white.opacity(0.96))
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged({ _ in
+                                    withAnimation(.easeOut(duration: 0.08)) {
+//                                        self.isRecording = true
+                                    }
+                                })
+                                .onEnded({ _ in
+                                    withAnimation(.easeOut(duration: 0.24)) {
+                                        ACAnonymisation.shared.finishRecording()
+                                        self.isRecording = false
+                                    }
+                                })
+                        )
+                        .simultaneousGesture(
+                        
+                            LongPressGesture(minimumDuration: 1, maximumDistance: CGFloat.infinity)
+                                .onChanged({ _ in
+                                    withAnimation(.easeOut(duration: 0.08)) {
+                                    }
+                                })
+                                .onEnded({ _ in
+                                    withAnimation(.easeOut(duration: 0.24)) {
+                                        ACAnonymisation.shared.startRecording()
+                                        self.isRecording = true
+                                    }
+                                })
+                        )
+                        .simultaneousGesture(
+                            TapGesture()
+                                .onEnded({ _ in
+                                    ACAnonymisation.shared.takePhoto()
+                                })
+                        )
+                        
+                        Spacer()
+                        
+                        Circle()
+                        .frame(width: 56, height: 56, alignment: .center)
+                        .foregroundColor(Color.white.opacity(0.5))
+                        .simultaneousGesture(
+                            TapGesture()
+                                .onEnded({ _ in
+                                    ACAnonymisation.shared.toggleFrontAndBackCamera()
+                                })
+                        )
+                        
+                        Spacer()
+
+                    }
+                    .padding()
+                }
             }
             .aspectRatio(isRecording ? sixteenByNineAspectRatio : threeByFourAspectRatio, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
@@ -111,9 +238,10 @@ struct ACViewfinderCard : View {
                 .clipShape(
                     RoundedRectangle(cornerRadius: 18, style: .continuous)
             )
-                .padding(0)
-                .scaleEffect(sceneInformation.sceneIsActive ? 1 : 0.94)
-                .animation(Animation.easeInOut(duration: 0.3), value: sceneInformation.sceneIsActive)
+            .padding(0)
+            .scaleEffect(sceneInformation.sceneIsActive ? 1 : 0.94)
+            .animation(Animation.easeInOut(duration: 0.3), value: sceneInformation.sceneIsActive)
+            .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0), value: isRecording)
         }
     }
 }
@@ -192,12 +320,14 @@ struct ACFilterButton: View {
             if filter.filterIdentifier == "AC_FILTER_NONE" {
                 
                 ACNoFilterIconView()
-                    .frame(width: 24, height: 24, alignment: .center)
+                .frame(width: 24, height: 24, alignment: .center)
+                .rotationEffect(sceneInformation.deviceRotationAngle)
                 
             } else if filter.filterIdentifier == "AC_FILTER_BLUR" {
                 
-                ACBlurFilterIconView()
+                ACBlurFilterIconView(isSelected: filter.selected)
                 .frame(width: 24, height: 24, alignment: .center)
+                .rotationEffect(sceneInformation.deviceRotationAngle)
             
             } else {
                 Image(uiImage: filter.icon)

@@ -9,17 +9,24 @@
 import SwiftUI
 
 struct ACBlurFilterIconView: View {
+    
+    var isSelected : Bool
+    
     var body: some View {
         Circle()
-            .scale(0.75)
-            .foregroundColor(.white)
-            .blur(radius: 4)
+            .scale(isSelected ? 0.62 : 0.62)
+            .foregroundColor(isSelected ? Color.black : Color.white)
+            .blur(radius: isSelected ? 4 : 2)
     }
 }
 
 struct ACBlurFilterIconView_Previews: PreviewProvider {
+    
+    
+    static var isSelected = false
+    
     static var previews: some View {
-        ACBlurFilterIconView()
+        ACBlurFilterIconView(isSelected: isSelected)
     }
 }
 

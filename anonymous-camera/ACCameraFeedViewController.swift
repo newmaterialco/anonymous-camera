@@ -63,8 +63,8 @@ struct ACViewfinderView_Previews: PreviewProvider {
 
 extension ACCameraFeedViewController: AnonDelegate {
     func didSwitch(from: Anon.AnonState, to: Anon.AnonState) {
-        print("did switch from \(from.camera), \(from.detection), \(from.mask) to \(to.camera), \(to.detection), \(to.mask)")
     }
+    
     func updated(faces: [Anon.AnonFace]) {
         ACAnonymisation.shared.faces = faces
     }
