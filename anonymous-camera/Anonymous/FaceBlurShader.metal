@@ -13,16 +13,14 @@
 #import "ShaderMethods.h"
 using namespace metal;
 
-kernel void faceBlurCompute(texture2d<float, access::read> source [[ texture(0) ]],
-                        texture2d<float, access::read> blur [[ texture(1) ]],
-                        texture2d<float, access::write> dest [[ texture(2) ]],
-                        texture1d<float, access::read> rects [[ texture(3) ]],
-                        uint2 gid [[ thread_position_in_grid ]],
+fragment float4 faceBlurFragment(ImageColorInOut in [[stage_in]],
+                        texture2d<float, access::sample> capturedImageTextureY [[ texture(1) ]],
+                        texture2d<float, access::sample> capturedImageTextureCbCr [[ texture(2) ]],
+                        texture2d<float, access::sample> blurTexture [[ texture(3) ]],
+                        texture1d<float, access::read> rects [[ texture(4) ]],
                         constant FaceUniforms& uniforms [[ buffer(1) ]]) {
-    
+    constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear);
     if(uniforms.hasFaces) {
-        float width = source.get_width();
-        float height = source.get_height();
         uint count = rects.get_width();
         uint index = 0;
         while(index < count) {
@@ -30,16 +28,14 @@ kernel void faceBlurCompute(texture2d<float, access::read> source [[ texture(0) 
             float4 w = rects.read(index + 2);
             float4 y = rects.read(index + 1);
             float4 h = rects.read(index + 3);
-            float inX = 1.0 - (gid[0] / width);
-            float inY = gid[1] / height;
-            float shouldPixel = show(inX, inY, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
+            float shouldPixel = show(in.texCoord.x, in.texCoord.y, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
             if(shouldPixel <= 1.0) {
-                float4 col = blur.read(gid);
-                dest.write(col, gid);
+                return blurTexture.sample(colorSampler, float2(in.texCoord.y, in.texCoord.x));
             }
             index += 4;
         }
     }
+    float4 textureColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, in.texCoord), capturedImageTextureCbCr.sample(colorSampler, in.texCoord));
+    return textureColor;
 }
-
 

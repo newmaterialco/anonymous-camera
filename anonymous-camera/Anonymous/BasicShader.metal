@@ -35,6 +35,13 @@ vertex ImageColorInOut oneInputVertex(constant packed_float2 *position [[buffer(
     return outputVertices;
 }
 
+vertex ImageColorInOut nonScaledInputVertex(constant packed_float2 *position [[buffer(0)]], constant packed_float2 *texturecoord [[buffer(1)]], uint vid [[vertex_id]], constant VertexUniforms& uniforms [[ buffer(3) ]]) {
+    ImageColorInOut outputVertices;
+    outputVertices.position = float4(-position[vid].x, position[vid].y, 0, 1.0);
+    outputVertices.texCoord = texturecoord[vid];
+    return outputVertices;
+}
+
 fragment float4 yuvToRgbFragment(
                                  ImageColorInOut in [[stage_in]],
                                  texture2d<float, access::sample> capturedImageTextureY [[ texture(1) ]],
