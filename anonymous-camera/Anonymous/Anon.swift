@@ -15,6 +15,26 @@ import Photos
 import ARKit
 import MetalKit
 
+extension CGRect {
+    public var centerX: CGFloat {
+        get {return minX + (width * 0.5)}
+    }
+    public var centerY: CGFloat {
+        get {return minY + (height * 0.5)}
+    }
+    public var center: CGPoint {
+        get {return CGPoint(x: centerX, y: centerY)}
+    }
+}
+extension CGPoint {
+    func distanceTo(_ point: CGPoint) -> CGFloat {
+        return (self - point).length()
+    }
+    func length() -> CGFloat {
+        return sqrt(x * x + y * y)
+    }
+}
+
 struct Platform {
     static var hasDepthSegmentation: Bool {
         if #available(iOS 13.0, *) {
@@ -146,7 +166,7 @@ class Anon: NSObject {
     var blurRadius: Float = 20.0
     var provideViews = true
     var smoothing: CGFloat = 3.0
-    var removeCount = 4
+    var removeCount = 0
     var watermark: UIImage?
     var delegate: AnonDelegate?
     var padding: Float = 0.01
@@ -442,6 +462,7 @@ class Anon: NSObject {
     }
     
     private func rectDiff(_ a: CGRect, _ b: CGRect) -> CGFloat {
+        //return a.center.distanceTo(b.center)
         let xDiff = abs(a.minX - b.minX)
         let yDiff = abs(a.minY - b.minY)
         let wDiff = abs(a.width - b.width)
