@@ -108,6 +108,7 @@ class CameraFeed: NSObject {
     private var videoOutput: AVCaptureVideoDataOutput?
     private var arSession: ARSession?
     private var outputType: CameraFeedType = .none
+    private var lastFacesDetected = 0.0
     
     private func destroySession() {
         if let captureSession = captureSession {
@@ -172,6 +173,10 @@ class CameraFeed: NSObject {
 extension CameraFeed: AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         delegate?.captureOutput(output, sampleBuffer: sampleBuffer, connection: connection, type: outputType)
+        let timeSinceLastFace = Date().timeIntervalSince1970 - lastFacesDetected
+        if timeSinceLastFace > 0.2 {
+            delegate?.capturedFaceRects([])
+        }
     }
 }
 
@@ -196,5 +201,6 @@ extension CameraFeed: AVCaptureMetadataOutputObjectsDelegate {
             if face.type == .face { tmp.append(face.bounds) }
         }
         delegate?.capturedFaceRects(tmp)
+        lastFacesDetected = Date().timeIntervalSince1970
     }
 }

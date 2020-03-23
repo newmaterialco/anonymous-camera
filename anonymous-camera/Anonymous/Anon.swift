@@ -758,15 +758,18 @@ class Anon: NSObject {
 
 extension Anon: CameraShaderSampleDelegate {
     func capturedFaces(_ rects: [CGRect]) {
-        /*
-        self.detectedFaces = []
-        for rect in rects {
-            let detectedFace = DetectedFace(uuid: UUID(), bounds: convertAVFaceRect(rect))
-            self.detectedFaces.append(detectedFace)
+        if startCount < 5 {}
+        else if (detection == .face || facing == .front) {
+            if !Platform.hasDepthSegmentation {
+                self.detectedFaces = []
+                for rect in rects {
+                    let detectedFace = DetectedFace(uuid: UUID(), bounds: convertAVFaceRect(rect))
+                    self.detectedFaces.append(detectedFace)
+                }
+                self.processFaces()
+                self.isProcessing = false
+            }
         }
-        self.processFaces()
-        self.isProcessing = false
- */
     }
     func captureOutput(_ output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection, skip: Bool) {
         if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
@@ -776,9 +779,7 @@ extension Anon: CameraShaderSampleDelegate {
         }
         if startCount < 5 { startCount += 1 }
         else if (detection == .face || facing == .front) {
-            self.detectFaces(sampleBuffer)
-            //if Platform.hasDepthSegmentation { self.detectFaces(sampleBuffer) }
-            //else { self.detectFacesCoreImage(sampleBuffer) }
+            if Platform.hasDepthSegmentation { self.detectFaces(sampleBuffer) }
         }
     }
 }
