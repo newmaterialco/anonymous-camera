@@ -134,7 +134,7 @@ class CameraFeed: NSObject {
         let discovery = AVCaptureDevice.DiscoverySession(deviceTypes: [lens], mediaType: .video, position: position)
         for device in discovery.devices {
             #if os(iOS)
-            if device.position == position { inputCamera = device }
+            if device.position == position && device.deviceType == lens { inputCamera = device }
             #else
             inputCamera = device
             #endif
