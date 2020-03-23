@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7752359524291AB200483BFA /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7752359424291AB200483BFA /* InAppManager.swift */; };
 		77B312E72424EDA1007172A0 /* face.dae in Resources */ = {isa = PBXBuildFile; fileRef = 77B312E62424EDA1007172A0 /* face.dae */; };
 		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
 		8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7752359424291AB200483BFA /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
 		77B312E62424EDA1007172A0 /* face.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = face.dae; sourceTree = "<group>"; };
 		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */,
 				8FB2516B2424AB900021600C /* ACInterviewControl.swift */,
 				8F0B229F2421798A0096A444 /* ACAnonymisation.swift */,
+				7752359424291AB200483BFA /* InAppManager.swift */,
 				8FE3F3E1242176E500497EA6 /* Assets.xcassets */,
 				8FE3F3F4242177C700497EA6 /* Anonymous */,
 				8FE3F3F02421770B00497EA6 /* Localizable.strings */,
@@ -344,6 +347,7 @@
 				8FB251722424E1470021600C /* ACNoFilterIconView.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
 				8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */,
+				7752359524291AB200483BFA /* InAppManager.swift in Sources */,
 				8F0B22B024217BA20096A444 /* Easing.swift in Sources */,
 				8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */,
 				8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */,
