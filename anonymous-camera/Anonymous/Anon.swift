@@ -166,7 +166,7 @@ class Anon: NSObject {
     var blurRadius: Float = 20.0
     var provideViews = true
     var smoothing: CGFloat = 3.0
-    var removeCount = 0
+    var removeCount = 4
     var watermark: UIImage?
     var delegate: AnonDelegate?
     var padding: Float = 0.01
@@ -544,7 +544,17 @@ class Anon: NSObject {
         var index = 0
         var tmp: [UUID: CGRect] = [:]
         var takenUUIDs: [UUID: Bool] = [:]
+        var list: [(CGFloat, UUID, CGRect)] = []
         for (uuid, rect) in trackedFaces {
+            var smallestDiff: CGFloat = 100000000.0
+            for face in detectedFaces {
+                let diff = rectDiff(rect, face.bounds)
+                if diff < smallestDiff { smallestDiff = diff }
+            }
+            list.append((smallestDiff, uuid, rect))
+        }
+        let sortedList = list.sorted { $0.0 < $1.0 }
+        for (_, uuid, rect) in sortedList {
             var smallestDiff: CGFloat = 100000000.0
             var smallestUUID: UUID?
             for face in detectedFaces {
