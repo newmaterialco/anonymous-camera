@@ -33,6 +33,7 @@ extension AVCaptureDevice {
 protocol CameraFeedDelegate {
     func captureOutput(_ output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection, type: CameraFeed.CameraFeedType)
     func captureAROutput(_ session: ARSession, frame: ARFrame, type: CameraFeed.CameraFeedType)
+    func capturedFaceRects(_ rects: [CGRect])
 }
 
 class CameraFeed: NSObject {
@@ -100,7 +101,6 @@ class CameraFeed: NSObject {
     }
     
     // private
-    private let cameraFrameProcessingQueue = DispatchQueue(label: "amills.ShaderKit", attributes: [])
     private let cameraProcessingQueue = DispatchQueue.global()
     private var captureSession: AVCaptureSession?
     private var inputCamera: AVCaptureDevice?
@@ -134,7 +134,7 @@ class CameraFeed: NSObject {
         let discovery = AVCaptureDevice.DiscoverySession(deviceTypes: [lens], mediaType: .video, position: position)
         for device in discovery.devices {
             #if os(iOS)
-            if device.position == position && device.deviceType == lens { inputCamera = device }
+            if device.position == position { inputCamera = device }
             #else
             inputCamera = device
             #endif
@@ -153,6 +153,13 @@ class CameraFeed: NSObject {
         session.sessionPreset = .high
         session.commitConfiguration()
         output.setSampleBufferDelegate(self, queue: cameraProcessingQueue)
+        
+        let metadataOutput = AVCaptureMetadataOutput()
+        if session.canAddOutput(metadataOutput) {
+            session.addOutput(metadataOutput)
+            metadataOutput.setMetadataObjectsDelegate(self, queue: cameraProcessingQueue)
+            metadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.face]
+        }
         
         videoOutput = output
         captureSession = session
@@ -179,5 +186,15 @@ extension CameraFeed: ARSessionDelegate {
         if diff < 0.1 {
             delegate?.captureAROutput(session, frame: frame, type: outputType)
         }
+    }
+}
+
+extension CameraFeed: AVCaptureMetadataOutputObjectsDelegate {
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        var tmp: [CGRect] = []
+        for face in metadataObjects {
+            if face.type == .face { tmp.append(face.bounds) }
+        }
+        delegate?.capturedFaceRects(tmp)
     }
 }

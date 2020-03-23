@@ -254,16 +254,6 @@ class Anon: NSObject {
                     let detectedFace = DetectedFace(uuid: face.uuid, bounds: face.boundingBox)
                     self.detectedFaces.append(detectedFace)
                 }
-                /*
-                DispatchQueue.main.async {
-                    if self.currentFacing == .front, results.count == 1, let face = results.first as? VNFaceObservation {
-                        if let yaw = face.yaw, let roll = face.roll {
-                            self.selfieRotation?(true, yaw.doubleValue, roll.doubleValue)
-                        }
-                        else { self.selfieRotation?(false, 0, 0) }
-                    }
-                    else { self.selfieRotation?(false, 0, 0) }
-                }*/
                 self.processFaces()
                 self.isProcessing = false
             }
@@ -417,6 +407,13 @@ class Anon: NSObject {
         else if UIDevice.current.orientation == .portraitUpsideDown { currentAxis = 1.0 }
         else if UIDevice.current.orientation == .landscapeRight { currentAxis = 2.0 }
         else { currentAxis = 3.0 }
+    }
+    
+    private func convertAVFaceRect(_ b: CGRect) -> CGRect {
+        if currentFacing == .front {
+            return CGRect(x: (1.0 - b.minY) - b.height, y: (1.0 - b.minX) - b.width, width: b.height, height: b.width)
+        }
+        return CGRect(x: (1.0 - b.minY) - b.height, y: (1.0 - b.minX) - b.width, width: b.height, height: b.width)
     }
     
     private func convertFaceRect(_ b: CGRect) -> CGRect {
@@ -760,6 +757,15 @@ class Anon: NSObject {
 }
 
 extension Anon: CameraShaderSampleDelegate {
+    func capturedFaces(_ rects: [CGRect]) {
+        self.detectedFaces = []
+        for rect in rects {
+            let detectedFace = DetectedFace(uuid: UUID(), bounds: convertAVFaceRect(rect))
+            self.detectedFaces.append(detectedFace)
+        }
+        self.processFaces()
+        self.isProcessing = false
+    }
     func captureOutput(_ output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection, skip: Bool) {
         if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
             let width = CVPixelBufferGetWidth(imageBuffer)
@@ -768,8 +774,8 @@ extension Anon: CameraShaderSampleDelegate {
         }
         if startCount < 5 { startCount += 1 }
         else if (detection == .face || facing == .front) {
-            if Platform.hasDepthSegmentation { self.detectFaces(sampleBuffer) }
-            else { self.detectFacesCoreImage(sampleBuffer) }
+            //if Platform.hasDepthSegmentation { self.detectFaces(sampleBuffer) }
+            //else { self.detectFacesCoreImage(sampleBuffer) }
         }
     }
 }

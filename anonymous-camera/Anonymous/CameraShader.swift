@@ -15,6 +15,7 @@ import SwifterSwift
 
 public protocol CameraShaderSampleDelegate {
     func captureOutput(_ output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection, skip: Bool)
+    func capturedFaces(_ rects: [CGRect])
 }
 public protocol CameraShaderImageDelegate {
     func didDrawImage(drawable: CAMetalDrawable)
@@ -280,6 +281,9 @@ public class CameraShader: NSObject {
 }
 
 extension CameraShader: CameraFeedDelegate {
+    func capturedFaceRects(_ rects: [CGRect]) {
+        sampleDelegate?.capturedFaces(rects)
+    }
     func captureOutput(_ output: AVCaptureOutput, sampleBuffer: CMSampleBuffer, connection: AVCaptureConnection, type: CameraFeed.CameraFeedType) {
         if let cameraFrame = CMSampleBufferGetImageBuffer(sampleBuffer) {
             frameTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer).seconds
