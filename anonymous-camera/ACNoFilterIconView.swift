@@ -35,6 +35,13 @@ class ACNoFilterIconHostingController: UIViewController {
     let featureNodes = ["node_b", "node_c", "node_d"]
     var diffuseColors: [String: UIColor] = [:]
     var inSelfieMode = false
+    var counter = 0.0
+    
+    func resetFace() {
+        initialPitch = 0
+        initialRoll = 0
+        initialYaw = 0
+    }
     
     func animateFaceColor(faceColor: UIColor, featureColor: UIColor, duration: Double) {
         if let faceNode = faceNode {
@@ -109,10 +116,13 @@ class ACNoFilterIconHostingController: UIViewController {
                     var diffRoll = roll - self.initialRoll
                     var diffYaw = yaw - self.initialYaw
                     
-                    diffPitch *= (self.constraint / 360)
+                    diffPitch *= (self.constraint / 720)
                     diffRoll *= (self.constraint / 360)
                     diffYaw *= (self.constraint / 360)
                     
+                    // pitchRot - up down
+                    // yawRot - left right
+                    // rollRot - around
                     let matrix = SCNMatrix4Identity
                     let pitchRot = SCNMatrix4Rotate(matrix, diffPitch.degreesToRadians.float, 1, 0, 0)
                     let rollRot = SCNMatrix4Rotate(pitchRot, diffRoll.degreesToRadians.float, 0, 0, 1)
