@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Anon.requestMicrophoneAccess { _ in
             }
         }
+        InAppManager.shared.pro { product in
+            print("found product: \(product)")
+        }
         return true
     }
 

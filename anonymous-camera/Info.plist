@@ -24,12 +24,12 @@
 	<string>$(PRODUCT_NAME) would like to access your camera</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to access your microphone.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Use device motion?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Please allow access to save photo in your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Use photo library?</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Use device motion?</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -101,6 +101,7 @@ class InAppManager: NSObject {
 
 extension InAppManager: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        print("productsRequest: \(response.products)")
         if let product = response.products.first {
             self.product = product
             DispatchQueue.main.async {

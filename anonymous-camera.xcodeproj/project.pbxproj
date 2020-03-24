@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7752359524291AB200483BFA /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7752359424291AB200483BFA /* InAppManager.swift */; };
+		77523597242A231500483BFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77523596242A231500483BFA /* StoreKit.framework */; };
 		77B312E72424EDA1007172A0 /* face.dae in Resources */ = {isa = PBXBuildFile; fileRef = 77B312E62424EDA1007172A0 /* face.dae */; };
 		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
 		8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */; };
@@ -50,6 +51,7 @@
 /* Begin PBXFileReference section */
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7752359424291AB200483BFA /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
+		77523596242A231500483BFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		77B312E62424EDA1007172A0 /* face.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = face.dae; sourceTree = "<group>"; };
 		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */,
+				77523597242A231500483BFA /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +208,7 @@
 		DECF7013C07D9655D61F774E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77523596242A231500483BFA /* StoreKit.framework */,
 				6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */,
 			);
 			name = Frameworks;
@@ -508,7 +512,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0001;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
 				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;
@@ -518,7 +522,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
 				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Anonymous/anonymous-camera-Bridging-Header.h";
@@ -533,7 +537,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0001;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
 				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;
@@ -543,7 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
 				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Anonymous/anonymous-camera-Bridging-Header.h";
