@@ -47,6 +47,7 @@ struct Platform {
 }
 
 typealias AnonSavedToPhotos = (_ : Bool) -> Void
+typealias AnonSavedToPhotoLibrary = (_ : Bool, _ : String) -> Void
 typealias AnonSelfieRotation = (_: Bool, _ : Double, _: Double) -> Void
 
 protocol AnonDelegate {
@@ -56,6 +57,12 @@ protocol AnonDelegate {
 }
 
 class Anon: NSObject {
+    
+    struct CapturedItem {
+        let localIdentifier: String
+        let image: UIImage?
+        let url: URL?
+    }
     
     var availableLens: [CameraLens] {
         var tmp: [CameraLens] = [.normal]
@@ -148,8 +155,15 @@ class Anon: NSObject {
         if let processingVideo = processingVideos.first {
             processingVideo.value.anonVideo.save(cancel: false) { url in
                 if let url = url {
-                    Anon.saveToPhotoLibrary(image: nil, url: url, fixedDate: processingVideo.value.fixedDate, location: processingVideo.value.location) { success in
-                        DispatchQueue.main.async { block(success) }
+                    Anon.saveToPhotoLibrary(image: nil, url: url, fixedDate: processingVideo.value.fixedDate, location: processingVideo.value.location) { success, localIdentifier in
+                        DispatchQueue.main.async {
+                            if success && localIdentifier != "" {
+                                if Anon.history.count == Anon.historyCount { Anon.history.removeLast() }
+                                let item = CapturedItem(localIdentifier: localIdentifier, image: nil, url: url)
+                                Anon.history.insert(item, at: 0)
+                            }
+                            block(success)
+                        }
                         processingVideo.value.anonVideo.cleanUp()
                     }
                 }
@@ -161,6 +175,8 @@ class Anon: NSObject {
     }
     
     let shaderView = MTKView()
+    static var history: [CapturedItem] = []
+    static var historyCount = 3
     var faces: [AnonFace] = []
     var widthOfPixel: Float = 0.05
     var blurRadius: Float = 20.0
@@ -287,8 +303,15 @@ class Anon: NSObject {
             processingVideo.save(cancel: false, handler: { url in
                 Anon.processingVideos.removeValue(forKey: processingVideo.uuid)
                 if let url = url {
-                    Anon.saveToPhotoLibrary(image: nil, url: url, fixedDate: fixedDate, location: location) { success in
-                        DispatchQueue.main.async { block(success) }
+                    Anon.saveToPhotoLibrary(image: nil, url: url, fixedDate: fixedDate, location: location) { success, localIdentifier in
+                        DispatchQueue.main.async {
+                            if success && localIdentifier != "" {
+                                if Anon.history.count == Anon.historyCount { Anon.history.removeLast() }
+                                let item = CapturedItem(localIdentifier: localIdentifier, image: nil, url: url)
+                                Anon.history.insert(item, at: 0)
+                            }
+                            block(success)
+                        }
                         processingVideo.cleanUp()
                     }
                 }
@@ -307,8 +330,15 @@ class Anon: NSObject {
         photo?.watermark = watermark
         photo?.onImageReady({ image in
             CameraShader.shared.takeImage(feed: -1, delegate: nil)
-            Anon.saveToPhotoLibrary(image: image, url: nil, fixedDate: fixedDate, location: location) { success in
-                DispatchQueue.main.async { self.captureHandler?(success) }
+            Anon.saveToPhotoLibrary(image: image, url: nil, fixedDate: fixedDate, location: location) { success, localIdentifier in
+                DispatchQueue.main.async {
+                    if success && localIdentifier != "" {
+                        if Anon.history.count == Anon.historyCount { Anon.history.removeLast() }
+                        let item = CapturedItem(localIdentifier: localIdentifier, image: image, url: nil)
+                        Anon.history.insert(item, at: 0)
+                    }
+                    self.captureHandler?(success)
+                }
                 self.captureHandler = nil
                 self.photo = nil
             }
@@ -715,16 +745,18 @@ class Anon: NSObject {
         }
     }
     
-    private static func saveToPhotoLibrary(image: UIImage?, url: URL?, fixedDate: Bool, location: CLLocation?, completion: @escaping AnonSavedToPhotos) {
+    private static func saveToPhotoLibrary(image: UIImage?, url: URL?, fixedDate: Bool, location: CLLocation?, completion: @escaping AnonSavedToPhotoLibrary) {
         let fetchOptions = PHFetchOptions()
         fetchOptions.predicate = NSPredicate(format: "title = %@", "Anonymous Camera")
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+        var localIdentifier = ""
         if let assetCollection = collection.firstObject {
             PHPhotoLibrary.shared().performChanges({
                 var asset: PHAssetChangeRequest?
                 if let image = image { asset = PHAssetChangeRequest.creationRequestForAsset(from: image) }
                 if let url = url { asset = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url) }
                 if let asset = asset, let placeholder = asset.placeholderForCreatedAsset {
+                    localIdentifier = placeholder.localIdentifier
                     var date = Date()
                     if fixedDate { date = Date(timeIntervalSince1970: 0) }
                     asset.creationDate = date
@@ -733,24 +765,21 @@ class Anon: NSObject {
                         let enumeration: NSArray = [placeholder]
                         albumChangeRequest.addAssets(enumeration)
                     }
-                    
                 }
             }) { (success, error) in
-                completion(success)
+                completion(success, localIdentifier)
             }
         }
         else {
-            Anon.createAnonCameraAlbum(image: image, url: url, fixedDate: fixedDate, location: location) { _ in
-            }
+            Anon.createAnonCameraAlbum(image: image, url: url, fixedDate: fixedDate, location: location, completion: completion)
         }
     }
     
-    private static func createAnonCameraAlbum(image: UIImage?, url: URL?, fixedDate: Bool, location: CLLocation?, completion: @escaping AnonSavedToPhotos) {
+    private static func createAnonCameraAlbum(image: UIImage?, url: URL?, fixedDate: Bool, location: CLLocation?, completion: @escaping AnonSavedToPhotoLibrary) {
         PHPhotoLibrary.shared().performChanges({
             PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: "Anonymous Camera")
         }) { saved, error in
-            Anon.saveToPhotoLibrary(image: image, url: url, fixedDate: fixedDate, location: location) { _ in
-            }
+            Anon.saveToPhotoLibrary(image: image, url: url, fixedDate: fixedDate, location: location, completion: completion)
         }
     }
     
