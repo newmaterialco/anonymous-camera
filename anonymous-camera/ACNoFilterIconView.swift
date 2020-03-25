@@ -36,11 +36,14 @@ class ACNoFilterIconHostingController: UIViewController {
     var diffuseColors: [String: UIColor] = [:]
     var inSelfieMode = false
     var counter = 0.0
+    var resettingFace = false
+    var resetPitch = 0.0
+    var resetRoll = 0.0
+    var resetYaw = 0.0
+    var resetDamping = 0.95
     
     func resetFace() {
-        initialPitch = 0
-        initialRoll = 0
-        initialYaw = 0
+        resettingFace = true
     }
     
     func animateFaceColor(faceColor: UIColor, featureColor: UIColor, duration: Double) {
@@ -111,6 +114,23 @@ class ACNoFilterIconHostingController: UIViewController {
                     self.initialRoll = roll
                     self.initialYaw = yaw
                 }
+                if self.resettingFace {
+                    self.resetPitch *= self.resetDamping
+                    self.resetRoll *= self.resetDamping
+                    self.resetYaw *= self.resetDamping
+                    let matrix = SCNMatrix4Identity
+                    let pitchRot = SCNMatrix4Rotate(matrix, self.resetPitch.degreesToRadians.float, 1, 0, 0)
+                    let rollRot = SCNMatrix4Rotate(pitchRot, self.resetRoll.degreesToRadians.float, 0, 0, 1)
+                    let yawRot = SCNMatrix4Rotate(rollRot, self.resetYaw.degreesToRadians.float, 0, 1, 0)
+                    mainScene.rootNode.transform = yawRot
+                    
+                    if fabs(self.resetPitch) < 0.1 && fabs(self.resetRoll) < 0.1 && fabs(self.resetYaw) < 0.1 {
+                        self.resettingFace = false
+                        self.initialPitch = 0
+                        self.initialRoll = 0
+                        self.initialYaw = 0
+                    }
+                }
                 if !self.inSelfieMode {
                     var diffPitch = pitch - self.initialPitch
                     var diffRoll = roll - self.initialRoll
@@ -128,6 +148,10 @@ class ACNoFilterIconHostingController: UIViewController {
                     let rollRot = SCNMatrix4Rotate(pitchRot, diffRoll.degreesToRadians.float, 0, 0, 1)
                     let yawRot = SCNMatrix4Rotate(rollRot, diffYaw.degreesToRadians.float, 0, 1, 0)
                     mainScene.rootNode.transform = yawRot
+                    
+                    self.resetPitch = diffPitch
+                    self.resetRoll = diffRoll
+                    self.resetYaw = diffYaw
                 }
             }
         }
