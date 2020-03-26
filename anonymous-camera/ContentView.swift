@@ -319,7 +319,7 @@ struct ACFilterButton: View {
             
             if filter.filterIdentifier == "AC_FILTER_NONE" {
                 
-                ACNoFilterIconView()
+                ACNoFilterIconView(isSelected: filter.selected)
                 .frame(width: 24, height: 24, alignment: .center)
                 .rotationEffect(sceneInformation.deviceRotationAngle)
                 

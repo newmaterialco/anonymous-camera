@@ -34,7 +34,9 @@ class ACAnonymisation : ObservableObject {
     }
     
     func nextLens () {
-        anonymous.nextLens()
+        print(anonymous.availableLens.count)
+        
+        anonymous.showCamera(facing: .back, lens: .telephoto)
     }
     
     func toggleFrontAndBackCamera () {

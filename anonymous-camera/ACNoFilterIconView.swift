@@ -159,17 +159,31 @@ class ACNoFilterIconHostingController: UIViewController {
 }
 
 struct ACNoFilterIconView : UIViewControllerRepresentable {
+    
+    var isSelected : Bool
+    
     func makeUIViewController(context: Context) -> ACNoFilterIconHostingController {
         let vc = ACNoFilterIconHostingController()
         return vc
     }
     
     func updateUIViewController(_ viewController: ACNoFilterIconHostingController, context: Context) {
+        
+        if isSelected {
+            viewController.animateFaceColor(faceColor: UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1), featureColor: UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 1), duration: 0.2)
+        } else {
+            viewController.animateFaceColor(faceColor: UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 1), featureColor: UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1), duration: 0.2)
+        }
+        
+        viewController.resetFace()
     }
 }
 
 struct ACNoFilterIconView_Previews: PreviewProvider {
+    
+    static var isSelected = false
+    
     static var previews: some View {
-        ACNoFilterIconView()
+        ACNoFilterIconView(isSelected: isSelected)
     }
 }
