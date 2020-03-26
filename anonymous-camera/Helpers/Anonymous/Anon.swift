@@ -215,7 +215,7 @@ class Anon: NSObject {
             if p.x != 0 || p.y != 0 {
                 let positionInImage = CGPoint(x: -shaderView.x + p.x, y: -shaderView.y + p.y)
                 let ratioPoint = CGPoint(x: positionInImage.x / shaderView.width, y: positionInImage.y / shaderView.height)
-                let orientation = UIDevice.current.orientation
+                let orientation = MotionManager.shared.orientation
                 if orientation == .portrait { currentDivider = ratioPoint.x.float }
                 else if orientation == .portraitUpsideDown { currentDivider = 1.0 - ratioPoint.x.float }
                 else if orientation == .landscapeLeft { currentDivider = ratioPoint.y.float }
@@ -261,8 +261,25 @@ class Anon: NSObject {
             CIDetectorTracking: true
         ]
         detector = CIDetector(ofType: CIDetectorTypeFace, context: context, options: options)
-        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+        MotionManager.shared.start()
+        MotionManager.shared.onOrientationChange { (orientation) in
+            var deviceRotation: UIDeviceOrientation = .landscapeLeft
+            if orientation == .portrait {
+                self.currentAxis = 0.0
+                deviceRotation = .portrait
+            }
+            else if orientation == .portraitUpsideDown {
+                self.currentAxis = 1.0
+                deviceRotation = .portraitUpsideDown
+            }
+            else if orientation == .landscapeRight {
+                self.currentAxis = 2.0
+                deviceRotation = .landscapeRight
+            }
+            else { self.currentAxis = 3.0 }
+            self.delegate?.rotationChange(orientation: deviceRotation)
+        }
         self.detectRequest = VNDetectFaceRectanglesRequest(completionHandler: { (request, _) in
             self.detectedFaces = []
             if let results = request.results as? [VNDetectedObjectObservation] {
@@ -403,10 +420,6 @@ class Anon: NSObject {
         }
     }
     
-    func onSelfieRotation(_ block: @escaping AnonSelfieRotation) {
-        selfieRotation = block
-    }
-    
     // private
     private var detectedFaces: [DetectedFace] = []
     private var trackedFaces: [UUID: CGRect] = [:]
@@ -429,15 +442,6 @@ class Anon: NSObject {
     private var detectionChange = false
     private var fromState: AnonState?
     private var sourceSize: CGSize = .zero
-    private var selfieRotation: AnonSelfieRotation?
-    
-    @objc private func rotated() {
-        delegate?.rotationChange(orientation: UIDevice.current.orientation)
-        if UIDevice.current.orientation == .portrait { currentAxis = 0.0 }
-        else if UIDevice.current.orientation == .portraitUpsideDown { currentAxis = 1.0 }
-        else if UIDevice.current.orientation == .landscapeRight { currentAxis = 2.0 }
-        else { currentAxis = 3.0 }
-    }
     
     private func convertAVFaceRect(_ b: CGRect) -> CGRect {
         if currentFacing == .front {
@@ -482,10 +486,6 @@ class Anon: NSObject {
         default:
             return .leftMirrored
         }
-    }
-    
-    private func exifOrientationForCurrentDeviceOrientation() -> CGImagePropertyOrientation {
-        return exifOrientationForDeviceOrientation(UIDevice.current.orientation)
     }
     
     private func rectDiff(_ a: CGRect, _ b: CGRect) -> CGFloat {
@@ -674,46 +674,6 @@ class Anon: NSObject {
             let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: imageBuffer, orientation: .right, options: requestHandlerOptions)
             try? imageRequestHandler.perform([detectRequest])
         }
-    }
-    
-    private func detectFacesCoreImage(_ sampleBuffer: CMSampleBuffer) {
-        let orientation = UIDevice.current.orientation
-        var imageOrientation: CGImagePropertyOrientation = .right
-        if orientation == .portraitUpsideDown { imageOrientation = .left }
-        else if orientation == .landscapeLeft { imageOrientation = .down }
-        else if orientation == .landscapeRight { imageOrientation = .up }
-        guard let cvImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-        let ciImage = CIImage(cvPixelBuffer: cvImageBuffer).oriented(forExifOrientation: Int32(imageOrientation.rawValue))
-        let cvImageHeight = CGFloat(CVPixelBufferGetHeight(cvImageBuffer))
-        let cvImageWidth = CGFloat(CVPixelBufferGetWidth(cvImageBuffer))
-        if let detect = detector {
-            let faceAreas = detect.features(in: ciImage)
-            let size = CGSize(width: cvImageHeight, height: cvImageWidth)
-            detectedFaces = []
-            for face in faceAreas {
-                var x = face.bounds.minX / size.width
-                var y = face.bounds.minY / size.height
-                var w = face.bounds.width / size.width
-                var h = face.bounds.height / size.height
-                var bounds = CGRect(x: x, y: y, width: w, height: h)
-                if orientation == .portraitUpsideDown {
-                    bounds = CGRect(x: (1.0 - x) - w, y: (1.0 - y) - h, width: w, height: h)
-                }
-                else if orientation == .landscapeRight || orientation == .landscapeLeft {
-                    x = face.bounds.minY / size.width
-                    y = face.bounds.minX / size.height
-                    w = face.bounds.height / size.width
-                    h = face.bounds.width / size.height
-                    bounds = CGRect(x: x, y: (1.0 - y) - h, width: w, height: h)
-                    if orientation == .landscapeLeft {
-                        bounds = CGRect(x: (1.0 - x) - w, y: y, width: w, height: h)
-                    }
-                }
-                let detectedFace = DetectedFace(uuid: UUID(), bounds: bounds)
-                detectedFaces.append(detectedFace)
-            }
-        }
-        processFaces()
     }
     
     private func convertViewRect(_ box: CGRect) -> CGRect {

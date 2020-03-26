@@ -21,9 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Anon.requestMicrophoneAccess { _ in
             }
         }
-        InAppManager.shared.pro { product in
-            print("found product: \(product)")
-        }
         return true
     }
 
@@ -44,5 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return .portrait
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        InAppManager.shared.deactivate()
+    }
+    
 }
 

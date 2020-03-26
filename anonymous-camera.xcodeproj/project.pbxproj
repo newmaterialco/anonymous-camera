@@ -149,6 +149,9 @@
 			children = (
 				8FE3F3DB242176E400497EA6 /* AppDelegate.swift */,
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
+				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
+				8FB251712424E1470021600C /* ACNoFilterIconView.swift */,
+				8FB251732424F6740021600C /* ACBlurFilterIconView.swift */,
 				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
 				8FB2516F2424BED70021600C /* ContainerView.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
@@ -182,6 +185,7 @@
 				8FE3F40A242177C700497EA6 /* anonymous-camera-Bridging-Header.h */,
 				8FE3F404242177C700497EA6 /* ShaderTypes.h */,
 				8FE3F401242177C700497EA6 /* ShaderMethods.h */,
+				77B312E82424F2CD007172A0 /* MotionManager.swift */,
 				8FE3F3FC242177C700497EA6 /* Anon.swift */,
 				8FE3F40B242177C700497EA6 /* AnonPhoto.swift */,
 				8FE3F3FD242177C700497EA6 /* AnonVideo.swift */,
