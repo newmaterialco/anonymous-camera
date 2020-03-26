@@ -53,7 +53,7 @@ class AnonPhoto {
         if let _ = anonImage { return }
         if let cgImage = currentDrawable.texture.toImage() {
             anonImage = UIImage.init(cgImage: cgImage)
-            let orientation = UIDevice.current.orientation
+            let orientation = MotionManager.shared.orientation
             if orientation == .landscapeLeft { anonImage = anonImage?.rotated(by: Measurement(value: -90, unit: .degrees)) }
             else if orientation == .landscapeRight { anonImage = anonImage?.rotated(by: Measurement(value: 90, unit: .degrees)) }
             else if orientation == .portraitUpsideDown { anonImage = anonImage?.rotated(by: Measurement(value: 180, unit: .degrees)) }

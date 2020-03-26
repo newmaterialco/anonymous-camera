@@ -102,6 +102,7 @@ class AnonVideo: NSObject {
     
     func addFrame(texture: MTLTexture, time: Double) {
         if texture.height != outputSize.height.int {
+            //print("returning because \(texture.height) != \(outputSize.height.int)")
             return
         }
         if !isRecording {
@@ -118,7 +119,7 @@ class AnonVideo: NSObject {
         }
         if time < lastFrameTime { return }
         let timeSinceLast = time - lastFrameTime
-        let orientation = UIDevice.current.orientation
+        let orientation = MotionManager.shared.orientation
         if orientation == .landscapeLeft { landscapeLeftDuration += timeSinceLast }
         else if orientation == .landscapeRight { landscapeRightDuration += timeSinceLast }
         else { portraitDuration += timeSinceLast }
@@ -152,8 +153,7 @@ class AnonVideo: NSObject {
         if isRecording {
             isRecording = false
             if cancel { cancelRecording(handler: handler) }
-            else if let _ = audioRecorder { combineVideoAndAudio(handler: handler) }
-            else { handler(nil) }
+            else { combineVideoAndAudio(handler: handler) }
         }
     }
     
