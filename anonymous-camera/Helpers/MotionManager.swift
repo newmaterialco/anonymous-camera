@@ -19,6 +19,8 @@ class MotionManager {
     private let motionManager = CMMotionManager()
     private var dataHandler: MotionManagerDataHandler?
     private var orientationHandler: MotionManagerOrientationHandler?
+    private var nextOrientation: UIDeviceOrientation = .unknown
+    private var nextCount = 0
     
     fileprivate static var instance: MotionManager?
     static var shared: MotionManager {
@@ -54,9 +56,22 @@ class MotionManager {
                         else { currentOrientation = .portrait }
                     }
                     else { currentOrientation = .landscapeLeft }
-                    if currentOrientation != self.orientation && currentOrientation != .unknown {
+                    if currentOrientation != .unknown && self.orientation == .unknown {
                         self.orientation = currentOrientation
                         DispatchQueue.main.async { self.orientationHandler?(self.orientation) }
+                    }
+                    else if currentOrientation != self.orientation && currentOrientation != .unknown {
+                        if currentOrientation != self.nextOrientation {
+                            self.nextOrientation = currentOrientation
+                            self.nextCount = 0
+                        }
+                        else {
+                            self.nextCount += 1
+                            if self.nextCount >= 4 {
+                                self.orientation = currentOrientation
+                                DispatchQueue.main.async { self.orientationHandler?(self.orientation) }
+                            }
+                        }
                     }
                 }
             }
