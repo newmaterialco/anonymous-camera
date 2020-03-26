@@ -37,8 +37,6 @@
 		8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516B2424AB900021600C /* ACInterviewControl.swift */; };
 		8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516D2424BE780021600C /* MainHostingViewController.swift */; };
 		8FB251702424BED70021600C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516F2424BED70021600C /* ContainerView.swift */; };
-		8FB251722424E1470021600C /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251712424E1470021600C /* ACNoFilterIconView.swift */; };
-		8FB251742424F6740021600C /* ACBlurFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251732424F6740021600C /* ACBlurFilterIconView.swift */; };
 		8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DB242176E400497EA6 /* AppDelegate.swift */; };
 		8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */; };
 		8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DF242176E400497EA6 /* ContentView.swift */; };
@@ -48,6 +46,8 @@
 		8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */; };
 		8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF4242C9CF90024352A /* ACScene.swift */; };
 		8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */; };
+		8FEB1CF9242D07770024352A /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF8242D07770024352A /* ACNoFilterIconView.swift */; };
+		8FEB1CFB242D077C0024352A /* ACBlurFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CFA242D077C0024352A /* ACBlurFilterIconView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,8 +63,6 @@
 		8FB2516B2424AB900021600C /* ACInterviewControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControl.swift; sourceTree = "<group>"; };
 		8FB2516D2424BE780021600C /* MainHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHostingViewController.swift; sourceTree = "<group>"; };
 		8FB2516F2424BED70021600C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
-		8FB251712424E1470021600C /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
-		8FB251732424F6740021600C /* ACBlurFilterIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACBlurFilterIconView.swift; sourceTree = "<group>"; };
 		8FE3F3D8242176E400497EA6 /* Anonymous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3F3DB242176E400497EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +99,8 @@
 		8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCameraFeedViewController.swift; sourceTree = "<group>"; };
 		8FEB1CF4242C9CF90024352A /* ACScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACScene.swift; sourceTree = "<group>"; };
 		8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCloseInterviewModeControl.swift; sourceTree = "<group>"; };
+		8FEB1CF8242D07770024352A /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ACNoFilterIconView.swift; path = ../../../../Downloads/ACNoFilterIconView.swift; sourceTree = "<group>"; };
+		8FEB1CFA242D077C0024352A /* ACBlurFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ACBlurFilterIconView.swift; path = ../../../../Downloads/ACBlurFilterIconView.swift; sourceTree = "<group>"; };
 		A3E726ED89E5B81BB920D9AE /* Pods-anonymous-camera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.debug.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,9 +149,6 @@
 			children = (
 				8FE3F3DB242176E400497EA6 /* AppDelegate.swift */,
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
-				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
-				8FB251712424E1470021600C /* ACNoFilterIconView.swift */,
-				8FB251732424F6740021600C /* ACBlurFilterIconView.swift */,
 				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
 				8FB2516F2424BED70021600C /* ContainerView.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
@@ -185,7 +182,6 @@
 				8FE3F40A242177C700497EA6 /* anonymous-camera-Bridging-Header.h */,
 				8FE3F404242177C700497EA6 /* ShaderTypes.h */,
 				8FE3F401242177C700497EA6 /* ShaderMethods.h */,
-				77B312E82424F2CD007172A0 /* MotionManager.swift */,
 				8FE3F3FC242177C700497EA6 /* Anon.swift */,
 				8FE3F40B242177C700497EA6 /* AnonPhoto.swift */,
 				8FE3F3FD242177C700497EA6 /* AnonVideo.swift */,
@@ -241,8 +237,8 @@
 		8FEB1CF3242C93D10024352A /* Dynamic Icon Views */ = {
 			isa = PBXGroup;
 			children = (
-				8FB251712424E1470021600C /* ACNoFilterIconView.swift */,
-				8FB251732424F6740021600C /* ACBlurFilterIconView.swift */,
+				8FEB1CF8242D07770024352A /* ACNoFilterIconView.swift */,
+				8FEB1CFA242D077C0024352A /* ACBlurFilterIconView.swift */,
 			);
 			path = "Dynamic Icon Views";
 			sourceTree = "<group>";
@@ -375,7 +371,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */,
-				8FB251742424F6740021600C /* ACBlurFilterIconView.swift in Sources */,
+				8FEB1CF9242D07770024352A /* ACNoFilterIconView.swift in Sources */,
+				8FEB1CFB242D077C0024352A /* ACBlurFilterIconView.swift in Sources */,
 				8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
 				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
@@ -391,7 +388,6 @@
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,
 				8F0B22AC24217B8E0096A444 /* BodyPixelShader.swift in Sources */,
-				8FB251722424E1470021600C /* ACNoFilterIconView.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
 				8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */,
 				7752359524291AB200483BFA /* InAppManager.swift in Sources */,
