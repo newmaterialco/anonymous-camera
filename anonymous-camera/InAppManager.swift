@@ -42,6 +42,10 @@ class InAppManager: NSObject {
         return false
     }
     
+    func deactivate() {
+        SKPaymentQueue.default().remove(self)
+    }
+    
     func pro(_ block: @escaping (_: SKProduct) -> Void) {
         if let product = product { block(product) }
         else {
@@ -101,13 +105,11 @@ class InAppManager: NSObject {
 
 extension InAppManager: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        print("productsRequest: \(response.products)")
         if let product = response.products.first {
             self.product = product
             DispatchQueue.main.async {
                 self.proHandler?(product)
             }
-            proHandler = nil
         }
         self.productsRequest = nil
     }
