@@ -44,34 +44,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
     }
 }
-
-final public class ACScene : ObservableObject {
-    @Published public var sceneIsActive : Bool = false
-    
-    @Published public var deviceOrientation : UIDeviceOrientation = UIDevice.current.orientation {
-        didSet {
-            
-            if oldValue.isLandscape {
-                devicePreviousOrientationWasLandscape = true
-            } else {
-                devicePreviousOrientationWasLandscape = false
-            }
-            
-            if deviceOrientation == .landscapeLeft {
-                deviceRotationAngle = Angle(degrees: 90)
-                deviceLandscapeRotationAngle = Angle(degrees: 90)
-            } else if deviceOrientation == .landscapeRight {
-                deviceRotationAngle = Angle(degrees: -90)
-                deviceLandscapeRotationAngle = Angle(degrees: -90)
-            } else {
-                deviceRotationAngle = Angle(degrees: 0)
-            }
-        }
-    }
-    @Published public var deviceRotationAngle : Angle = Angle(degrees: 0)
-    @Published public var deviceLandscapeRotationAngle : Angle = Angle(degrees: 90)
-    @Published public var devicePreviousOrientationWasLandscape : Bool = false
-
-    
-    static var shared = ACScene()
-}

@@ -380,12 +380,13 @@ struct ACFilterButton: View {
     }
 }
 
-struct ACViewfinderLandscapeContainer: View {    
+struct ACViewfinderLandscapeContainer: View {
+    
+    @EnvironmentObject var anonymisation : ACAnonymisation
+
     var body: some View {
-        GeometryReader { outerGeometry in
-            ZStack {
-                ACInterviewModeContainerView()
-            }
+        ZStack {
+            ACInterviewModeContainerView(interviewModeIsOn: anonymisation.interviewModeIsOn)
         }
     }
 }

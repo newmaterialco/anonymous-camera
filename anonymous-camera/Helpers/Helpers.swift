@@ -477,3 +477,28 @@ extension View {
         self.modifier(ViewStrokeModifierWithPercentage(color: color, lineWidth: lineWidth, cornerPercentage: cornerPercentage, style: style))
     }
 }
+
+extension CGFloat {
+    
+    func constrained(withMinimumValue minimumValue : CGFloat?, andMaximumValue maximumValue : CGFloat?) -> CGFloat {
+        
+        if let minimumValue = minimumValue {
+            if self < minimumValue {
+                return minimumValue
+            } else {
+                return self
+            }
+        }
+        
+        if let maximumValue = maximumValue {
+            if self > maximumValue {
+                return maximumValue
+            } else {
+                return self
+            }
+        }
+        
+        return self
+    }
+    
+}
