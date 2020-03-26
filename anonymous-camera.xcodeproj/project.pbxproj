@@ -46,6 +46,8 @@
 		8FE3F3E5242176E500497EA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E4242176E500497EA6 /* Preview Assets.xcassets */; };
 		8FE3F3E8242176E500497EA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */; };
 		8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */; };
+		8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF4242C9CF90024352A /* ACScene.swift */; };
+		8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +99,8 @@
 		8FE3F40C242177C700497EA6 /* FacePixelShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePixelShader.swift; sourceTree = "<group>"; };
 		8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BodyPixelShader.metal; sourceTree = "<group>"; };
 		8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCameraFeedViewController.swift; sourceTree = "<group>"; };
+		8FEB1CF4242C9CF90024352A /* ACScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACScene.swift; sourceTree = "<group>"; };
+		8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCloseInterviewModeControl.swift; sourceTree = "<group>"; };
 		A3E726ED89E5B81BB920D9AE /* Pods-anonymous-camera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.debug.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,7 +147,6 @@
 		8FE3F3DA242176E400497EA6 /* anonymous-camera */ = {
 			isa = PBXGroup;
 			children = (
-				77B312E62424EDA1007172A0 /* face.dae */,
 				8FE3F3DB242176E400497EA6 /* AppDelegate.swift */,
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
@@ -151,14 +154,14 @@
 				8FB251732424F6740021600C /* ACBlurFilterIconView.swift */,
 				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
 				8FB2516F2424BED70021600C /* ContainerView.swift */,
-				8F4CEB802423EDEC00369D46 /* Helpers.swift */,
+				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
 				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
-				8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */,
-				8FB2516B2424AB900021600C /* ACInterviewControl.swift */,
-				8F0B229F2421798A0096A444 /* ACAnonymisation.swift */,
-				7752359424291AB200483BFA /* InAppManager.swift */,
+				8FEB1CF3242C93D10024352A /* Dynamic Icon Views */,
+				8FEB1CF0242C93750024352A /* Interview Mode */,
+				8FEB1CF2242C93AC0024352A /* Model */,
+				8FEB1CF1242C939B0024352A /* Helpers */,
 				8FE3F3E1242176E500497EA6 /* Assets.xcassets */,
-				8FE3F3F4242177C700497EA6 /* Anonymous */,
+				77B312E62424EDA1007172A0 /* face.dae */,
 				8FE3F3F02421770B00497EA6 /* Localizable.strings */,
 				8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */,
 				8FE3F3E9242176E500497EA6 /* Info.plist */,
@@ -203,6 +206,45 @@
 				8FE3F3FE242177C700497EA6 /* FaceBlurShader.metal */,
 			);
 			path = Anonymous;
+			sourceTree = "<group>";
+		};
+		8FEB1CF0242C93750024352A /* Interview Mode */ = {
+			isa = PBXGroup;
+			children = (
+				8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */,
+				8FB2516B2424AB900021600C /* ACInterviewControl.swift */,
+				8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */,
+			);
+			path = "Interview Mode";
+			sourceTree = "<group>";
+		};
+		8FEB1CF1242C939B0024352A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8F4CEB802423EDEC00369D46 /* Helpers.swift */,
+				77B312E82424F2CD007172A0 /* MotionManager.swift */,
+				7752359424291AB200483BFA /* InAppManager.swift */,
+				8FE3F3F4242177C700497EA6 /* Anonymous */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8FEB1CF2242C93AC0024352A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8F0B229F2421798A0096A444 /* ACAnonymisation.swift */,
+				8FEB1CF4242C9CF90024352A /* ACScene.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8FEB1CF3242C93D10024352A /* Dynamic Icon Views */ = {
+			isa = PBXGroup;
+			children = (
+				8FB251712424E1470021600C /* ACNoFilterIconView.swift */,
+				8FB251732424F6740021600C /* ACBlurFilterIconView.swift */,
+			);
+			path = "Dynamic Icon Views";
 			sourceTree = "<group>";
 		};
 		DECF7013C07D9655D61F774E /* Frameworks */ = {
@@ -334,6 +376,7 @@
 			files = (
 				8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */,
 				8FB251742424F6740021600C /* ACBlurFilterIconView.swift in Sources */,
+				8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
 				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
 				8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */,
@@ -364,6 +407,7 @@
 				8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */,
 				8F0B22B224217BA70096A444 /* BasicShader.swift in Sources */,
 				8F0B22A924217B860096A444 /* BasicShader.metal in Sources */,
+				8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */,
 				8F0B22AD24217B910096A444 /* BodyBlurShader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,7 +569,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
-				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Anonymous/anonymous-camera-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Helpers/Anonymous/anonymous-camera-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -550,7 +594,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
-				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Anonymous/anonymous-camera-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Helpers/Anonymous/anonymous-camera-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

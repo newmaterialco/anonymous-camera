@@ -22,6 +22,8 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = .blue
                 
         self.view.addSubview(track)
         track.snp.makeConstraints { make in
@@ -41,7 +43,7 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
         dragGestureRecognizer.delegate = self
         
         interviewControlHostingVC.view.addGestureRecognizer(dragGestureRecognizer)
-        interviewControlHostingVC.view.backgroundColor = .clear
+        interviewControlHostingVC.view.backgroundColor = .yellow
         thumb.addSubview(interviewControlHostingVC.view)
         interviewControlHostingVC.view.snp.makeConstraints { make in
             make.top.equalToSuperview()

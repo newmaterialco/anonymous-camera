@@ -16,9 +16,62 @@ class ACAnonymisation : ObservableObject {
     @Published var filters : [ACFilter] = availableFilters
     @Published var faces : [Anon.AnonFace] = []
     
-    var selectedFilter : ACFilter? {
+    enum ACInterviewModeConfiguration {
+        case off
+        case effectLeading
+        case effectTrailing
+    }
+    
+    @Published var interviewModeConfiguration : ACInterviewModeConfiguration = .off {
+        didSet {
+            if interviewModeConfiguration == .off {
+                interviewModeIsOn = false
+                interviewModeEffectsSwitched = false
+                anonymous.edge = .right
+                
+                print("TURN INTERVIEW MODE OFF")
+            } else {
+                interviewModeIsOn = true
+                
+                if interviewModeConfiguration == .effectLeading {
+                    interviewModeEffectsSwitched = false
+                    anonymous.edge = .right
+                } else {
+                    interviewModeEffectsSwitched = true
+                    anonymous.edge = .left
+                }
+            }
+        }
+    }
+    
+    @Published var interviewModeIsOn : Bool = false {
+        
+        didSet {
+            if !interviewModeIsOn {
+                interviewModeDividerXOffset = .zero
+            }
+        }
+    }
+    
+    @Published var interviewModeEffectsSwitched : Bool = false
+    
+    @Published var interviewModeDividerXOffset : CGFloat = .zero {
+        didSet {
+            print("offset: \(interviewModeDividerXOffset)")
+            
+            if interviewModeDividerXOffset == .zero {
+                anonymous.point = .zero
+            } else {
+                anonymous.point = CGPoint(x: 0, y: interviewModeDividerXOffset)
+            }
+        }
+    }
+    
+    @Published var selectedFilter : ACFilter? {
         didSet {
             #if !targetEnvironment(simulator)
+            
+            print("HIT FILTER SELECTION")
             if let f = selectedFilter {
                 switch f.filterIdentifier {
                 case "AC_FILTER_BLUR":
@@ -30,6 +83,21 @@ class ACAnonymisation : ObservableObject {
                 }
             }
             #endif
+        }
+    }
+    
+    init() {
+        self.select(filter: filters[1])
+        anonymous.showMask(type: .blur, detection: .face)
+    }
+    
+    func switchEffectsInInterviewMode () {
+        if interviewModeConfiguration != .off {
+            if interviewModeConfiguration == .effectLeading {
+                self.interviewModeConfiguration = .effectTrailing
+            } else if interviewModeConfiguration == .effectTrailing {
+                self.interviewModeConfiguration = .effectLeading
+            }
         }
     }
     
@@ -93,7 +161,7 @@ struct ACFilter : Identifiable {
 }
 
 var availableFilters = [
-    ACFilter(filterIdentifier: "AC_FILTER_NONE", name: NSLocalizedString("No Filter", comment: "Not any"), icon: UIImage(named: "AC_FILTER_NONE_ICON")!, selected: true, modifiesImage: false),
+    ACFilter(filterIdentifier: "AC_FILTER_NONE", name: NSLocalizedString("No Filter", comment: "Not any"), icon: UIImage(named: "AC_FILTER_NONE_ICON")!, selected: false, modifiesImage: false),
     ACFilter(filterIdentifier: "AC_FILTER_BLUR", name: NSLocalizedString("Blur", comment: "A smear or stain that obscures"), icon: UIImage(named: "AC_FILTER_BLUR_ICON")!, selected: false, modifiesImage: true),
     ACFilter(filterIdentifier: "AC_FILTER_PIXEL", name: NSLocalizedString("Pixelate", comment: "Any of the small discrete elements that together constitute an image (as on a television or digital screen)"), icon: UIImage(named: "AC_FILTER_PIXEL_ICON")!, selected: false, modifiesImage: true)
 ]
