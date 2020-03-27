@@ -67,7 +67,7 @@ class MotionManager {
                         }
                         else {
                             self.nextCount += 1
-                            if self.nextCount >= 4 {
+                            if self.nextCount >= 3 {
                                 self.orientation = currentOrientation
                                 DispatchQueue.main.async { self.orientationHandler?(self.orientation) }
                             }
