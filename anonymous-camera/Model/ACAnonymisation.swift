@@ -57,7 +57,7 @@ class ACAnonymisation : ObservableObject {
     
     @Published var interviewModeDividerXOffset : CGFloat = .zero {
         didSet {
-            print("offset: \(interviewModeDividerXOffset)")
+            //print("offset: \(interviewModeDividerXOffset)")
             
             if interviewModeDividerXOffset == .zero {
                 anonymous.point = .zero

@@ -49,10 +49,14 @@ class MotionManager {
             motionManager.startAccelerometerUpdates(to: .main) { (data, error) in
                 if let data = data {
                     var currentOrientation: UIDeviceOrientation = .unknown
-                    let angle = (atan2(data.acceleration.y, data.acceleration.x)) * (180.0/Double.pi)
-                    if (fabs(angle) <= 45) { currentOrientation = .landscapeRight }
-                    else if ((fabs(angle) > 45) && (fabs(angle) < 135)) {
-                        if (angle > 0) { currentOrientation = .portraitUpsideDown }
+                    let yxAtan = (atan2(data.acceleration.y, data.acceleration.x)) * (180.0 / Double.pi)
+                    let zyAtan = (atan2(data.acceleration.z, data.acceleration.y)) * (180.0 / Double.pi)
+                    let zxAtan = (atan2(data.acceleration.z, data.acceleration.x)) * (180.0 / Double.pi)
+                    if zyAtan > -93 && zyAtan < -87 && zxAtan > -93 && zxAtan < -87 { currentOrientation = .unknown }
+                    else if zyAtan < 93 && zyAtan > 87 && zxAtan < 93 && zxAtan > 87 { currentOrientation = .unknown }
+                    else if (fabs(yxAtan) <= 45) { currentOrientation = .landscapeRight }
+                    else if ((fabs(yxAtan) > 45) && (fabs(yxAtan) < 135)) {
+                        if (yxAtan > 0) { currentOrientation = .portraitUpsideDown }
                         else { currentOrientation = .portrait }
                     }
                     else { currentOrientation = .landscapeLeft }

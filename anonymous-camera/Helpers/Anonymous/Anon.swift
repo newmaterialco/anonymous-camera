@@ -213,8 +213,7 @@ class Anon: NSObject {
         set {
             let p = newValue
             if p.x != 0 || p.y != 0 {
-                let positionInImage = CGPoint(x: -shaderView.x + p.x, y: -shaderView.y + p.y)
-                let ratioPoint = CGPoint(x: positionInImage.x / shaderView.width, y: positionInImage.y / shaderView.height)
+                let ratioPoint = CGPoint(x: p.x / shaderView.width, y: p.y / shaderView.height)
                 let orientation = MotionManager.shared.orientation
                 if orientation == .portrait { currentDivider = ratioPoint.x.float }
                 else if orientation == .portraitUpsideDown { currentDivider = 1.0 - ratioPoint.x.float }

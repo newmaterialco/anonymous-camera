@@ -20,6 +20,7 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
         didSet {
             if interviewModeIsOn {
                 self.dividerLine.alpha = 1
+                ACAnonymisation.shared.interviewModeDividerXOffset = thumb.frame.midX
             } else {
                 self.dividerLine.alpha = 0
                 self.configureForInterviewModeDeactivated()
@@ -96,13 +97,13 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
     private func overlappingCloseElement () -> Bool {
         if thumb.frame.intersects(closeInterviewModeControlHostingVC.view.frame) {
             ACScene.shared.interviewModeControlIsHoveringOverClose = true
-            print("OVERLAPPING")
+            //print("OVERLAPPING")
             
             return true
             
         } else {
             ACScene.shared.interviewModeControlIsHoveringOverClose = false
-            print("NOT OVERLAPPING")
+            //print("NOT OVERLAPPING")
 
             return false
         }
@@ -143,9 +144,6 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
             } else if gestureRecognizer.state == .changed {
                 
                 overlappingCloseElement()
-                
-                ACAnonymisation.shared.interviewModeDividerXOffset = storedXPositionInView
-
                 self.thumb.snp.remakeConstraints { make in
                     make.centerX.equalTo(track.snp.leading).offset(storedXPositionInView).priority(.medium)
                     make.leading.greaterThanOrEqualTo(self.track.snp.leading).priority(.high)
@@ -153,9 +151,8 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
                     make.top.equalToSuperview()
                     make.bottom.equalToSuperview()
                 }
-
                 self.view.layoutIfNeeded()
-                
+                ACAnonymisation.shared.interviewModeDividerXOffset = thumb.frame.midX
             } else {
                 let animator = UIViewPropertyAnimator(duration: 0, timingParameters: UISpringTimingParameters(dampingRatio: 0.8, frequencyResponse: 0.5))
                                 
