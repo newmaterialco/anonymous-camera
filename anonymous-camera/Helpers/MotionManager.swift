@@ -27,7 +27,7 @@ class MotionManager {
         if instance == nil {
             instance = MotionManager()
         }
-        return instance!
+        return instance! 
     }
     
     var isAvailable: Bool {
