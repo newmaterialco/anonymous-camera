@@ -21,6 +21,7 @@ class BodyShader: BaseShader, ARDepthShader {
     var alphaTexture: MTLTexture?
     var padding: Float = 0.0
     var invert: Float = 0.0
+    var color: UIColor?
     
     override func addUniforms(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, size: CGSize) {
         if let alphaTexture = alphaTexture {
@@ -34,6 +35,15 @@ class BodyShader: BaseShader, ARDepthShader {
         uniforms.divider = divider
         uniforms.padding = padding
         uniforms.invert = invert
+        uniforms.red = -1
+        uniforms.green = -1
+        uniforms.blue = -1
+        if let color = color {
+            let components = color.rgbComponents
+            uniforms.red = components.red.float / 255
+            uniforms.green = components.green.float / 255
+            uniforms.blue = components.blue.float / 255
+        }
         encoder.setFragmentBytes(&uniforms, length: MemoryLayout<BodyUniforms>.size, index: 1)
     }
     

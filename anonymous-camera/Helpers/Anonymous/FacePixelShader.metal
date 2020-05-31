@@ -63,6 +63,9 @@ fragment float4 pixellateFragment(ImageColorInOut in [[stage_in]],
             float4 h = rects.read(index + 3);
             float shouldPixel = show(in.texCoord.x, in.texCoord.y, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
             if(shouldPixel <= 1.0) {
+                if(uniforms.red >= 0 && uniforms.green >= 0 && uniforms.blue >= 0) {
+                    return float4(uniforms.red, uniforms.green, uniforms.blue, 1);
+                }
                 float2 sampleDivisor = float2(uniforms.widthOfPixel / uniforms.aspectRatio, uniforms.widthOfPixel);
                 float2 samplePos = in.texCoord - mod(in.texCoord, sampleDivisor) + float2(0.5) * sampleDivisor;
                 float4 pixellateColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, samplePos), capturedImageTextureCbCr.sample(colorSampler, samplePos));

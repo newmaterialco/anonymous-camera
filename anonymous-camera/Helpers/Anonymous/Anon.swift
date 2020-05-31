@@ -186,6 +186,7 @@ class Anon: NSObject {
     var watermark: UIImage?
     var delegate: AnonDelegate?
     var padding: Float = 0.01
+    var fillColor: UIColor?
     var detection: AnonDetection {
         get { return currentDetection }
     }
@@ -644,13 +645,15 @@ class Anon: NSObject {
             faceShader.divider = currentDivider
             faceShader.edge = currentEdge
             faceShader.scale = scale
+            faceShader.color = fillColor
         }
         if let bodyShader = CameraShader.shared.shader(at: 0) as? BodyShader {
             bodyShader.widthOfPixel = widthOfPixel
             bodyShader.axis = currentAxis
             bodyShader.divider = currentDivider
             bodyShader.edge = currentEdge
-            bodyShader.padding = padding;
+            bodyShader.padding = padding
+            bodyShader.color = fillColor
             if currentDetection == .body { bodyShader.invert = 0.0 }
             else { bodyShader.invert = 1.0 }
         }
