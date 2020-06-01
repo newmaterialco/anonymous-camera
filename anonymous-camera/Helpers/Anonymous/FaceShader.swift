@@ -23,6 +23,8 @@ class FaceShader: BaseShader {
     var color: UIColor?
     var renderSize: CGSize = .zero
     private var hasFaces: Float = 0
+    var pixelType: Float = 0.0
+    var iteration: Float = 0.0
     
     override func obseleteForCurrentFrame() -> Bool {
         return faces.count == 0
@@ -44,6 +46,10 @@ class FaceShader: BaseShader {
         uniforms.red = -1
         uniforms.green = -1
         uniforms.blue = -1
+        uniforms.pixelType = pixelType
+        uniforms.iteration = Float.random(in: 1 ..< 1000000)
+        uniforms.imgWidth = renderSize.width.float
+        uniforms.imgHeight = renderSize.height.float
         if let color = color {
             let components = color.rgbComponents
             uniforms.red = components.red.float / 255

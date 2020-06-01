@@ -63,6 +63,18 @@ fragment float4 pixellateFragment(ImageColorInOut in [[stage_in]],
             float4 h = rects.read(index + 3);
             float shouldPixel = show(in.texCoord.x, in.texCoord.y, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
             if(shouldPixel <= 1.0) {
+                if(uniforms.pixelType == 1) {
+                    Loki rng = Loki((in.texCoord.x * uniforms.imgWidth) + 1, (in.texCoord.y * uniforms.imgHeight) + 1, uniforms.iteration + 1);
+                    float random_r = rng.rand();
+                    float random_g = rng.rand();
+                    float random_b = rng.rand();
+                    return float4(random_r, random_g, random_b, 1);
+                }
+                if(uniforms.pixelType == 2) {
+                    Loki rng = Loki((in.texCoord.x * uniforms.imgWidth) + 1, (in.texCoord.y * uniforms.imgHeight) + 1, uniforms.iteration + 1);
+                    float random = rng.rand();
+                    return float4(random, random, random, 1);
+                }
                 if(uniforms.red >= 0 && uniforms.green >= 0 && uniforms.blue >= 0) {
                     return float4(uniforms.red, uniforms.green, uniforms.blue, 1);
                 }

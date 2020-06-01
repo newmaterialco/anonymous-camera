@@ -22,11 +22,14 @@ class BodyShader: BaseShader, ARDepthShader {
     var padding: Float = 0.0
     var invert: Float = 0.0
     var color: UIColor?
+    var pixelType: Float = 0.0
+    var iteration: Float = 0.0
     
     override func addUniforms(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, size: CGSize) {
         if let alphaTexture = alphaTexture {
             encoder.setFragmentTexture(alphaTexture, index: 3)
         }
+        iteration += 1
         var uniforms = BodyUniforms()
         uniforms.aspectRatio = (size.height / size.width).float
         uniforms.widthOfPixel = widthOfPixel
@@ -38,6 +41,10 @@ class BodyShader: BaseShader, ARDepthShader {
         uniforms.red = -1
         uniforms.green = -1
         uniforms.blue = -1
+        uniforms.pixelType = pixelType
+        uniforms.iteration = Float.random(in: 1 ..< 1000000)
+        uniforms.imgWidth = (alphaTexture?.width.float ?? 0)
+        uniforms.imgHeight = (alphaTexture?.height.float ?? 0)
         if let color = color {
             let components = color.rgbComponents
             uniforms.red = components.red.float / 255

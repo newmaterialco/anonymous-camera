@@ -119,6 +119,12 @@ class Anon: NSObject {
         case denied
     }
     
+    enum AnonPixellateType {
+        case normal
+        case noise
+        case bwNoise
+    }
+    
     struct AnonFace: Identifiable {
         var id = UUID().uuidString
         var rect: CGRect = .zero
@@ -187,6 +193,7 @@ class Anon: NSObject {
     var delegate: AnonDelegate?
     var padding: Float = 0.01
     var fillColor: UIColor?
+    var pixellateType: AnonPixellateType = .noise
     var detection: AnonDetection {
         get { return currentDetection }
     }
@@ -646,6 +653,9 @@ class Anon: NSObject {
             faceShader.edge = currentEdge
             faceShader.scale = scale
             faceShader.color = fillColor
+            if pixellateType == .normal { faceShader.pixelType = 0 }
+            else if pixellateType == .noise { faceShader.pixelType = 1 }
+            else if pixellateType == .bwNoise { faceShader.pixelType = 2 }
         }
         if let bodyShader = CameraShader.shared.shader(at: 0) as? BodyShader {
             bodyShader.widthOfPixel = widthOfPixel
@@ -654,6 +664,9 @@ class Anon: NSObject {
             bodyShader.edge = currentEdge
             bodyShader.padding = padding
             bodyShader.color = fillColor
+            if pixellateType == .normal { bodyShader.pixelType = 0 }
+            else if pixellateType == .noise { bodyShader.pixelType = 1 }
+            else if pixellateType == .bwNoise { bodyShader.pixelType = 2 }
             if currentDetection == .body { bodyShader.invert = 0.0 }
             else { bodyShader.invert = 1.0 }
         }

@@ -20,6 +20,10 @@ typedef struct {
     float red;
     float green;
     float blue;
+    float pixelType;
+    float iteration;
+    float imgWidth;
+    float imgHeight;
 } FaceUniforms;
 
 typedef struct {
@@ -33,6 +37,10 @@ typedef struct {
     float red;
     float green;
     float blue;
+    float pixelType;
+    float iteration;
+    float imgWidth;
+    float imgHeight;
 } BodyUniforms;
 
 typedef struct {
