@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7740E3CB248587DE00694FE4 /* NoiseView.swift */; };
 		7752359524291AB200483BFA /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7752359424291AB200483BFA /* InAppManager.swift */; };
 		77523597242A231500483BFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77523596242A231500483BFA /* StoreKit.framework */; };
 		77B312E72424EDA1007172A0 /* face.dae in Resources */ = {isa = PBXBuildFile; fileRef = 77B312E62424EDA1007172A0 /* face.dae */; };
@@ -61,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7740E3CB248587DE00694FE4 /* NoiseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseView.swift; sourceTree = "<group>"; };
 		7752359424291AB200483BFA /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
 		77523596242A231500483BFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		77B312E62424EDA1007172A0 /* face.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = face.dae; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				8FE3F402242177C700497EA6 /* FacePixelShader.metal */,
 				8FE3F408242177C700497EA6 /* FaceBlurShader.swift */,
 				8FE3F3FE242177C700497EA6 /* FaceBlurShader.metal */,
+				7740E3CB248587DE00694FE4 /* NoiseView.swift */,
 			);
 			path = Anonymous;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
 				8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */,
+				7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */,
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,
 				8F0B22AC24217B8E0096A444 /* BodyPixelShader.swift in Sources */,
