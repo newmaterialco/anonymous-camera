@@ -44,12 +44,18 @@ fragment float4 bodyPixellateFragment(ImageColorInOut in [[stage_in]],
             float4 textureColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, in.texCoord), capturedImageTextureCbCr.sample(colorSampler, in.texCoord));
             return textureColor;
         }
+        if(uniforms.red >= 0 && uniforms.green >= 0 && uniforms.blue >= 0) {
+            return float4(uniforms.red, uniforms.green, uniforms.blue, 1);
+        }
         float2 sampleDivisor = float2(uniforms.widthOfPixel / uniforms.aspectRatio, uniforms.widthOfPixel);
         float2 samplePos = in.texCoord - mod(in.texCoord, sampleDivisor) + float2(0.5) * sampleDivisor;
         float4 pixellateColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, samplePos), capturedImageTextureCbCr.sample(colorSampler, samplePos));
         return pixellateColor;
     }
     if(uniforms.invert == 1.0) {
+        if(uniforms.red >= 0 && uniforms.green >= 0 && uniforms.blue >= 0) {
+            return float4(uniforms.red, uniforms.green, uniforms.blue, 1);
+        }
         float2 sampleDivisor = float2(uniforms.widthOfPixel / uniforms.aspectRatio, uniforms.widthOfPixel);
         float2 samplePos = in.texCoord - mod(in.texCoord, sampleDivisor) + float2(0.5) * sampleDivisor;
         float4 pixellateColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, samplePos), capturedImageTextureCbCr.sample(colorSampler, samplePos));

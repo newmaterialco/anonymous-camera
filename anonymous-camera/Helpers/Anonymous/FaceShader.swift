@@ -20,6 +20,7 @@ class FaceShader: BaseShader {
     var axis: Float = 0
     var widthOfPixel: Float = 0.05
     var scale: Float = 1.0
+    var color: UIColor?
     var renderSize: CGSize = .zero
     private var hasFaces: Float = 0
     
@@ -40,6 +41,15 @@ class FaceShader: BaseShader {
         uniforms.edge = edge
         uniforms.axis = axis
         uniforms.divider = divider
+        uniforms.red = -1
+        uniforms.green = -1
+        uniforms.blue = -1
+        if let color = color {
+            let components = color.rgbComponents
+            uniforms.red = components.red.float / 255
+            uniforms.green = components.green.float / 255
+            uniforms.blue = components.blue.float / 255
+        }
         if faces.count > 0 { uniforms.hasFaces = 1.0 }
         else { uniforms.hasFaces = 0.0 }
         encoder.setFragmentBytes(&uniforms, length: MemoryLayout<FaceUniforms>.size, index: 1)

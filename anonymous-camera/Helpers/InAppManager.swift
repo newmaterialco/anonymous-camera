@@ -36,7 +36,10 @@ class InAppManager: NSObject {
     var isPro: Bool {
         if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL, FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
             if let _ = try? Data(contentsOf: appStoreReceiptURL) {
-                return true
+                if UserDefaults.standard.bool(forKey: InAppManager.PRO_ID) {
+                    return true
+                }
+                return false
             }
         }
         return false
@@ -79,6 +82,8 @@ class InAppManager: NSObject {
     
     private func completeTransaction(_ transaction: SKPaymentTransaction) {
         if transaction.payment.productIdentifier == product?.productIdentifier {
+            UserDefaults.standard.set(true, forKey: InAppManager.PRO_ID)
+            UserDefaults.standard.synchronize()
             DispatchQueue.main.async { self.purchaseHandler?(true) }
         }
         else { DispatchQueue.main.async { self.purchaseHandler?(false) } }
@@ -88,6 +93,8 @@ class InAppManager: NSObject {
     
     private func restoreTransaction(_ transaction: SKPaymentTransaction) {
         if transaction.original?.payment.productIdentifier == product?.productIdentifier {
+            UserDefaults.standard.set(true, forKey: InAppManager.PRO_ID)
+            UserDefaults.standard.synchronize()
             DispatchQueue.main.async { self.purchaseHandler?(true) }
         }
         else { DispatchQueue.main.async { self.purchaseHandler?(false) } }

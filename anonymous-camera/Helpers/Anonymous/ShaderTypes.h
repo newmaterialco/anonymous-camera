@@ -17,6 +17,9 @@ typedef struct {
     float edge;
     float axis;
     float hasFaces;
+    float red;
+    float green;
+    float blue;
 } FaceUniforms;
 
 typedef struct {
@@ -27,6 +30,9 @@ typedef struct {
     float axis;
     float padding;
     float invert;
+    float red;
+    float green;
+    float blue;
 } BodyUniforms;
 
 typedef struct {
