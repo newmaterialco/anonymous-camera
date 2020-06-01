@@ -14,35 +14,96 @@ struct ContentView: View {
     @EnvironmentObject var anonymisation : ACAnonymisation
     @State var isRecording : Bool = false
     
+    @State var dragOffset : CGSize = CGSize.zero
+    @State var bottomSize: CGSize = .zero
+    
     var body: some View {
-        VStack {
-            if !isRecording {
+        ZStack {
+            VStack {
+                if (!isRecording && UIScreen.current > ScreenType.iPhone4_7) {
+                    
+                    HStack (spacing: 8) {
+                        ACQuickSetting(isOn: $anonymisation.exifLocation, icon: Image("AC_PRIVACY_LOCATION"))
+                        .rotationEffect(sceneInformation.deviceRotationAngle)
+                        .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
 
-                HStack (spacing: 12) {
-                    ACQuickSetting()
-                    ACQuickSetting()
-                    ACQuickSetting()
+                        ACQuickSetting(isOn: $anonymisation.exifDateTime, icon: Image("AC_PRIVACY_TIMESTAMP"))
+                        .rotationEffect(sceneInformation.deviceRotationAngle)
+                        .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
+                    }
+                    .saturation((self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0 : 1)
+                    .transition(AnyTransition.opacity)
+                } else {
+                    if (UIScreen.current > ScreenType.iPhone4_7) {
+                        Spacer()
+                    }
                 }
-                .transition(AnyTransition.opacity)
-            } else {
-                Spacer()
+                
+                ACViewfinder(isRecording: $isRecording)
+                    .zIndex(0)
+                    .simultaneousGesture(
+                        LongPressGesture(minimumDuration: 0, maximumDistance: 0)
+                            .onEnded({ _ in
+                                print("longpress")
+                            })
+                )
+                ChildSizeReader(size: $bottomSize) {
+                    Spacer()
+                }
             }
-
-            ACViewfinder(isRecording: $isRecording)
+            .background(
+                Color.black
                 .edgesIgnoringSafeArea(.all)
-                .zIndex(0)
+            )
             
-            if !isRecording {
-                Spacer()
-                HStack{
-                    Spacer()
-                    ACFilterSelector()
+            Rectangle()
+                .foregroundColor((self.sceneInformation.bottomSheetIsOpen) ? Color.white.opacity(0.12) : Color.clear)
+                .edgesIgnoringSafeArea(.all)
+                .allowsHitTesting(self.sceneInformation.bottomSheetIsOpen ? true : false)
+                .animation(Animation.easeInOut)
+                .onTapGesture {
+                    self.sceneInformation.bottomSheetIsOpen.toggle()
+                }
+            
+            GeometryReader { geometry in
+                BottomSheetView(
+                    maxHeight: geometry.size.height*0.75,
+                    minHeight: self.bottomSize.height
+                ) {
                     Spacer()
                 }
-                .transition(AnyTransition.move(edge: .bottom).combined(with: AnyTransition.opacity))
             }
-            Spacer()
+            .edgesIgnoringSafeArea(.all)
+            .zIndex(100)
         }
+    }
+}
+
+struct ChildSizeReader<Content: View>: View {
+    @Binding var size: CGSize
+    let content: () -> Content
+    var body: some View {
+        ZStack {
+            content()
+                .background(
+                    GeometryReader { proxy in
+                        Color.clear
+                            .preference(key: SizePreferenceKey.self, value: proxy.size)
+                    }
+                )
+        }
+        .onPreferenceChange(SizePreferenceKey.self) { preferences in
+            self.size = preferences
+        }
+    }
+}
+
+struct SizePreferenceKey: PreferenceKey {
+    typealias Value = CGSize
+    static var defaultValue: Value = .zero
+
+    static func reduce(value _: inout Value, nextValue: () -> Value) {
+        _ = nextValue()
     }
 }
 
@@ -54,29 +115,33 @@ struct ContentView_Previews: PreviewProvider {
 
 struct ACQuickSetting : View {
     
-    @State var isOn : Bool = true
+    @Binding var isOn : Bool
     @State var isBeingTouched : Bool = false
+    var icon : Image
     
     var body: some View {
         VStack {
             ZStack {
                 Circle()
-                .foregroundColor(Color.white.opacity(0.12))
-                .frame(width: 36, height: 36)
-                .padding(12)
+                    .foregroundColor(Color.white.opacity(0.12))
+                    .frame(width: 40, height: 40)
+                    .padding(6)
                 
-                Image("AC_PRIVACY_LOCATION")
-                .frame(width: 21, height: 21)
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(Color.white)
-                .opacity(isOn ? 1 : 0.5)
+                icon.resizable()
+                    .frame(width: 28, height: 28)
+                    .aspectRatio(contentMode: .fill)
+                    .foregroundColor(Color.white)
+                    .opacity(isOn ? 1 : 0.36)
                 
-                RoundedRectangle(cornerRadius: 2, style: .continuous)
-                .foregroundColor(.yellow)
-                .frame(width: 2)
-                .frame(maxHeight: self.isOn ? 2 : 48)
-                .offset(x: 0, y: self.isOn ? -6 : 0)
-                .rotationEffect(Angle(degrees: 45))
+                VStack(alignment: .trailing) {
+                    RoundedRectangle(cornerRadius: 2, style: .continuous)
+                        .foregroundColor(self.isOn ? Color.clear : Color("highlight"))
+                        .frame(maxHeight: self.isOn ? 2 : 200, alignment: .center)
+                        .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
+                }
+                .background(Color.clear)
+                .frame(width: 2, height: 48, alignment: .top)
+                .rotationEffect(Angle(degrees: -45))
             }
         }
         .simultaneousGesture(
@@ -85,18 +150,18 @@ struct ACQuickSetting : View {
                     self.isOn.toggle()
                 })
         )
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged({ _ in
-                    withAnimation(.easeOut(duration: 0.08)) {
-                        self.isBeingTouched = true
-                    }
-                })
-                .onEnded({ _ in
-                    withAnimation(.easeOut(duration: 0.24)) {
-                        self.isBeingTouched = false
-                    }
-                })
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged({ _ in
+                        withAnimation(.easeOut(duration: 0.08)) {
+                            self.isBeingTouched = true
+                        }
+                    })
+                    .onEnded({ _ in
+                        withAnimation(.easeOut(duration: 0.24)) {
+                            self.isBeingTouched = false
+                        }
+                    })
         )
     }
 }
@@ -124,7 +189,7 @@ struct ACViewfinderCard : View {
     
     @Binding var isRecording : Bool
     @State internal var shutterPosition : CGPoint = CGPoint.zero
-    
+        
     internal var threeByFourAspectRatio : CGFloat = 3.0/4.0
     internal var sixteenByNineAspectRatio : CGFloat = 9.0/16.0
     
@@ -159,97 +224,165 @@ struct ACViewfinderCard : View {
                         
                         Spacer()
                         
-                        Circle()
-                        .frame(width: 56, height: 56, alignment: .center)
-                        .foregroundColor(Color.white.opacity(0.5))
-                        .simultaneousGesture(
-                            TapGesture()
-                                .onEnded({ _ in
-                                    ACAnonymisation.shared.nextLens()
-                                })
+                        ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
+                            .opacity(0)
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded({ _ in
+                                        ACAnonymisation.shared.nextLens()
+                                    })
                         )
                         
                         Spacer()
                         
                         Circle()
-                        .frame(width: 72, height: 72, alignment: .center)
-                        .foregroundColor(Color.white.opacity(0.96))
-                        .simultaneousGesture(
-                            DragGesture(minimumDistance: 0)
-                                .onChanged({ _ in
-                                    withAnimation(.easeOut(duration: 0.08)) {
-//                                        self.isRecording = true
-                                    }
-                                })
-                                .onEnded({ _ in
-                                    withAnimation(.easeOut(duration: 0.24)) {
-                                        ACAnonymisation.shared.finishRecording()
-                                        self.isRecording = false
-                                    }
-                                })
+                            .frame(width: 72, height: 72, alignment: .center)
+                            .foregroundColor(Color.white.opacity(0.96))
+                            .simultaneousGesture(
+                                DragGesture(minimumDistance: 0)
+                                    .onChanged({ _ in
+                                        withAnimation(.easeOut(duration: 0.08)) {
+                                            //                                        self.isRecording = true
+                                        }
+                                    })
+                                    .onEnded({ _ in
+                                        withAnimation(.easeOut(duration: 0.24)) {
+                                            ACAnonymisation.shared.finishRecording()
+                                            self.isRecording = false
+                                        }
+                                    })
                         )
-                        .simultaneousGesture(
+                            .simultaneousGesture(
+                                
+                                LongPressGesture(minimumDuration: 1, maximumDistance: CGFloat.infinity)
+                                    .onChanged({ _ in
+                                        withAnimation(.easeOut(duration: 0.08)) {
+                                        }
+                                    })
+                                    .onEnded({ _ in
+                                        withAnimation(.easeOut(duration: 0.24)) {
+                                            ACAnonymisation.shared.startRecording()
+                                            self.isRecording = true
+                                        }
+                                    })
+                        )
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded({ _ in
+                                        ACAnonymisation.shared.takePhoto()
+                                    })
+                        )
                         
-                            LongPressGesture(minimumDuration: 1, maximumDistance: CGFloat.infinity)
-                                .onChanged({ _ in
-                                    withAnimation(.easeOut(duration: 0.08)) {
-                                    }
-                                })
-                                .onEnded({ _ in
-                                    withAnimation(.easeOut(duration: 0.24)) {
-                                        ACAnonymisation.shared.startRecording()
-                                        self.isRecording = true
-                                    }
-                                })
-                        )
-                        .simultaneousGesture(
-                            TapGesture()
-                                .onEnded({ _ in
-                                    ACAnonymisation.shared.takePhoto()
-                                })
+                        Spacer()
+                        
+                        ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded({ _ in
+                                        ACAnonymisation.shared.toggleFrontAndBackCamera()
+                                    })
                         )
                         
                         Spacer()
                         
-                        Circle()
-                        .frame(width: 56, height: 56, alignment: .center)
-                        .foregroundColor(Color.white.opacity(0.5))
-                        .simultaneousGesture(
-                            TapGesture()
-                                .onEnded({ _ in
-                                    ACAnonymisation.shared.toggleFrontAndBackCamera()
-                                })
-                        )
-                        
-                        Spacer()
-
                     }
-                    .padding()
+                    .opacity(
+                        sceneInformation.interviewModeControlIsBeingTouched ? 0.12 : 1
+                    )
+                        .animation(Animation.easeIn(duration: 0.2))
+                        .padding()
                 }
             }
             .aspectRatio(isRecording ? sixteenByNineAspectRatio : threeByFourAspectRatio, contentMode: .fit)
             .foregroundColor(Color(UIColor.darkGray))
-            .saturation(sceneInformation.sceneIsActive ? 1 : 0.5)
-            .blur(radius: sceneInformation.sceneIsActive ? 0 : 48)
+            .saturation((self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0 : 1)
+            .blur(radius: sceneInformation.sceneIsActive ? 0 : 60)
             .overlay(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(Color.white.opacity(0.1), lineWidth: 2)
+                ZStack {
+                    RoundedRectangle(cornerRadius: (UIScreen.current > ScreenType.iPhone4_7) ? 12 : (self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 4 : 0, style: .continuous)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 2)
+                    if !sceneInformation.sceneIsActive {
+                        ZStack {
+                            Circle()
+                                .frame(width: 64, height: 64, alignment: .center)
+                                .foregroundColor(Color.white.opacity(0.25))
+                            Image(systemName: "eye.slash.fill")
+                                .font(.system(size: 21.0, weight: .bold))
+                                .foregroundColor(.white)
+                        }
+                        .transition(AnyTransition.scale(scale: 0.5).combined(with: AnyTransition.opacity))
+                    }
+                }
             )
                 .clipShape(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    RoundedRectangle(cornerRadius: (UIScreen.current > ScreenType.iPhone4_7) ? 12 : (self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 4 : 0, style: .continuous)
             )
-            .padding(0)
-            .scaleEffect(sceneInformation.sceneIsActive ? 1 : 0.94)
-            .animation(Animation.easeInOut(duration: 0.3), value: sceneInformation.sceneIsActive)
-            .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0), value: isRecording)
+                .padding(0)
+                .scaleEffect(
+                    (!sceneInformation.sceneIsActive || self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0.94 : 1
+                )
+                .animation(Animation.easeInOut(duration: 0.3), value: sceneInformation.sceneIsActive)
+                .animation(Animation.easeInOut(duration: 0.3), value: self.sceneInformation.isDraggingBottomSheet)
+                .animation(Animation.easeInOut(duration: 0.3), value: self.sceneInformation.bottomSheetIsOpen)
+                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0), value: isRecording)
         }
     }
+}
+
+struct ACRotationAccessoryButton : View {
+    
+    var icon : UIImage
+    @EnvironmentObject var sceneInformation : ACScene
+    @EnvironmentObject var anonymisation : ACAnonymisation
+    @State var isBeingTouched : Bool = false
+    
+    var body : some View {
+        ZStack {
+            Rectangle()
+                .clipShape(
+                    Circle()
+            )
+                .foregroundColor(Color.white.opacity(self.isBeingTouched ? 0.36 : 0.12))
+                .scaleEffect(self.isBeingTouched ? 1.2 : 1)
+                .frame(width: 56, height: 56, alignment: .center)
+            
+            Image(uiImage: icon)
+                .resizable()
+                .rotationEffect(Angle(degrees: self.isBeingTouched ? (anonymisation.cameraFacingFront ? 24 : -24) : 0))
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 24, height: 24, alignment: .center)
+                .foregroundColor(Color.white)
+        }
+        .rotationEffect(
+            withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0), {
+                Angle(degrees: anonymisation.cameraFacingFront ? 180 : 0)
+            })
+        )
+            .rotationEffect(sceneInformation.deviceRotationAngle)
+            .shadow(color: Color.black.opacity(0.24), radius: 12, x: 0, y: 0)
+            .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0))
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged({ _ in
+                        withAnimation(.easeOut(duration: 0.08)) {
+                            self.isBeingTouched = true
+                        }
+                    })
+                    .onEnded({ _ in
+                        withAnimation(.easeOut(duration: 0.24)) {
+                            self.isBeingTouched = false
+                        }
+                    })
+        )
+    }
+    
 }
 
 struct ACFaceRectangle : View {
     
     @State var isBeingTouched : Bool = false
     @EnvironmentObject var anonymisation : ACAnonymisation
+    
     
     var body: some View {
         ZStack {
@@ -280,113 +413,14 @@ struct ACFaceRectangle : View {
     }
 }
 
-struct ACFilterSelector: View {
-    
-    @EnvironmentObject var anonymisation : ACAnonymisation
-    @EnvironmentObject var sceneInformation : ACScene
-    
-    let generator = UISelectionFeedbackGenerator()
-    
-    var body: some View {
-        ZStack {
-            HStack(spacing: sceneInformation.deviceOrientation.isLandscape ? 18 : 12){
-                ForEach(anonymisation.filters) { filter in
-                    ACFilterButton(filter: filter)
-                        .simultaneousGesture(
-                            TapGesture()
-                                .onEnded({ _ in
-                                    self.generator.selectionChanged()
-                                    
-                                    withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0)) {
-                                        self.anonymisation.select(filter: filter)
-                                    }
-                                })
-                    )}
-            }
-        }
-        .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
-    }
-}
-
-struct ACFilterButton: View {
-    
-    @EnvironmentObject var sceneInformation : ACScene
-    @State internal var isBeingTouched : Bool = false
-    var filter : ACFilter
-    
-    var body: some View {
-        HStack (alignment: .center) {
-            
-            if filter.filterIdentifier == "AC_FILTER_NONE" {
-                
-                ACNoFilterIconView(isSelected: filter.selected)
-                .frame(width: 24, height: 24, alignment: .center)
-                .rotationEffect(sceneInformation.deviceRotationAngle)
-                
-            } else if filter.filterIdentifier == "AC_FILTER_BLUR" {
-                
-                ACBlurFilterIconView(isSelected: filter.selected)
-                .frame(width: 24, height: 24, alignment: .center)
-                .rotationEffect(sceneInformation.deviceRotationAngle)
-            
-            } else {
-                Image(uiImage: filter.icon)
-                    .foregroundColor(
-                        filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
-                )
-                .rotationEffect(sceneInformation.deviceRotationAngle)
-                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0))
-            }
-                        
-            if (filter.selected && !sceneInformation.deviceOrientation.isLandscape) {
-                Text(filter.name)
-                    .font(Font.system(size: 16, weight: .semibold, design: .default))
-                    .foregroundColor(
-                        filter.selected ? (filter.modifiesImage ? Color(.black) : Color(.systemBackground)) : Color(.label)
-                )
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(1)
-                    .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
-            }
-        }
-        .padding(18)
-        .mask(
-            HStack(spacing: 0) {
-                Rectangle()
-                    .foregroundColor(Color(UIColor.systemPink))
-                LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemPink), Color(UIColor.systemPink.withAlphaComponent(0))]), startPoint: UnitPoint(x: 0, y: 0.5), endPoint: UnitPoint(x: 1, y: 0.5))
-                    .frame(width: 16)
-            }
-        )
-            .background(
-                filter.selected ? (filter.modifiesImage ? Color("highlight") : Color(.label)) : (isBeingTouched ? Color(.label).opacity(0.75) : Color(.label).opacity(0.25))
-        )
-            .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
-            .scaleEffect(isBeingTouched ? 0.92 : 1)
-            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filter.selected ? 1.12 : 1) : 1)
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged({ _ in
-                        withAnimation(.easeOut(duration: 0.08)) {
-                            self.isBeingTouched = true
-                        }
-                    })
-                    .onEnded({ _ in
-                        withAnimation(.easeOut(duration: 0.24)) {
-                            self.isBeingTouched = false
-                        }
-                    })
-        )
-    }
-}
-
 struct ACViewfinderLandscapeContainer: View {
     
     @EnvironmentObject var anonymisation : ACAnonymisation
-
+    @EnvironmentObject var sceneInformation : ACScene
+    
     var body: some View {
         ZStack {
-            ACInterviewModeContainerView(interviewModeIsOn: anonymisation.interviewModeIsOn)
+            ACInterviewModeContainerView(interviewModeIsOn: anonymisation.interviewModeIsOn, orientation: sceneInformation.deviceOrientation, interviewModeConfiguration: anonymisation.interviewModeConfiguration, selectedFilter: anonymisation.selectedFilter ?? ACAnonymisation.shared.filters[0], interviewModeControlIsBeingPanned: sceneInformation.interviewModeControlIsBeingTouched)
         }
     }
 }

@@ -16,10 +16,21 @@ class ACAnonymisation : ObservableObject {
     @Published var filters : [ACFilter] = availableFilters
     @Published var faces : [Anon.AnonFace] = []
     
+    @Published var anonymisationType : Anon.AnonDetection = .face {
+        didSet {
+            self.updateAnonConfiguration()
+        }
+    }
+    
+    @Published var exifLocation : Bool = false
+    @Published var exifDateTime : Bool = false
+    
+    @Published var distortAudio : Bool = false
+    
     enum ACInterviewModeConfiguration {
         case off
-        case effectLeading
         case effectTrailing
+        case effectLeading
     }
     
     @Published var interviewModeConfiguration : ACInterviewModeConfiguration = .off {
@@ -28,12 +39,17 @@ class ACAnonymisation : ObservableObject {
                 interviewModeIsOn = false
                 interviewModeEffectsSwitched = false
                 anonymous.edge = .right
+            } else {                
                 
-                print("TURN INTERVIEW MODE OFF")
-            } else {
+                if let selectedFilter = selectedFilter {
+                    if !selectedFilter.modifiesImage {
+                        self.select(filter: filters[1])
+                    }
+                }
+
                 interviewModeIsOn = true
                 
-                if interviewModeConfiguration == .effectLeading {
+                if interviewModeConfiguration == .effectTrailing {
                     interviewModeEffectsSwitched = false
                     anonymous.edge = .right
                 } else {
@@ -57,8 +73,6 @@ class ACAnonymisation : ObservableObject {
     
     @Published var interviewModeDividerXOffset : CGFloat = .zero {
         didSet {
-            //print("offset: \(interviewModeDividerXOffset)")
-            
             if interviewModeDividerXOffset == .zero {
                 anonymous.point = .zero
             } else {
@@ -71,19 +85,36 @@ class ACAnonymisation : ObservableObject {
         didSet {
             #if !targetEnvironment(simulator)
             
-            print("HIT FILTER SELECTION")
             if let f = selectedFilter {
                 switch f.filterIdentifier {
                 case "AC_FILTER_BLUR":
-                    anonymous.showMask(type: .blur, detection: .face)
+                    anonymous.showMask(type: .blur, detection: self.anonymisationType)
                 case "AC_FILTER_PIXEL":
-                    anonymous.showMask(type: .pixelate, detection: .face)
+                    anonymous.showMask(type: .pixelate, detection: self.anonymisationType)
                 default:
-                    anonymous.showMask(type: .none, detection: .face)
+                    anonymous.showMask(type: .none, detection: self.anonymisationType)
+                    self.interviewModeConfiguration = .off
                 }
             }
             #endif
         }
+    }
+    
+    private func updateAnonConfiguration () {
+        #if !targetEnvironment(simulator)
+        
+        if let f = selectedFilter {
+            switch f.filterIdentifier {
+            case "AC_FILTER_BLUR":
+                anonymous.showMask(type: .blur, detection: .face)
+            case "AC_FILTER_PIXEL":
+                anonymous.showMask(type: .pixelate, detection: .face)
+            default:
+                anonymous.showMask(type: .none, detection: .face)
+                self.interviewModeConfiguration = .off
+            }
+        }
+        #endif
     }
     
     init() {
@@ -93,10 +124,10 @@ class ACAnonymisation : ObservableObject {
     
     func switchEffectsInInterviewMode () {
         if interviewModeConfiguration != .off {
-            if interviewModeConfiguration == .effectLeading {
-                self.interviewModeConfiguration = .effectTrailing
-            } else if interviewModeConfiguration == .effectTrailing {
+            if interviewModeConfiguration == .effectTrailing {
                 self.interviewModeConfiguration = .effectLeading
+            } else if interviewModeConfiguration == .effectLeading {
+                self.interviewModeConfiguration = .effectTrailing
             }
         }
     }
@@ -107,11 +138,19 @@ class ACAnonymisation : ObservableObject {
         anonymous.showCamera(facing: .back, lens: .telephoto)
     }
     
+    @Published var cameraFacingFront : Bool = true
+    
     func toggleFrontAndBackCamera () {
         if anonymous.facing == .front {
-            anonymous.showCamera(facing: .back)
+            self.cameraFacingFront = false
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                anonymous.showCamera(facing: .back)
+            }
         } else {
-            anonymous.showCamera(facing: .front)
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                anonymous.showCamera(facing: .front)
+            }
+            self.cameraFacingFront = true
         }
     }
     
@@ -123,7 +162,9 @@ class ACAnonymisation : ObservableObject {
     }
     
     func startRecording () {
-        anonymous.startRecord(audio: false, anonVoice: false)
+//        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+//            anonymous.startRecord(audio: false, anonVoice: false)
+//        }
         print("start recording")
     }
     
@@ -147,7 +188,6 @@ class ACAnonymisation : ObservableObject {
     }
     
     func didSwitch(from: Anon.AnonState, to: Anon.AnonState) {
-        print("did switch")
     }
 }
 

@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         let contentView = ACMainView()
+            .edgesIgnoringSafeArea(.all)
             .environmentObject(sceneInformation)
             .environmentObject(anonymisation)
 
@@ -31,16 +32,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func sceneDidBecomeActive(_ scene: UIScene) {
         self.sceneInformation.sceneIsActive = true
+        self.anonymisation.interviewModeConfiguration = .off
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
         self.sceneInformation.sceneIsActive = false
-
+        self.sceneInformation.isDraggingBottomSheet = false
+        self.anonymisation.interviewModeConfiguration = .off
+    }
+    
+    func sceneDidDisconnect(_ scene: UIScene) {
+        self.sceneInformation.sceneIsActive = false
+        self.sceneInformation.isDraggingBottomSheet = false
+        self.anonymisation.interviewModeConfiguration = .off
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+//        self.sceneInformation.sceneIsActive = true
+//        self.anonymisation.interviewModeConfiguration = .off
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        self.sceneInformation.sceneIsActive = false
+        self.sceneInformation.isDraggingBottomSheet = false
+        self.anonymisation.interviewModeConfiguration = .off
     }
 }

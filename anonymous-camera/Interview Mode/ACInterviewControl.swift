@@ -15,6 +15,8 @@ struct ACInterviewControl: View {
     
     @State internal var isBeingTouched : Bool = false
     
+    let generator = UISelectionFeedbackGenerator()
+    
     var body: some View {
         ZStack{
             LinearGradient(gradient: Gradient(colors: [Color.black.opacity(self.anonymisation.interviewModeIsOn ? 0.24 : 0.12), Color.black.opacity(self.anonymisation.interviewModeIsOn ? 0.24 : 0), Color.black.opacity(self.anonymisation.interviewModeIsOn ? 0.24 : 0.12)]), startPoint: UnitPoint(x: 0.5, y: 0), endPoint: UnitPoint(x: 0.5, y: 1))
@@ -26,6 +28,7 @@ struct ACInterviewControl: View {
             if !self.anonymisation.interviewModeIsOn {
                 Text("Split")
                     .font(Font.system(size: 14, weight: .semibold, design: .default))
+                    .foregroundColor(.black)
                     .transition(AnyTransition.scale(scale: 0.75, anchor: UnitPoint(x: 0.5, y: 0.5)).combined(with: AnyTransition.opacity))
             }
             
@@ -55,7 +58,12 @@ struct ACInterviewControl: View {
             .padding()
             .rotationEffect(self.anonymisation.interviewModeEffectsSwitched ? Angle(degrees: 180) : Angle(degrees: 0))
         }
-        .background(Blur(style: .systemChromeMaterialLight))
+        .background(
+            ZStack {
+                Blur(style: .systemChromeMaterialLight)
+                Color.white.opacity(self.anonymisation.interviewModeIsOn ? 1 : 0)
+            }
+        )
         .clipShape(
             RoundedRectangle(cornerRadius: self.anonymisation.interviewModeIsOn ? 42 : 12, style: self.anonymisation.interviewModeIsOn ? .circular : .continuous)
         )
@@ -67,12 +75,14 @@ struct ACInterviewControl: View {
         .simultaneousGesture(
             TapGesture()
                 .onEnded({ _ in
+                                        
                     if self.anonymisation.interviewModeIsOn {
                         withAnimation(Animation.interactiveSpring(response: 0.4, dampingFraction: 0.6, blendDuration: 0)) {
                             self.anonymisation.switchEffectsInInterviewMode()
                         }
                     } else {
-                        self.anonymisation.interviewModeConfiguration = .effectLeading
+                        self.generator.selectionChanged()
+                        self.anonymisation.interviewModeConfiguration = .effectTrailing
                     }
                 })
         )
@@ -86,6 +96,17 @@ struct ACInterviewControl: View {
                 .onEnded({ _ in
                     withAnimation(.easeOut(duration: 0.24)) {
                         self.isBeingTouched = false
+                        self.sceneInformation.interviewModeControlIsBeingTouched = false
+                    }
+                })
+        )
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.2, maximumDistance: 0)
+                .onEnded({ _ in
+                    withAnimation(.easeOut(duration: 0.12)) {
+                        if self.anonymisation.interviewModeIsOn {
+                            self.sceneInformation.interviewModeControlIsBeingTouched = true
+                        }
                     }
                 })
         )

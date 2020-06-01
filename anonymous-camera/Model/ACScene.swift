@@ -42,5 +42,10 @@ final public class ACScene : ObservableObject {
     @Published public var devicePreviousOrientationWasLandscape : Bool = false
 
     @Published public var interviewModeControlIsHoveringOverClose : Bool = false
+    @Published public var interviewModeControlIsBeingTouched : Bool = false
+    
+    @Published public var isDraggingBottomSheet : Bool = false
+    @Published public var bottomSheetIsOpen : Bool = false
+    
     static var shared = ACScene()
 }

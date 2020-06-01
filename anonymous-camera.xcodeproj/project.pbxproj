@@ -35,6 +35,15 @@
 		8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40C242177C700497EA6 /* FacePixelShader.swift */; };
 		8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */; };
 		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
+		8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1A24326B320017347F /* BottomSheetView.swift */; };
+		8F4FAF1F2434F4E20017347F /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1C2434F4E10017347F /* PrivacyPolicyView.swift */; };
+		8F4FAF202434F4E20017347F /* SafetyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1D2434F4E20017347F /* SafetyCard.swift */; };
+		8F4FAF212434F4E20017347F /* EULAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1E2434F4E20017347F /* EULAView.swift */; };
+		8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F648B042483002500703C44 /* UIScrollViewWrapper.swift */; };
+		8FA8EA7E24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */; };
+		8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */; };
+		8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */; };
+		8FA8EA8624312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA8524312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift */; };
 		8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */; };
 		8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516B2424AB900021600C /* ACInterviewControl.swift */; };
 		8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516D2424BE780021600C /* MainHostingViewController.swift */; };
@@ -61,6 +70,15 @@
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
 		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
 		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		8F4FAF1A24326B320017347F /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		8F4FAF1C2434F4E10017347F /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		8F4FAF1D2434F4E20017347F /* SafetyCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafetyCard.swift; sourceTree = "<group>"; };
+		8F4FAF1E2434F4E20017347F /* EULAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAView.swift; sourceTree = "<group>"; };
+		8F648B042483002500703C44 /* UIScrollViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewWrapper.swift; sourceTree = "<group>"; };
+		8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionLabel.swift; sourceTree = "<group>"; };
+		8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionView.swift; sourceTree = "<group>"; };
+		8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControlIndicator.swift; sourceTree = "<group>"; };
+		8FA8EA8524312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControlIndicatorViewController.swift; sourceTree = "<group>"; };
 		8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeContainerViewController.swift; sourceTree = "<group>"; };
 		8FB2516B2424AB900021600C /* ACInterviewControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControl.swift; sourceTree = "<group>"; };
 		8FB2516D2424BE780021600C /* MainHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHostingViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +144,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		8F4FAF242434F50A0017347F /* Data Safety Card */ = {
+			isa = PBXGroup;
+			children = (
+				8F4FAF1D2434F4E20017347F /* SafetyCard.swift */,
+				8F4FAF1E2434F4E20017347F /* EULAView.swift */,
+				8F4FAF1C2434F4E10017347F /* PrivacyPolicyView.swift */,
+			);
+			path = "Data Safety Card";
+			sourceTree = "<group>";
+		};
 		8FE3F3CF242176E400497EA6 = {
 			isa = PBXGroup;
 			children = (
@@ -152,8 +180,11 @@
 				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
 				8FB2516F2424BED70021600C /* ContainerView.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
+				8F4FAF1A24326B320017347F /* BottomSheetView.swift */,
+				8F648B042483002500703C44 /* UIScrollViewWrapper.swift */,
 				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
 				8FEB1CF3242C93D10024352A /* Dynamic Icon Views */,
+				8F4FAF242434F50A0017347F /* Data Safety Card */,
 				8FEB1CF0242C93750024352A /* Interview Mode */,
 				8FEB1CF2242C93AC0024352A /* Model */,
 				8FEB1CF1242C939B0024352A /* Helpers */,
@@ -208,7 +239,11 @@
 			isa = PBXGroup;
 			children = (
 				8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */,
+				8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */,
+				8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */,
 				8FB2516B2424AB900021600C /* ACInterviewControl.swift */,
+				8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */,
+				8FA8EA8524312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift */,
 				8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */,
 			);
 			path = "Interview Mode";
@@ -371,10 +406,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */,
+				8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */,
+				8F4FAF202434F4E20017347F /* SafetyCard.swift in Sources */,
 				8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
 				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
+				8FA8EA8624312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift in Sources */,
 				8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */,
+				8F4FAF212434F4E20017347F /* EULAView.swift in Sources */,
 				8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */,
 				77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */,
 				8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */,
@@ -383,11 +422,14 @@
 				77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */,
 				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
 				8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */,
+				8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
 				8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */,
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,
 				8F0B22AC24217B8E0096A444 /* BodyPixelShader.swift in Sources */,
+				8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */,
+				8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
 				8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */,
 				7752359524291AB200483BFA /* InAppManager.swift in Sources */,
@@ -397,6 +439,7 @@
 				8F0B22AF24217B9C0096A444 /* FaceShader.swift in Sources */,
 				8F0B22A224217B3C0096A444 /* Anon.swift in Sources */,
 				8F0B22AB24217B8C0096A444 /* FaceBlurShader.metal in Sources */,
+				8F4FAF1F2434F4E20017347F /* PrivacyPolicyView.swift in Sources */,
 				8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */,
 				8F0B22AE24217B990096A444 /* FacePixelShader.metal in Sources */,
 				8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */,
@@ -404,6 +447,7 @@
 				8F0B22B224217BA70096A444 /* BasicShader.swift in Sources */,
 				8F0B22A924217B860096A444 /* BasicShader.metal in Sources */,
 				8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */,
+				8FA8EA7E24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift in Sources */,
 				8F0B22AD24217B910096A444 /* BodyBlurShader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,6 +480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -496,6 +541,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

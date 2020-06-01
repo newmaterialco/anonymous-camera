@@ -21,6 +21,12 @@ class MainHostingViewController: UIViewController {
         containerViewController.view.snp.makeConstraints { make in
             make.pinAllEdgesToSuperView()
         }
+        
+        ACAnonymisation.shared.select(filter: ACAnonymisation.shared.filters[1])
+    }
+    
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
     }
 
     override var prefersStatusBarHidden: Bool {
