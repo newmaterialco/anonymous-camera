@@ -21,7 +21,6 @@ fragment float4 bodyPixellateFragment(ImageColorInOut in [[stage_in]],
     constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear);
     float4 a = alphaTexture.sample(colorSampler, in.texCoord);
     float redVal = a.r;
-    
     if(uniforms.padding > 0.0 && redVal != 1.0) {
         float angle = 0.0;
         while(angle < 360.0) {
