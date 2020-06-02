@@ -52,14 +52,18 @@ class AnonPhoto {
     func addAnonBuffer(currentDrawable: CAMetalDrawable) {
         if let _ = anonImage { return }
         if let cgImage = currentDrawable.texture.toImage() {
-            anonImage = UIImage.init(cgImage: cgImage)
+            anonImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: .up)
+            
             let orientation = MotionManager.shared.orientation
             if orientation == .landscapeLeft { anonImage = anonImage?.rotated(by: Measurement(value: -90, unit: .degrees)) }
             else if orientation == .landscapeRight { anonImage = anonImage?.rotated(by: Measurement(value: 90, unit: .degrees)) }
             else if orientation == .portraitUpsideDown { anonImage = anonImage?.rotated(by: Measurement(value: 180, unit: .degrees)) }
+            
             if let anonImage = anonImage {
                 let w = anonImage.size.width
                 let h = anonImage.size.height
+                print("anonImage.scale: \(anonImage.scale)")
+                print("width x height = \(w) x \(h)")
                 UIGraphicsBeginImageContextWithOptions(CGSize(width: w, height: h), false, anonImage.scale)
                 anonImage.draw(in: CGRect(x: 0, y: 0, width: w, height: h))
                 self.anonImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -79,7 +83,7 @@ class AnonPhoto {
         var compositeImage: UIImage?
         if let anonImage = anonImage {
             let sourceSize = anonImage.size
-            var outputSize = CGSize(width: sourceSize.width, height: sourceSize.width * (4 / 3))
+            var outputSize = anonImage.size
             if sourceSize.width > sourceSize.height {
                 outputSize = CGSize(width: sourceSize.height * (4 / 3), height: sourceSize.height)
             }
