@@ -14,9 +14,10 @@ struct SafetyCard: View {
     @State var showingEULA : Bool = false
     @Binding var isPresented : Bool
     
+    
     var body: some View {
         VStack (spacing: 0) {
-            Header()
+            Header(isPresented: $isPresented)
                 .zIndex(1)
             ScrollView{
                 Headline()
@@ -48,7 +49,7 @@ struct SafetyCard: View {
                 }
             }
             .background(
-                Color.white
+                Color("background")
                     .edgesIgnoringSafeArea(.bottom)
             )
         }
@@ -59,30 +60,50 @@ struct SafetyCard: View {
     }
 }
 
-struct SafetyCard_Previews: PreviewProvider {
-    static var previews: some View {
-        SafetyCard(isPresented: .constant(false))
-    }
-}
-
 
 struct Header: View {
+    
+    @Binding var isPresented : Bool
+        
     var body: some View {
-        HStack {
+        HStack (alignment: .top) {
             HStack(spacing: 8) {
                 Image("AnonymousCamera")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 36, height: 36)
+                .foregroundColor(Color("text"))
+                .accessibility(hidden: true)
+                
                 Text("Safety & Privacy")
                     .font(Font.system(size: 16, weight: .semibold))
                     .foregroundColor(Color("text"))
                     
             }
             .padding(.leading, 16)
-            .padding(.vertical, 8)
+            .padding(.vertical, 16)
+            
             Spacer()
+            
+            ZStack(alignment: .center) {
+                  Circle()
+                  .frame(width: 30, height: 30)
+                  .foregroundColor(Color("systemlightgrey").opacity(0.9))
+                  Image(systemName: "xmark")
+                  .font(Font.system(size: 14, weight: .semibold))
+                  .foregroundColor(Color("systemdarkgrey").opacity(0.9))
+                 
+                .onTapGesture {
+                     self.isPresented.toggle()
+                  }
+                
+              }
+              .padding(.trailing, 14)
+              .padding(.top, 18)
             
         }
         .background(
-            Color.white
+            Color(UIColor.tertiarySystemBackground)
             .edgesIgnoringSafeArea(.top)
         )
             .shadow(color: Color.black.opacity(0.12), radius: 24, x: 0, y: 0)
@@ -99,26 +120,26 @@ struct Headline: View {
                     
                     Text("Let’s talk \nabout data.")
                         .font(Font.system(size: 48, weight: .semibold))
-                        .foregroundColor(Color("text"))
+                        .foregroundColor(Color("ignoredarkmode"))
                  
                     HStack {
                         HStack {
                             Text("tl;dr")
                                 .font(Font.system(size: 21, weight: .semibold))
-                                .foregroundColor(Color("text").opacity(0.4))
+                                .foregroundColor(Color("ignoredarkmode").opacity(0.5))
                                 
                                 .frame(width: 60, height: 30)
-                                .background(Color.white.opacity(0.6))
+                                .background(Color("ignoredarkmode").opacity(0.2))
                             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                         }
                         
                         
                         Text("It’s none of our business.")
                             .font(Font.system(size: 21, weight: .semibold))
-                        .foregroundColor(Color("text").opacity(0.3))
+                        .foregroundColor(Color("ignoredarkmode").opacity(0.4))
                             .multilineTextAlignment(.leading)
                     }
-                }//.padding(.leading, 16)
+                }
             }
             .frame(height: 375)
           
@@ -149,6 +170,7 @@ struct How: View {
             VStack {
                 HStack {
                     Image("FlightMode")
+                        .accessibility(label: Text("active flight mode"))
                     VStack(alignment: .leading, spacing: 8){
                         Text("Try us!".uppercased())
                         .font(Font.system(size: 16, weight: .semibold, design: .rounded))
@@ -259,27 +281,6 @@ struct LearnMore: View {
             .sheet(isPresented: $showingEULA) {
                 EULAView(isPresented: self.$showingEULA)
             }
-            
-            
-            //DocumentButton(title: "Review full EULA", icon: "checkmark.seal.fill", readingtime: "15 min read")
-            
-            HStack {
-                Text("Agree & Continue")
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 56)
-                    .background(Color("darkblue"))
-                    .foregroundColor(.white)
-                    .cornerRadius(60)
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 32)
-            .font(Font.system(size: 18, weight: .semibold))
-  
-            Text("You can always get to this safety card later in settings. Whenever there’s an update to our policies we will let you know.")
-                .font(Font.system(size: 16, weight: .light))
-                .foregroundColor(Color("lightblue"))
-                .padding(.horizontal, 24)
-                .fixedSize(horizontal: false, vertical: true)
         }
     }
 }
@@ -367,6 +368,18 @@ struct DocumentButton: View {
     }
 }
 
+struct Blur: UIViewRepresentable {
+    var style: UIBlurEffect.Style = .systemMaterial
+    
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }
+    
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        uiView.effect = UIBlurEffect(style: style)
+    }
+}
+
 struct AnonymisationCard: View {
     var title: String
     var image: String
@@ -387,6 +400,7 @@ struct AnonymisationCard: View {
             }
             ZStack(alignment: .bottom) {
                 Image(image)
+                .accessibility(hidden: true)
             }
             Spacer()
             VStack(alignment: .leading){
@@ -402,7 +416,7 @@ struct AnonymisationCard: View {
         .padding(32)
         .frame(maxWidth: 300)
         .frame(height: 450)
-        .background(Color.white)
+        .background(Color("cardbackground"))
         .cornerRadius(24)
     }
 }

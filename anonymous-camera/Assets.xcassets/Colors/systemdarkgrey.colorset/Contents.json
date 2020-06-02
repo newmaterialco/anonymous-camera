@@ -1,7 +1,10 @@
 {
-  "images" : [
+  "colors" : [
     {
-      "filename" : "FlightMode.pdf",
+      "color" : {
+        "platform" : "ios",
+        "reference" : "systemGrayColor"
+      },
       "idiom" : "universal"
     },
     {
@@ -11,15 +14,15 @@
           "value" : "dark"
         }
       ],
-      "filename" : "FlightModeDark.pdf",
+      "color" : {
+        "platform" : "ios",
+        "reference" : "systemGrayColor"
+      },
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }
