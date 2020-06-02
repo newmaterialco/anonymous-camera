@@ -103,6 +103,7 @@ class AnonVideo: NSObject {
     func addFrame(texture: MTLTexture, time: Double) {
         if texture.height != outputSize.height.int {
             //print("returning because \(texture.height) != \(outputSize.height.int)")
+            //print("returning because \(texture.width) != \(outputSize.width.int)")
             return
         }
         if !isRecording {
