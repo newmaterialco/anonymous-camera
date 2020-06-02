@@ -83,20 +83,7 @@ class ACAnonymisation : ObservableObject {
     
     @Published var selectedFilter : ACFilter? {
         didSet {
-            #if !targetEnvironment(simulator)
-            
-            if let f = selectedFilter {
-                switch f.filterIdentifier {
-                case "AC_FILTER_BLUR":
-                    anonymous.showMask(type: .blur, detection: self.anonymisationType)
-                case "AC_FILTER_PIXEL":
-                    anonymous.showMask(type: .pixelate, detection: self.anonymisationType)
-                default:
-                    anonymous.showMask(type: .none, detection: self.anonymisationType)
-                    self.interviewModeConfiguration = .off
-                }
-            }
-            #endif
+            self.updateAnonConfiguration()
         }
     }
     
@@ -106,11 +93,11 @@ class ACAnonymisation : ObservableObject {
         if let f = selectedFilter {
             switch f.filterIdentifier {
             case "AC_FILTER_BLUR":
-                anonymous.showMask(type: .blur, detection: .face)
+                anonymous.showMask(type: .blur, detection: self.anonymisationType)
             case "AC_FILTER_PIXEL":
-                anonymous.showMask(type: .pixelate, detection: .face)
+                anonymous.showMask(type: .pixelate, detection: self.anonymisationType)
             default:
-                anonymous.showMask(type: .none, detection: .face)
+                anonymous.showMask(type: .none, detection: self.anonymisationType)
                 self.interviewModeConfiguration = .off
             }
         }
@@ -155,24 +142,21 @@ class ACAnonymisation : ObservableObject {
     }
     
     func takePhoto () {
-        anonymous.takePhoto(fixedDate: false, location: nil) { _ in
+        anonymous.takePhoto(fixedDate: self.exifDateTime, location: nil) { _ in
             print("photo")
             return
         }
     }
     
     func startRecording () {
-//        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-//            anonymous.startRecord(audio: false, anonVoice: false)
-//        }
+        anonymous.startRecord(audio: false, anonVoice: false)
         print("start recording")
     }
     
     func finishRecording () {
-        anonymous.endRecord(fixedDate: true, location: nil) { _ in
-            print("end recording")
-
-            return
+        print("starting to finish")
+        anonymous.endRecord(fixedDate: false, location: nil) { completion in
+            print("finished the recording")
         }
     }
         

@@ -24,12 +24,12 @@ struct ContentView: View {
                     
                     HStack (spacing: 8) {
                         ACQuickSetting(isOn: $anonymisation.exifLocation, icon: Image("AC_PRIVACY_LOCATION"))
-                        .rotationEffect(sceneInformation.deviceRotationAngle)
-                        .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
-
+                            .rotationEffect(sceneInformation.deviceRotationAngle)
+                            .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
+                        
                         ACQuickSetting(isOn: $anonymisation.exifDateTime, icon: Image("AC_PRIVACY_TIMESTAMP"))
-                        .rotationEffect(sceneInformation.deviceRotationAngle)
-                        .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
+                            .rotationEffect(sceneInformation.deviceRotationAngle)
+                            .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
                     }
                     .saturation((self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0 : 1)
                     .transition(AnyTransition.opacity)
@@ -41,19 +41,13 @@ struct ContentView: View {
                 
                 ACViewfinder(isRecording: $isRecording)
                     .zIndex(0)
-                    .simultaneousGesture(
-                        LongPressGesture(minimumDuration: 0, maximumDistance: 0)
-                            .onEnded({ _ in
-                                print("longpress")
-                            })
-                )
                 ChildSizeReader(size: $bottomSize) {
                     Spacer()
                 }
             }
             .background(
                 Color.black
-                .edgesIgnoringSafeArea(.all)
+                    .edgesIgnoringSafeArea(.all)
             )
             
             Rectangle()
@@ -63,7 +57,7 @@ struct ContentView: View {
                 .animation(Animation.easeInOut)
                 .onTapGesture {
                     self.sceneInformation.bottomSheetIsOpen.toggle()
-                }
+            }
             
             GeometryReader { geometry in
                 BottomSheetView(
@@ -90,7 +84,7 @@ struct ChildSizeReader<Content: View>: View {
                         Color.clear
                             .preference(key: SizePreferenceKey.self, value: proxy.size)
                     }
-                )
+            )
         }
         .onPreferenceChange(SizePreferenceKey.self) { preferences in
             self.size = preferences
@@ -101,7 +95,7 @@ struct ChildSizeReader<Content: View>: View {
 struct SizePreferenceKey: PreferenceKey {
     typealias Value = CGSize
     static var defaultValue: Value = .zero
-
+    
     static func reduce(value _: inout Value, nextValue: () -> Value) {
         _ = nextValue()
     }
@@ -189,7 +183,8 @@ struct ACViewfinderCard : View {
     
     @Binding var isRecording : Bool
     @State internal var shutterPosition : CGPoint = CGPoint.zero
-        
+    @GestureState var isLongPressed : Bool = false
+    
     internal var threeByFourAspectRatio : CGFloat = 3.0/4.0
     internal var sixteenByNineAspectRatio : CGFloat = 9.0/16.0
     
@@ -197,6 +192,52 @@ struct ACViewfinderCard : View {
         VStack {
             ZStack {
                 ACViewfinderView()
+                ZStack {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            
+                            Spacer()
+                            
+                            ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
+                                .opacity(0)
+                                .simultaneousGesture(
+                                    TapGesture()
+                                        .onEnded({ _ in
+                                            ACAnonymisation.shared.nextLens()
+                                        })
+                            )
+                            
+                            Spacer()
+                            
+                            Circle()
+                                .frame(width: 72, height: 72, alignment: .center)
+                                .foregroundColor(Color.white.opacity(0.96))
+                            
+                            Spacer()
+                            
+                            ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
+                                .simultaneousGesture(
+                                    TapGesture()
+                                        .onEnded({ _ in
+                                            ACAnonymisation.shared.toggleFrontAndBackCamera()
+                                        })
+                            )
+                            
+                            Spacer()
+                            
+                        }
+                        .opacity(
+                            sceneInformation.interviewModeControlIsBeingTouched ? 0.12 : 1
+                        )
+                            .animation(Animation.easeIn(duration: 0.2))
+                            .padding()
+                    }
+                    
+                    Rectangle()
+                        .foregroundColor(Color.red.opacity(0.2))
+                }
+                
                 ZStack {
                     ForEach(anonymisation.faces) { (face) in
                         if !(self.anonymisation.selectedFilter?.modifiesImage ?? false) {
@@ -216,81 +257,6 @@ struct ACViewfinderCard : View {
                         .frame(width: geometry.size.height, height: geometry.size.width, alignment: .center)
                         .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
                         .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
-                }
-                
-                VStack {
-                    Spacer()
-                    HStack {
-                        
-                        Spacer()
-                        
-                        ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
-                            .opacity(0)
-                            .simultaneousGesture(
-                                TapGesture()
-                                    .onEnded({ _ in
-                                        ACAnonymisation.shared.nextLens()
-                                    })
-                        )
-                        
-                        Spacer()
-                        
-                        Circle()
-                            .frame(width: 72, height: 72, alignment: .center)
-                            .foregroundColor(Color.white.opacity(0.96))
-                            .simultaneousGesture(
-                                DragGesture(minimumDistance: 0)
-                                    .onChanged({ _ in
-                                        withAnimation(.easeOut(duration: 0.08)) {
-                                            //                                        self.isRecording = true
-                                        }
-                                    })
-                                    .onEnded({ _ in
-                                        withAnimation(.easeOut(duration: 0.24)) {
-                                            ACAnonymisation.shared.finishRecording()
-                                            self.isRecording = false
-                                        }
-                                    })
-                        )
-                            .simultaneousGesture(
-                                
-                                LongPressGesture(minimumDuration: 1, maximumDistance: CGFloat.infinity)
-                                    .onChanged({ _ in
-                                        withAnimation(.easeOut(duration: 0.08)) {
-                                        }
-                                    })
-                                    .onEnded({ _ in
-                                        withAnimation(.easeOut(duration: 0.24)) {
-                                            ACAnonymisation.shared.startRecording()
-                                            self.isRecording = true
-                                        }
-                                    })
-                        )
-                            .simultaneousGesture(
-                                TapGesture()
-                                    .onEnded({ _ in
-                                        ACAnonymisation.shared.takePhoto()
-                                    })
-                        )
-                        
-                        Spacer()
-                        
-                        ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
-                            .simultaneousGesture(
-                                TapGesture()
-                                    .onEnded({ _ in
-                                        ACAnonymisation.shared.toggleFrontAndBackCamera()
-                                    })
-                        )
-                        
-                        Spacer()
-                        
-                    }
-                    .opacity(
-                        sceneInformation.interviewModeControlIsBeingTouched ? 0.12 : 1
-                    )
-                        .animation(Animation.easeIn(duration: 0.2))
-                        .padding()
                 }
             }
             .aspectRatio(isRecording ? sixteenByNineAspectRatio : threeByFourAspectRatio, contentMode: .fit)
@@ -317,10 +283,43 @@ struct ACViewfinderCard : View {
                 .clipShape(
                     RoundedRectangle(cornerRadius: (UIScreen.current > ScreenType.iPhone4_7) ? 12 : (self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 4 : 0, style: .continuous)
             )
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                            .onChanged({ value in
+                                print("changed")
+                                self.shutterPosition = value.location
+                            })
+                            .onEnded({ value in
+                                if self.isRecording {
+                                    print("end recording")
+                                    withAnimation(Animation.spring()) {
+                                        ACAnonymisation.shared.finishRecording()
+                                        self.isRecording = false
+                                    }
+                                }
+                            })
+                )
+                    .simultaneousGesture(
+                        LongPressGesture(minimumDuration: 0.3, maximumDistance: CGFloat.infinity)
+                            .onEnded({ _ in
+                                print("start recording")
+                                
+                                withAnimation(Animation.spring()) {
+                                    ACAnonymisation.shared.startRecording()
+                                    self.isRecording = true
+                                }
+                            })
+                )
+                    .simultaneousGesture(
+                        TapGesture()
+                            .onEnded({ _ in
+                                ACAnonymisation.shared.takePhoto()
+                            })
+                )
                 .padding(0)
                 .scaleEffect(
                     (!sceneInformation.sceneIsActive || self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0.94 : 1
-                )
+            )
                 .animation(Animation.easeInOut(duration: 0.3), value: sceneInformation.sceneIsActive)
                 .animation(Animation.easeInOut(duration: 0.3), value: self.sceneInformation.isDraggingBottomSheet)
                 .animation(Animation.easeInOut(duration: 0.3), value: self.sceneInformation.bottomSheetIsOpen)
