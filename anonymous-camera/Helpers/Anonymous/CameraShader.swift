@@ -110,7 +110,7 @@ public class CameraShader: NSObject {
             mtkView.enableSetNeedsDisplay = false
             mtkView.framebufferOnly = false
             mtkView.device = sharedMetalDevice
-            mtkView.autoResizeDrawable = true
+            mtkView.autoResizeDrawable = false
             mtkView.depthStencilPixelFormat = .depth32Float
             mtkView.colorPixelFormat = .bgra8Unorm
             mtkView.sampleCount = 1
