@@ -45,10 +45,6 @@ class BodyShader: BaseShader, ARDepthShader {
         uniforms.iteration = Float.random(in: 1 ..< 1000000)
         uniforms.imgWidth = (alphaTexture?.width.float ?? 0)
         uniforms.imgHeight = (alphaTexture?.height.float ?? 0)
-        if let alphaTexture = alphaTexture {
-            print("alphaTexture: \(alphaTexture.width) x \(alphaTexture.height)")
-            print("output texture: \(size.width.int) x \(size.height.int)")
-        }
         if let color = color {
             let components = color.rgbComponents
             uniforms.red = components.red.float / 255
