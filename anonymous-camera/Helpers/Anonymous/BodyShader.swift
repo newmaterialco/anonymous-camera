@@ -25,6 +25,8 @@ class BodyShader: BaseShader, ARDepthShader {
     var pixelType: Float = 0.0
     var iteration: Float = 0.0
     
+    override func aspect() -> Float { return 1.0 }
+    
     override func addUniforms(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, size: CGSize) {
         if let alphaTexture = alphaTexture {
             encoder.setFragmentTexture(alphaTexture, index: 3)

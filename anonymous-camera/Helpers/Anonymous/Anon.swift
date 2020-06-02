@@ -327,6 +327,7 @@ class Anon: NSObject {
             processingVideo.save(cancel: false, handler: { url in
                 Anon.processingVideos.removeValue(forKey: processingVideo.uuid)
                 if let url = url {
+                    
                     Anon.saveToPhotoLibrary(image: nil, url: url, fixedDate: fixedDate, location: location) { success, localIdentifier in
                         DispatchQueue.main.async {
                             if success && localIdentifier != "" {

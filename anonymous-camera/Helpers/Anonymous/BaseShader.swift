@@ -26,6 +26,7 @@ open class BaseShader: NSObject {
     var positionBuffer: MTLBuffer?
     var coordBuffer: MTLBuffer?
     
+    open func aspect() -> Float { return aspectScale.float }
     open func needsSourceAspect() -> Bool { return false }
     open func obseleteForCurrentFrame() -> Bool { return false }
     open func generate(device: MTLDevice) {}
@@ -68,7 +69,7 @@ open class BaseShader: NSObject {
             var vertexUniforms = VertexUniforms()
             if mirrored { vertexUniforms.mirrored = -1.0 }
             else { vertexUniforms.mirrored = 1.0 }
-            vertexUniforms.aspectScale = aspectScale.float
+            vertexUniforms.aspectScale = aspect()
             encoder.setVertexBytes(&vertexUniforms, length: MemoryLayout<VertexUniforms>.size, index: 3)
             encoder.setFragmentTexture(CVMetalTextureGetTexture(texY), index: 1)
             encoder.setFragmentTexture(CVMetalTextureGetTexture(texCbCr), index: 2)
