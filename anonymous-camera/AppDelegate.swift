@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }catch{
           print("could not start reachability notifier")
         }
-
         return true
     }
     

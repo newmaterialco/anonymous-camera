@@ -73,6 +73,12 @@ class Anon: NSObject {
         return tmp
     }
     
+    public static func updatePermissions() {
+        let locationStatus = CLLocationManager.authorizationStatus()
+        if locationStatus == .denied || locationStatus == .restricted { ACAnonymisation.shared.exifLocation = false }
+        CameraFeed.shared.resume()
+    }
+    
     public static func requestLocationAccess(_ block: @escaping (_: AnonPermission) -> Void) {
         let status = CLLocationManager.authorizationStatus()
         if status == .denied || status == .restricted { block(.denied) }

@@ -68,12 +68,25 @@ class CameraFeed: NSObject {
         return tmp
     }
     
+    func resume() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .restricted || status == .denied { self.stop() }
+        else if captureSession == nil, arSession == nil, status == .authorized, outputType != .none {
+            start(type: outputType)
+        }
+    }
+    
     func stop() {
         if let _ = captureSession { destroySession() }
         if let _ = arSession { destroyARSession() }
     }
     
     func start(type: CameraFeedType) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        if status == .restricted || status == .denied {
+            self.outputType = type
+            return
+        }
         if type != .none && type != .backAR {
             if let _ = captureSession { destroySession() }
             if let _ = arSession { destroyARSession() }

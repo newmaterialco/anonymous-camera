@@ -48,6 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+        Anon.updatePermissions()
 //        self.sceneInformation.sceneIsActive = true
 //        self.anonymisation.interviewModeConfiguration = .off
     }
