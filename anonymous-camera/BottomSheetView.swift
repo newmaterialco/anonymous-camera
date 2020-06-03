@@ -77,6 +77,8 @@ struct BottomSheetView<Content: View>: View {
     
     @State var dragOffsetPercentage : CGFloat = 0
     
+    @State var expandTest : Bool = false
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {

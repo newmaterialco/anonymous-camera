@@ -12,6 +12,8 @@ import UIKit
 let anonymous = Anon()
 #endif
 
+let reachability = try! Reachability()
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -21,7 +23,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Anon.requestMicrophoneAccess { _ in
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+        do{
+          try reachability.startNotifier()
+        }catch{
+          print("could not start reachability notifier")
+        }
+
         return true
+    }
+    
+    @objc func reachabilityChanged(note: Notification) {
+      let reachability = note.object as! Reachability
+
+      switch reachability.connection {
+      case .wifi:
+        ACScene.shared.internetConnection = true
+      case .cellular:
+          ACScene.shared.internetConnection = true
+      case .unavailable:
+        ACScene.shared.internetConnection = false
+      case .none:
+        ACScene.shared.internetConnection = false
+        }
     }
 
     // MARK: UISceneSession Lifecycle

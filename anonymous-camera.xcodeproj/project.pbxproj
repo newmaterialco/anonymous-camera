@@ -46,6 +46,7 @@
 		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
 		8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1A24326B320017347F /* BottomSheetView.swift */; };
 		8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F648B042483002500703C44 /* UIScrollViewWrapper.swift */; };
+		8F7C58332487B62C00C408AD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C58322487B62C00C408AD /* Reachability.swift */; };
 		8FA8EA7E24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */; };
 		8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */; };
 		8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */; };
@@ -87,6 +88,7 @@
 		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8F4FAF1A24326B320017347F /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		8F648B042483002500703C44 /* UIScrollViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewWrapper.swift; sourceTree = "<group>"; };
+		8F7C58322487B62C00C408AD /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = "Data Safety Card/Reachability.swift"; sourceTree = "<group>"; };
 		8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionLabel.swift; sourceTree = "<group>"; };
 		8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionView.swift; sourceTree = "<group>"; };
 		8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControlIndicator.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				8F4FAF1A24326B320017347F /* BottomSheetView.swift */,
 				8F648B042483002500703C44 /* UIScrollViewWrapper.swift */,
 				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
+				8F7C58322487B62C00C408AD /* Reachability.swift */,
 				8F25F48E2486E70F00615989 /* Data Safety Card */,
 				8FEB1CF3242C93D10024352A /* Dynamic Icon Views */,
 				8FEB1CF0242C93750024352A /* Interview Mode */,
@@ -446,6 +449,7 @@
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
 				8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */,
 				7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */,
+				8F7C58332487B62C00C408AD /* Reachability.swift in Sources */,
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
 				8F25F492248742B000615989 /* ACShutterLockArea.swift in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,
