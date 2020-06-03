@@ -27,7 +27,6 @@ class ACAnonymisation : ObservableObject {
     
     @Published var exifLocation : Bool = false {
         didSet {
-            print("didSet exifLocation \(exifLocation)")
             if exifLocation {
                 ACScene.shared.hudString = "Include Location"
                 Anon.requestLocationAccess { status in
