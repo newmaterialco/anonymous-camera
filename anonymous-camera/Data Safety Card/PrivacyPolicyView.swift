@@ -14,18 +14,24 @@ struct PrivacyPolicyView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
-                HStack {
-                    Spacer()
-                    Image(systemName: "xmark.circle.fill")
-                    .font(Font.system(size: 24, weight: .semibold))
-                    .foregroundColor(Color("lightblue").opacity(0.6))
+            HStack {
+                Spacer()
+                ZStack(alignment: .center) {
+                    Circle()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(Color("systemlightgrey").opacity(0.9))
+                    Image(systemName: "xmark")
+                    .font(Font.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color("systemdarkgrey").opacity(0.9))
                     .onTapGesture {
                         self.isPresented.toggle()
                     }
-                    .padding(.trailing, 8)
-                    .padding(.top, 32)
                 }
+                .padding(.trailing, 14)
+                .padding(.top, 18)
+            }
+            VStack(alignment: .leading) {
+
                 HStack (alignment: .center) {
                     HStack (spacing: 12) {
                         Image(systemName: "doc.text")
@@ -33,10 +39,12 @@ struct PrivacyPolicyView: View {
                         Text("Privacy Policy")
                             .font(Font.system(size: 32, weight: .semibold))
                     }
+                     .padding(.bottom, 8)
                 }
                 Text("Last Updated 7th of Jan 2020")
-                .font(Font.system(size: 14, weight: .medium))
-                .foregroundColor(Color("lightblue"))
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color("lightblue"))
                 .padding(.bottom, 40)
                 
                 Group{
@@ -52,12 +60,12 @@ struct PrivacyPolicyView: View {
                     
                     MainText(text: "The Playground App is a privacy-first camera application that lets users capture and anonymize photos, videos and audio directly on their phones. If you use our Sites, the data controller of your Personal Information is Playground.ai, LLC, a Delaware limited liability company. \nThe address of our main office is:")
                     
-                    MainText(text: "ADDRESS")
+                    MainText(text: "PO Box 3878, Barrington, Illinois 60011, USA")
                     
                     MainText(text: "We also operate two websites (“Sites”) for informational purposes only, but do not collect any Personal Information from visitors to the Sites.")
                         
                     HeadlineText(text: "Questions")
-                    MainText(text: "If you have any questions about our Privacy Notice, please contacts us at [EMAIL].")
+                    MainText(text: "If you have any questions about our Privacy Notice, please contacts us at privacy@playground.ai.")
                     DotSeperator()
                 }
                 
@@ -140,7 +148,7 @@ struct PrivacyPolicyView: View {
                     MainText(text: "We will disclose your Personal Information: (i) when we have a good faith belief it is required by law, such as pursuant to a subpoena, warrant or other judicial or administrative order (as further explained below); (ii) to protect the safety of any person; (iii) to protect the safety or security of our App or to prevent spam, abuse, or other malicious activity of actors on our App; or (iv) to protect our rights or property or the rights or property of those who use our App and/or services.")
                     MainText(text: "If we are required to disclose Personal Information by law, such as pursuant to a subpoena, warrant or other judicial or administrative order, our policy is to respond to requests that are properly issued by law enforcement.")
                     MainText(text: "Note that if we receive information that provides us with a good faith belief that there is an exigent emergency involving the danger of death or serious physical injury to a person, or the detection or prevention of a crime, we may provide information, including Personal Information, to law enforcement trying to prevent or mitigate the danger (if we have it), to be determined on a case-by-case basis.")
-                    SecondHeadlineText(icon: "arrow.2.circlepath.fill", text: "Legal Business Transfer")
+                    SecondHeadlineText(icon: "arrow.2.circlepath.circle.fill", text: "Legal Business Transfer")
                     MainText(text: "We may transfer your Personal Information to an affiliate, a successor entity upon a merger, consolidation or other corporate reorganization in which Playground participates, or to a purchaser or acquirer of all or substantially all of Playground’s business or assets, including a successor in bankruptcy.")
                     }
                     
@@ -162,7 +170,7 @@ struct PrivacyPolicyView: View {
                     Group{
                         DotSeperator()
                         HeadlineText(text: "Children's Privacy")
-                        MainText(text: "We do not knowingly collect Personal Information from minors. If you are a parent or guardian of a minor and believe he or she has disclosed Personal Information to us, please contact us at [EMAIL].")
+                        MainText(text: "We do not knowingly collect Personal Information from minors. If you are a parent or guardian of a minor and believe he or she has disclosed Personal Information to us, please contact us at privacy@playground.ai.")
                         DotSeperator()
                         HeadlineText(text: "How we keep your information")
                         MainText(text: "Your Personal Information is processed for the period necessary to fulfill the purposes for which it is collected, to comply with legal and regulatory obligations and for the duration of any period necessary to establish, exercise or defend any legal rights.")
@@ -185,11 +193,11 @@ struct PrivacyPolicyView: View {
                 }
                     
                 Group{
-                    MainText(text: "These rights are subject to certain rules regarding when you can exercise them, as well as our ability to verify your identity. We may need to request specific information from you to help us confirm your identity, and will need to ensure that this is sufficient for us to properly identify you. This is a security measure to ensure that Personal Information is not disclosed to any person who has no right to receive it. If we are unable to reasonably verify your identity, we may not be able to grant your request(s). If you are located in the European Economic Area and wish to exercise any of the rights set out above, please contact us at [EMAIL].")
+                    MainText(text: "These rights are subject to certain rules regarding when you can exercise them, as well as our ability to verify your identity. We may need to request specific information from you to help us confirm your identity, and will need to ensure that this is sufficient for us to properly identify you. This is a security measure to ensure that Personal Information is not disclosed to any person who has no right to receive it. If we are unable to reasonably verify your identity, we may not be able to grant your request(s). If you are located in the European Economic Area and wish to exercise any of the rights set out above, please contact us at privacy@playground.ai.")
                     MainText(text: "You will not have to pay a fee to access your Personal Information (or to exercise any of the other rights) unless your request is clearly unfounded, repetitive or excessive. Alternatively, we may refuse to comply with your request under those circumstances or for other appropriate reasons that will be clearly communicated to you.")
                     MainText(text: "We will respond to all legitimate requests within one month. Occasionally, it may take us longer than a month if your request is particularly complex or you have made a number of requests. In this case, we will notify you and keep you updated as required by law.")
                     MainText(text: "Finally, you have the right to make a complaint at any time to the supervisory authority for data protection issues in your country of residence. However, we would appreciate the chance to address your concerns before you approach the supervisory authority, so please contact us first.")
-                    MainText(text: "If you have any questions about this Privacy Notice, including any requests to exercise your legal rights, please contact us at [EMAIL].")
+                    MainText(text: "If you have any questions about this Privacy Notice, including any requests to exercise your legal rights, please contact us at privacy@playground.ai.")
                         
                 }
                 }
@@ -286,6 +294,8 @@ struct Bulletpoint: View {
   
             Text(text)
                 .font(Font.system(size: 14, weight: .regular, design: .serif))
+                
+            
                 .foregroundColor(Color("text").opacity(0.8))
                 .fixedSize(horizontal: false, vertical: true)
                 .lineSpacing(6)

@@ -36,11 +36,11 @@
 		8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40C242177C700497EA6 /* FacePixelShader.swift */; };
 		8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */; };
 		8F25F4752486917D00615989 /* ACShutterKnob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4742486917D00615989 /* ACShutterKnob.swift */; };
+		8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */; };
+		8F25F48B2486E6FF00615989 /* EULAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4892486E6FF00615989 /* EULAView.swift */; };
+		8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F48C2486E70A00615989 /* SafetyCard.swift */; };
 		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
 		8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1A24326B320017347F /* BottomSheetView.swift */; };
-		8F4FAF1F2434F4E20017347F /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1C2434F4E10017347F /* PrivacyPolicyView.swift */; };
-		8F4FAF202434F4E20017347F /* SafetyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1D2434F4E20017347F /* SafetyCard.swift */; };
-		8F4FAF212434F4E20017347F /* EULAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1E2434F4E20017347F /* EULAView.swift */; };
 		8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F648B042483002500703C44 /* UIScrollViewWrapper.swift */; };
 		8FA8EA7E24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */; };
 		8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */; };
@@ -73,11 +73,11 @@
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
 		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
 		8F25F4742486917D00615989 /* ACShutterKnob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACShutterKnob.swift; sourceTree = "<group>"; };
+		8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		8F25F4892486E6FF00615989 /* EULAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAView.swift; sourceTree = "<group>"; };
+		8F25F48C2486E70A00615989 /* SafetyCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafetyCard.swift; sourceTree = "<group>"; };
 		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8F4FAF1A24326B320017347F /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
-		8F4FAF1C2434F4E10017347F /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
-		8F4FAF1D2434F4E20017347F /* SafetyCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafetyCard.swift; sourceTree = "<group>"; };
-		8F4FAF1E2434F4E20017347F /* EULAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAView.swift; sourceTree = "<group>"; };
 		8F648B042483002500703C44 /* UIScrollViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewWrapper.swift; sourceTree = "<group>"; };
 		8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionLabel.swift; sourceTree = "<group>"; };
 		8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionView.swift; sourceTree = "<group>"; };
@@ -148,12 +148,12 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		8F4FAF242434F50A0017347F /* Data Safety Card */ = {
+		8F25F48E2486E70F00615989 /* Data Safety Card */ = {
 			isa = PBXGroup;
 			children = (
-				8F4FAF1D2434F4E20017347F /* SafetyCard.swift */,
-				8F4FAF1E2434F4E20017347F /* EULAView.swift */,
-				8F4FAF1C2434F4E10017347F /* PrivacyPolicyView.swift */,
+				8F25F48C2486E70A00615989 /* SafetyCard.swift */,
+				8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */,
+				8F25F4892486E6FF00615989 /* EULAView.swift */,
 			);
 			path = "Data Safety Card";
 			sourceTree = "<group>";
@@ -188,8 +188,8 @@
 				8F4FAF1A24326B320017347F /* BottomSheetView.swift */,
 				8F648B042483002500703C44 /* UIScrollViewWrapper.swift */,
 				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
+				8F25F48E2486E70F00615989 /* Data Safety Card */,
 				8FEB1CF3242C93D10024352A /* Dynamic Icon Views */,
-				8F4FAF242434F50A0017347F /* Data Safety Card */,
 				8FEB1CF0242C93750024352A /* Interview Mode */,
 				8FEB1CF2242C93AC0024352A /* Model */,
 				8FEB1CF1242C939B0024352A /* Helpers */,
@@ -413,21 +413,21 @@
 			files = (
 				8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */,
 				8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */,
-				8F4FAF202434F4E20017347F /* SafetyCard.swift in Sources */,
 				8F25F4752486917D00615989 /* ACShutterKnob.swift in Sources */,
 				8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
 				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
 				8FA8EA8624312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift in Sources */,
 				8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */,
-				8F4FAF212434F4E20017347F /* EULAView.swift in Sources */,
 				8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */,
 				77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */,
 				8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */,
 				8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */,
 				77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */,
+				8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */,
 				77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */,
 				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
+				8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */,
 				8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */,
 				8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
@@ -445,9 +445,9 @@
 				8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */,
 				8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */,
 				8F0B22AF24217B9C0096A444 /* FaceShader.swift in Sources */,
+				8F25F48B2486E6FF00615989 /* EULAView.swift in Sources */,
 				8F0B22A224217B3C0096A444 /* Anon.swift in Sources */,
 				8F0B22AB24217B8C0096A444 /* FaceBlurShader.metal in Sources */,
-				8F4FAF1F2434F4E20017347F /* PrivacyPolicyView.swift in Sources */,
 				8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */,
 				8F0B22AE24217B990096A444 /* FacePixelShader.metal in Sources */,
 				8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */,
