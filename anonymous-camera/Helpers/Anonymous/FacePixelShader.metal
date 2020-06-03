@@ -46,6 +46,87 @@ float show(float inX, float inY, float x, float y, float w, float h, float aspec
     return 10.0;
 }
 
+fragment float4 colorFillFragment(ImageColorInOut in [[stage_in]],
+                                   texture2d<float, access::sample> capturedImageTextureY [[ texture(1) ]],
+                                   texture2d<float, access::sample> capturedImageTextureCbCr [[ texture(2) ]],
+                                   texture1d<float, access::read> rects [[ texture(3) ]],
+                                   constant FaceUniforms& uniforms [[ buffer(1) ]]) {
+    constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear);
+    if(uniforms.hasFaces) {
+        uint count = rects.get_width();
+        uint index = 0;
+        while(index < count) {
+            float4 x = rects.read(index);
+            float4 w = rects.read(index + 2);
+            float4 y = rects.read(index + 1);
+            float4 h = rects.read(index + 3);
+            float shouldPixel = show(in.texCoord.x, in.texCoord.y, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
+            if(shouldPixel <= 1.0) {
+                return float4(uniforms.red, uniforms.green, uniforms.blue, 1);
+            }
+            index += 4;
+        }
+    }
+    float4 textureColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, in.texCoord), capturedImageTextureCbCr.sample(colorSampler, in.texCoord));
+    return textureColor;
+}
+
+fragment float4 bwNoiseFragment(ImageColorInOut in [[stage_in]],
+                                   texture2d<float, access::sample> capturedImageTextureY [[ texture(1) ]],
+                                   texture2d<float, access::sample> capturedImageTextureCbCr [[ texture(2) ]],
+                                   texture1d<float, access::read> rects [[ texture(3) ]],
+                                   constant FaceUniforms& uniforms [[ buffer(1) ]]) {
+    constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear);
+    if(uniforms.hasFaces) {
+        uint count = rects.get_width();
+        uint index = 0;
+        while(index < count) {
+            float4 x = rects.read(index);
+            float4 w = rects.read(index + 2);
+            float4 y = rects.read(index + 1);
+            float4 h = rects.read(index + 3);
+            float shouldPixel = show(in.texCoord.x, in.texCoord.y, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
+            if(shouldPixel <= 1.0) {
+                Loki rng = Loki((in.texCoord.x * uniforms.imgWidth) + 1, (in.texCoord.y * uniforms.imgHeight) + 1, uniforms.iteration + 1);
+                float random = rng.rand();
+                return float4(random, random, random, 1);
+            }
+            index += 4;
+        }
+    }
+    float4 textureColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, in.texCoord), capturedImageTextureCbCr.sample(colorSampler, in.texCoord));
+    return textureColor;
+}
+
+fragment float4 colorNoiseFragment(ImageColorInOut in [[stage_in]],
+                                   texture2d<float, access::sample> capturedImageTextureY [[ texture(1) ]],
+                                   texture2d<float, access::sample> capturedImageTextureCbCr [[ texture(2) ]],
+                                   texture1d<float, access::read> rects [[ texture(3) ]],
+                                   constant FaceUniforms& uniforms [[ buffer(1) ]]) {
+    constexpr sampler colorSampler(mip_filter::linear, mag_filter::linear, min_filter::linear);
+    if(uniforms.hasFaces) {
+        uint count = rects.get_width();
+        uint index = 0;
+        while(index < count) {
+            float4 x = rects.read(index);
+            float4 w = rects.read(index + 2);
+            float4 y = rects.read(index + 1);
+            float4 h = rects.read(index + 3);
+            float shouldPixel = show(in.texCoord.x, in.texCoord.y, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
+            if(shouldPixel <= 1.0) {
+                Loki rng = Loki((in.texCoord.x * uniforms.imgWidth) + 1, (in.texCoord.y * uniforms.imgHeight) + 1, uniforms.iteration + 1);
+                float random_r = rng.rand();
+                float random_g = rng.rand();
+                float random_b = rng.rand();
+                return float4(random_r, random_g, random_b, 1);
+            }
+            index += 4;
+        }
+    }
+    float4 textureColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, in.texCoord), capturedImageTextureCbCr.sample(colorSampler, in.texCoord));
+    return textureColor;
+}
+
 fragment float4 pixellateFragment(ImageColorInOut in [[stage_in]],
                             texture2d<float, access::sample> capturedImageTextureY [[ texture(1) ]],
                             texture2d<float, access::sample> capturedImageTextureCbCr [[ texture(2) ]],
@@ -63,21 +144,6 @@ fragment float4 pixellateFragment(ImageColorInOut in [[stage_in]],
             float4 h = rects.read(index + 3);
             float shouldPixel = show(in.texCoord.x, in.texCoord.y, x[0], y[0], w[0], h[0], uniforms.aspectRatio, uniforms.padding, uniforms.edge, uniforms.axis, uniforms.divider);
             if(shouldPixel <= 1.0) {
-                if(uniforms.pixelType == 1) {
-                    Loki rng = Loki((in.texCoord.x * uniforms.imgWidth) + 1, (in.texCoord.y * uniforms.imgHeight) + 1, uniforms.iteration + 1);
-                    float random_r = rng.rand();
-                    float random_g = rng.rand();
-                    float random_b = rng.rand();
-                    return float4(random_r, random_g, random_b, 1);
-                }
-                if(uniforms.pixelType == 2) {
-                    Loki rng = Loki((in.texCoord.x * uniforms.imgWidth) + 1, (in.texCoord.y * uniforms.imgHeight) + 1, uniforms.iteration + 1);
-                    float random = rng.rand();
-                    return float4(random, random, random, 1);
-                }
-                if(uniforms.red >= 0 && uniforms.green >= 0 && uniforms.blue >= 0) {
-                    return float4(uniforms.red, uniforms.green, uniforms.blue, 1);
-                }
                 float2 sampleDivisor = float2(uniforms.widthOfPixel / uniforms.aspectRatio, uniforms.widthOfPixel);
                 float2 samplePos = in.texCoord - mod(in.texCoord, sampleDivisor) + float2(0.5) * sampleDivisor;
                 float4 pixellateColor = ycbcrToRGBTransform(capturedImageTextureY.sample(colorSampler, samplePos), capturedImageTextureCbCr.sample(colorSampler, samplePos));

@@ -11,6 +11,9 @@
 		7752359524291AB200483BFA /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7752359424291AB200483BFA /* InAppManager.swift */; };
 		77523597242A231500483BFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77523596242A231500483BFA /* StoreKit.framework */; };
 		7761577E24879512000C00AF /* AnonLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7761577D24879512000C00AF /* AnonLocation.swift */; };
+		77B275D1248816F4005E85E1 /* FaceColorFillShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */; };
+		77B275D324881720005E85E1 /* FaceColorNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */; };
+		77B275D52488174A005E85E1 /* FaceBWNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */; };
 		77B312E72424EDA1007172A0 /* face.dae in Resources */ = {isa = PBXBuildFile; fileRef = 77B312E62424EDA1007172A0 /* face.dae */; };
 		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
 		77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */; };
@@ -72,6 +75,9 @@
 		7752359424291AB200483BFA /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
 		77523596242A231500483BFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7761577D24879512000C00AF /* AnonLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonLocation.swift; sourceTree = "<group>"; };
+		77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorFillShader.swift; sourceTree = "<group>"; };
+		77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorNoiseShader.swift; sourceTree = "<group>"; };
+		77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceBWNoiseShader.swift; sourceTree = "<group>"; };
 		77B312E62424EDA1007172A0 /* face.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = face.dae; sourceTree = "<group>"; };
 		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
@@ -247,6 +253,9 @@
 				8FE3F409242177C700497EA6 /* BodyBlurShader.metal */,
 				8FE3F403242177C700497EA6 /* FaceShader.swift */,
 				8FE3F40C242177C700497EA6 /* FacePixelShader.swift */,
+				77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */,
+				77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */,
+				77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */,
 				8FE3F402242177C700497EA6 /* FacePixelShader.metal */,
 				8FE3F408242177C700497EA6 /* FaceBlurShader.swift */,
 				8FE3F3FE242177C700497EA6 /* FaceBlurShader.metal */,
@@ -444,12 +453,15 @@
 				77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */,
 				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
 				8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */,
+				77B275D324881720005E85E1 /* FaceColorNoiseShader.swift in Sources */,
 				8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */,
 				8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
 				8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */,
 				7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */,
 				8F7C58332487B62C00C408AD /* Reachability.swift in Sources */,
+				77B275D1248816F4005E85E1 /* FaceColorFillShader.swift in Sources */,
+				77B275D52488174A005E85E1 /* FaceBWNoiseShader.swift in Sources */,
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
 				8F25F492248742B000615989 /* ACShutterLockArea.swift in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,

@@ -679,6 +679,34 @@ class Anon: NSObject {
             scale = 4 * pos
         }
         if let faceShader = CameraShader.shared.shader(at: 0) as? FaceShader {
+            if fillColor != nil, faceShader as? FaceColorFillShader == nil {
+                DispatchQueue.main.sync {
+                    CameraShader.shared.useShader(shader: FaceColorFillShader(), index: 0)
+                    updateShaders(rects: rects)
+                }
+                return
+            }
+            if pixellateType == .normal, fillColor == nil, faceShader as? FacePixelShader == nil {
+                DispatchQueue.main.sync {
+                    CameraShader.shared.useShader(shader: FacePixelShader(), index: 0)
+                    updateShaders(rects: rects)
+                }
+                return
+            }
+            if pixellateType == .noise, fillColor == nil, faceShader as? FaceColorNoiseShader == nil {
+                DispatchQueue.main.sync {
+                    CameraShader.shared.useShader(shader: FaceColorNoiseShader(), index: 0)
+                    updateShaders(rects: rects)
+                }
+                return
+            }
+            if pixellateType == .bwNoise, fillColor == nil, faceShader as? FaceBWNoiseShader == nil {
+                DispatchQueue.main.sync {
+                    CameraShader.shared.useShader(shader: FaceBWNoiseShader(), index: 0)
+                    updateShaders(rects: rects)
+                }
+                return
+            }
             faceShader.widthOfPixel = widthOfPixel
             faceShader.padding = padding
             faceShader.faces = rects
@@ -687,9 +715,6 @@ class Anon: NSObject {
             faceShader.edge = currentEdge
             faceShader.scale = scale
             faceShader.color = fillColor
-            if pixellateType == .normal { faceShader.pixelType = 0 }
-            else if pixellateType == .noise { faceShader.pixelType = 1 }
-            else if pixellateType == .bwNoise { faceShader.pixelType = 2 }
         }
         if let bodyShader = CameraShader.shared.shader(at: 0) as? BodyShader {
             bodyShader.widthOfPixel = widthOfPixel
