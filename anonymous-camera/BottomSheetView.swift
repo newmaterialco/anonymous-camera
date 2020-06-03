@@ -156,20 +156,27 @@ struct BottomSheetView<Content: View>: View {
                         
                         VStack {
                             ForEach(self.anonymisation.filterGroups.indices) { idx in
-                                VStack {
-                                    ForEach(self.anonymisation.filterGroups[idx].filters.indices) { jdx in
-                                        HStack {
-                                            Text(self.anonymisation.filterGroups[idx].filters[jdx].name)
-                                            Spacer()
-                                            Image(uiImage: UIImage(systemName: "checkmark")!)
-                                                .opacity((self.anonymisation.filterGroups[idx].selectedFilterIndex == jdx) ? 1 : 0)
+                                if idx > 0 {
+                                    VStack {
+                                        ForEach(self.anonymisation.filterGroups[idx].filters.indices) { jdx in
+                                            HStack {
+                                                Text(self.anonymisation.filterGroups[idx].filters[jdx].name)
+                                                Spacer()
+                                                Image(uiImage: UIImage(systemName: "checkmark")!)
+                                                    .opacity((self.anonymisation.filterGroups[idx].selectedFilterIndex == jdx) ? 1 : 0)
+                                            }
+                                            .padding()
+                                            .onTapGesture {
+                                                print("tapped")
+                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[idx].filters[jdx], inGroup: self.anonymisation.filterGroups[idx])
+                                            }
                                         }
-                                        .padding()
-                                        .onTapGesture {
-                                            print("tapped")
-                                            self.anonymisation.select(filter: self.anonymisation.filterGroups[idx].filters[jdx], inGroup: self.anonymisation.filterGroups[idx])
-                                        }
+                                        
+                                        Rectangle()
+                                            .frame(height: 0.5)
+                                            .foregroundColor(Color.black.opacity(0.25))
                                     }
+
                                 }
                             }
                         }

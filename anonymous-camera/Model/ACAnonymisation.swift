@@ -52,7 +52,7 @@ class ACAnonymisation : ObservableObject {
     
     
     
-    @Published var exifDateTime : Bool = false {
+    @Published var exifDateTime : Bool = true {
         didSet {
             
             if exifDateTime {
@@ -117,7 +117,7 @@ class ACAnonymisation : ObservableObject {
         }
     }
         
-    @Published var includeWatermark : Bool = false
+    @Published var includeWatermark : Bool = true
     
     @Published var interviewModeEffectsSwitched : Bool = false
     
@@ -180,7 +180,7 @@ class ACAnonymisation : ObservableObject {
     
     init() {
         self.select(filterGroup: filterGroups[1])
-//        anonymous.padding = 0.05
+        anonymous.padding = 0.05
         anonymous.blurRadius = 60
         anonymous.showMask(type: .blur, detection: .face)
     }

@@ -239,10 +239,10 @@ struct ACViewfinderCard : View {
                     }
                     
                     ACShutterLockArea(isRecording: self.$isRecording, hovering: self.$knobIsHoveringOverLockArea)
-                        .position(CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)))
+                        .position(CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
                     
                     ACShutterKnob(isRecording: self.$isRecording)
-                        .position(self.isRecording && !self.lockedRecording ? self.shutterPosition : CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)))
+                        .position(self.isRecording && !self.lockedRecording ? self.shutterPosition : CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
                         .animation(self.isRecording ? Animation.interactiveSpring() : Animation.spring())
                         .onTapGesture {
                             
@@ -299,7 +299,8 @@ struct ACViewfinderCard : View {
                                     ACAnonymisation.shared.toggleFrontAndBackCamera()
                                 })
                     )
-                        .position(CGPoint(x: self.viewFinderFrame.width*0.75, y: self.viewFinderFrame.height-(70/2)))
+                        .opacity(self.isRecording ? 0 : 1)
+                        .position(CGPoint(x: self.viewFinderFrame.width*0.75, y: self.viewFinderFrame.height-(70/2)-24))
 
                 }
                 .aspectRatio(self.isRecording ? self.sixteenByNineAspectRatio : self.threeByFourAspectRatio, contentMode: .fit)

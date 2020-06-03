@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Your camera is required to capture photos and videos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Use location?</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Your microphone is used to embed audio in video recordings.</string>
 	<key>NSMotionUsageDescription</key>
@@ -30,8 +32,6 @@
 	<string>Access to photo library is required to save photos and videos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to photo library is required to save photos and videos.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Use location?</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -60,9 +60,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

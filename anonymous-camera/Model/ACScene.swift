@@ -43,7 +43,7 @@ final public class ACScene : ObservableObject {
     
     @Published public var internetConnection : Bool = true
 
-    @Published public var interviewModeAvailable : Bool = false
+    @Published public var interviewModeAvailable : Bool = true
     @Published public var interviewModeControlIsHoveringOverClose : Bool = false
     @Published public var interviewModeControlIsBeingTouched : Bool = false
     
