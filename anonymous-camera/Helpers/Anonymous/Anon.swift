@@ -420,6 +420,10 @@ class Anon: NSObject {
     }
     
     func showMask(type: AnonMask, detection: AnonDetection) {
+        if detection == .body {
+            self.faces = []
+            self.delegate?.updated(faces: self.faces)
+        }
         if currentDetection != detection {
             if fromState == nil {
                 fromState = AnonState(camera: currentFacing, detection: currentDetection, mask: currentEffect, lens: currentLens)
