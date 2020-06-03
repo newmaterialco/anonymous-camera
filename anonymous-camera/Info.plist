@@ -21,15 +21,15 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your camera</string>
+	<string>Your camera is required to capture photos and videos.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to access your microphone.</string>
+	<string>Your microphone is used to embed audio in video recordings.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Use device motion?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Please allow access to save photo in your photo library.</string>
+	<string>Access to photo library is required to save photos and videos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Use photo library?</string>
+	<string>Access to photo library is required to save photos and videos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Use location?</string>
 	<key>UIApplicationSceneManifest</key>

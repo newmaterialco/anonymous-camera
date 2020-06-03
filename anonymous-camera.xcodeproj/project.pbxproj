@@ -40,6 +40,9 @@
 		8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */; };
 		8F25F48B2486E6FF00615989 /* EULAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4892486E6FF00615989 /* EULAView.swift */; };
 		8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F48C2486E70A00615989 /* SafetyCard.swift */; };
+		8F25F4902486F1D300615989 /* ACPlaygroundCredit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F48F2486F1D300615989 /* ACPlaygroundCredit.swift */; };
+		8F25F492248742B000615989 /* ACShutterLockArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F491248742B000615989 /* ACShutterLockArea.swift */; };
+		8F25F49424874DEE00615989 /* ACHuD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F49324874DEE00615989 /* ACHuD.swift */; };
 		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
 		8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1A24326B320017347F /* BottomSheetView.swift */; };
 		8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F648B042483002500703C44 /* UIScrollViewWrapper.swift */; };
@@ -78,6 +81,9 @@
 		8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		8F25F4892486E6FF00615989 /* EULAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAView.swift; sourceTree = "<group>"; };
 		8F25F48C2486E70A00615989 /* SafetyCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafetyCard.swift; sourceTree = "<group>"; };
+		8F25F48F2486F1D300615989 /* ACPlaygroundCredit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACPlaygroundCredit.swift; sourceTree = "<group>"; };
+		8F25F491248742B000615989 /* ACShutterLockArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACShutterLockArea.swift; sourceTree = "<group>"; };
+		8F25F49324874DEE00615989 /* ACHuD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACHuD.swift; sourceTree = "<group>"; };
 		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8F4FAF1A24326B320017347F /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		8F648B042483002500703C44 /* UIScrollViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewWrapper.swift; sourceTree = "<group>"; };
@@ -187,6 +193,9 @@
 				8FB2516F2424BED70021600C /* ContainerView.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
 				8F25F4742486917D00615989 /* ACShutterKnob.swift */,
+				8F25F49324874DEE00615989 /* ACHuD.swift */,
+				8F25F491248742B000615989 /* ACShutterLockArea.swift */,
+				8F25F48F2486F1D300615989 /* ACPlaygroundCredit.swift */,
 				8F4FAF1A24326B320017347F /* BottomSheetView.swift */,
 				8F648B042483002500703C44 /* UIScrollViewWrapper.swift */,
 				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
@@ -438,11 +447,13 @@
 				8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */,
 				7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */,
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
+				8F25F492248742B000615989 /* ACShutterLockArea.swift in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,
 				8F0B22AC24217B8E0096A444 /* BodyPixelShader.swift in Sources */,
 				8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */,
 				8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
+				8F25F4902486F1D300615989 /* ACPlaygroundCredit.swift in Sources */,
 				8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */,
 				7752359524291AB200483BFA /* InAppManager.swift in Sources */,
 				8F0B22B024217BA20096A444 /* Easing.swift in Sources */,
@@ -450,6 +461,7 @@
 				8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */,
 				8F0B22AF24217B9C0096A444 /* FaceShader.swift in Sources */,
 				8F25F48B2486E6FF00615989 /* EULAView.swift in Sources */,
+				8F25F49424874DEE00615989 /* ACHuD.swift in Sources */,
 				8F0B22A224217B3C0096A444 /* Anon.swift in Sources */,
 				8F0B22AB24217B8C0096A444 /* FaceBlurShader.metal in Sources */,
 				8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */,

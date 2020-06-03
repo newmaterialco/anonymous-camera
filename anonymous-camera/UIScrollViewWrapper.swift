@@ -42,7 +42,7 @@ struct UIScrollViewWrapper<Content: View>: UIViewControllerRepresentable {
         var parent : UIScrollViewWrapper
         var requiredOffsetForDismissal : CGFloat = 72
         
-        var lockingWiggleRoom : CGFloat = 12
+        var lockingWiggleRoom : CGFloat = 6
         var locked : Bool = false
         
         init(_ parent : UIScrollViewWrapper) {

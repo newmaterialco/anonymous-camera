@@ -18,14 +18,20 @@ struct ACShutterKnob: View {
         
     var body: some View {
         ZStack {
-            Circle()
-            .foregroundColor(.white)
             
             ACShutterProgressIndicator(isRecording: $isRecording)
-            .offset(y: -100)
+            .opacity(isRecording ? 1 : 0)
+                .offset(y:
+                    withAnimation(Animation.spring(), {
+                        isRecording ? -88 : 0
+                    })
+            )
             .rotationEffect(sceneInformation.deviceRotationAngle)
+            
+            Circle()
+            .foregroundColor(.white)
+            .frame(width: 70, height: 70, alignment: .center)
         }
-        .frame(width: 70, height: 70)
     }
 }
 
@@ -37,6 +43,10 @@ struct ACShutterProgressIndicator: View {
     @Binding var isRecording : Bool
         
     var body: some View {
-        Text("00:00")
+        Text(anonymisation.timeCode)
+            .font(Font.system(size: 12, weight: .semibold, design: .default).monospacedDigit())
+        .foregroundColor(Color.black)
+        .padding()
+        .background(Color.white)
     }
 }

@@ -40,6 +40,8 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
         }
     }
     
+
+    
     var interviewModeIsOn : Bool = false {
         didSet {
             if interviewModeIsOn {
@@ -72,7 +74,7 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
         }
     }
     
-    var selectedFilter : ACFilter = ACAnonymisation.shared.filters[0] {
+    var selectedFilter : ACFilter = ACAnonymisation.shared.selectedFilterGroup.filters[0] {
         didSet {
             updateEffect()
         }
@@ -109,13 +111,13 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
             
             if interviewModeConfiguration == .effectTrailing {
                 
-                leadingSection.label.scrollToFilter(filter: ACAnonymisation.shared.filters[0])
+                leadingSection.label.scrollToFilter(filter: ACAnonymisation.shared.allAvailableFilters[0])
                 trailingSection.label.scrollToFilter(filter: selectedFilter)
 
             } else if interviewModeConfiguration == .effectLeading {
                 
                 leadingSection.label.scrollToFilter(filter: selectedFilter)
-                trailingSection.label.scrollToFilter(filter: ACAnonymisation.shared.filters[0])
+                trailingSection.label.scrollToFilter(filter: ACAnonymisation.shared.allAvailableFilters[0])
             }
             
         }
@@ -162,7 +164,7 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                        
+                                
         self.view.addSubview(track)
         track.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(12)
@@ -438,12 +440,12 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
             if e == .leading {
                 if interviewModeConfiguration == .effectLeading {
                     generator.selectionChanged()
-                    ACAnonymisation.shared.select(filter: ACAnonymisation.shared.filters[0])
+                    ACAnonymisation.shared.select(filterGroup: ACAnonymisation.shared.filterGroups[0])
                 }
             } else if e == .trailing {
                 if interviewModeConfiguration == .effectTrailing {
                     generator.selectionChanged()
-                    ACAnonymisation.shared.select(filter: ACAnonymisation.shared.filters[0])
+                    ACAnonymisation.shared.select(filterGroup: ACAnonymisation.shared.filterGroups[0])
                 }
             }
         }
@@ -482,6 +484,17 @@ struct ACInterviewModeContainerView_Previews: PreviewProvider {
     static var orientation = UIDeviceOrientation.portrait
     
     static var previews: some View {
-        ACInterviewModeContainerView(interviewModeIsOn: interviewModeIsOn, orientation: orientation, interviewModeConfiguration: .off, selectedFilter: ACAnonymisation.shared.filters[0], interviewModeControlIsBeingPanned: false)
+        ACInterviewModeContainerView(interviewModeIsOn: interviewModeIsOn, orientation: orientation, interviewModeConfiguration: .off, selectedFilter: ACAnonymisation.shared.allAvailableFilters[0], interviewModeControlIsBeingPanned: false)
+    }
+}
+
+class TranslucentTouchView : UIView {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        for subview in subviews {
+            if !(subview.isHidden) && subview.isUserInteractionEnabled && subview.point(inside: convert(point, to: subview), with: event) {
+                return true
+            }
+        }
+        return false
     }
 }

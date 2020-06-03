@@ -22,7 +22,7 @@ class MainHostingViewController: UIViewController {
             make.pinAllEdgesToSuperView()
         }
         
-        ACAnonymisation.shared.select(filter: ACAnonymisation.shared.filters[1])
+        ACAnonymisation.shared.select(filterGroup: ACAnonymisation.shared.filterGroups[1])
     }
     
     override var prefersHomeIndicatorAutoHidden: Bool {
