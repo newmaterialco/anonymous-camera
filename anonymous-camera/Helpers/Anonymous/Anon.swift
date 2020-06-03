@@ -232,7 +232,7 @@ class Anon: NSObject {
     var point: CGPoint {
         get { return .zero }
         set {
-            let p = newValue
+            let p = CGPoint(x: newValue.x, y: newValue.y + 12)
             if p.x != 0 || p.y != 0 {
                 let ratioPoint = CGPoint(x: p.x / shaderView.width, y: p.y / shaderView.height)
                 let orientation = MotionManager.shared.orientation
