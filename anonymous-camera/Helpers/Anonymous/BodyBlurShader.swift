@@ -51,7 +51,7 @@ class BodyBlurShader: BodyShader {
             uniforms.edge = edge
             uniforms.axis = axis
             uniforms.divider = divider
-            uniforms.padding = padding
+            uniforms.padding = 0
             uniforms.invert = invert
             encoder.setFragmentBytes(&uniforms, length: MemoryLayout<BodyUniforms>.size, index: 1)
         }

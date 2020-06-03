@@ -30,6 +30,8 @@
 	<string>Access to photo library is required to save photos and videos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to photo library is required to save photos and videos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Use location?</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

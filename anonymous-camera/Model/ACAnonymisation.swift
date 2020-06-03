@@ -27,11 +27,16 @@ class ACAnonymisation : ObservableObject {
     
     @Published var exifLocation : Bool = false {
         didSet {
-            
+            print("didSet exifLocation \(exifLocation)")
             if exifLocation {
                 ACScene.shared.hudString = "Include Location"
+                Anon.requestLocationAccess { status in
+                    if status == .granted { anonymous.getLocation(true) }
+                    else { anonymous.getLocation(false) }
+                }
             } else {
                 ACScene.shared.hudString = "Remove Location"
+                anonymous.getLocation(false)
             }
             
             ACScene.shared.hudLoading = false
@@ -68,7 +73,7 @@ class ACAnonymisation : ObservableObject {
             }
         }
     }
-    
+
     @Published var distortAudio : Bool = false
     
     enum ACInterviewModeConfiguration {

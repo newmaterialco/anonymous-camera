@@ -10,6 +10,7 @@
 		7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7740E3CB248587DE00694FE4 /* NoiseView.swift */; };
 		7752359524291AB200483BFA /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7752359424291AB200483BFA /* InAppManager.swift */; };
 		77523597242A231500483BFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77523596242A231500483BFA /* StoreKit.framework */; };
+		7761577E24879512000C00AF /* AnonLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7761577D24879512000C00AF /* AnonLocation.swift */; };
 		77B312E72424EDA1007172A0 /* face.dae in Resources */ = {isa = PBXBuildFile; fileRef = 77B312E62424EDA1007172A0 /* face.dae */; };
 		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
 		77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */; };
@@ -69,6 +70,7 @@
 		7740E3CB248587DE00694FE4 /* NoiseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseView.swift; sourceTree = "<group>"; };
 		7752359424291AB200483BFA /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
 		77523596242A231500483BFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		7761577D24879512000C00AF /* AnonLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonLocation.swift; sourceTree = "<group>"; };
 		77B312E62424EDA1007172A0 /* face.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = face.dae; sourceTree = "<group>"; };
 		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				8FE3F408242177C700497EA6 /* FaceBlurShader.swift */,
 				8FE3F3FE242177C700497EA6 /* FaceBlurShader.metal */,
 				7740E3CB248587DE00694FE4 /* NoiseView.swift */,
+				7761577D24879512000C00AF /* AnonLocation.swift */,
 			);
 			path = Anonymous;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */,
 				8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */,
 				8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */,
+				7761577E24879512000C00AF /* AnonLocation.swift in Sources */,
 				77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */,
 				8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */,
 				77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */,

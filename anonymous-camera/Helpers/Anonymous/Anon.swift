@@ -14,6 +14,7 @@ import SwifterSwift
 import Photos
 import ARKit
 import MetalKit
+import SwiftUI
 
 extension CGRect {
     public var centerX: CGFloat {
@@ -57,7 +58,7 @@ protocol AnonDelegate {
 }
 
 class Anon: NSObject {
-    
+        
     struct CapturedItem {
         let localIdentifier: String
         let image: UIImage?
@@ -70,6 +71,18 @@ class Anon: NSObject {
         if types.contains(.backTelephoto) { tmp.append(.telephoto) }
         if types.contains(.backUltraWide) { tmp.append(.wide) }
         return tmp
+    }
+    
+    public static func requestLocationAccess(_ block: @escaping (_: AnonPermission) -> Void) {
+        let status = CLLocationManager.authorizationStatus()
+        if status == .denied || status == .restricted { block(.denied) }
+        else if status == .notDetermined {
+            AnonLocation.requestAuthPermission { status in
+                if status == .always || status == .inUse { block(.granted) }
+                else { block(.denied) }
+            }
+        }
+        else { block(.granted) }
     }
     
     static func requestMicrophoneAccess(_ block: @escaping (_: AnonPermission) -> Void) {
@@ -301,6 +314,18 @@ class Anon: NSObject {
         CameraShader.shared.arDelegate = self
     }
     
+    func getLocation(_ flag: Bool) {
+        if flag {
+            AnonLocation.shared.onUpdate { location in
+                self.currentLocation = location
+            }
+        }
+        else {
+            AnonLocation.shared.onUpdate(nil)
+            currentLocation = nil
+        }
+    }
+    
     func startRecord(audio: Bool, anonVoice: Bool) {
         var shouldRecordAudio = audio
         let status = AVAudioSession.sharedInstance().recordPermission
@@ -323,12 +348,12 @@ class Anon: NSObject {
     func endRecord(fixedDate: Bool, location: CLLocation?, _ block: @escaping AnonSavedToPhotos) {
         CameraShader.shared.takeVideo(feed: -1, delegate: nil)
         if let processingVideo = video {
-            Anon.processingVideos[processingVideo.uuid] = Anon.ProcessingVideo(anonVideo: processingVideo, fixedDate: fixedDate, location: location)
+            Anon.processingVideos[processingVideo.uuid] = Anon.ProcessingVideo(anonVideo: processingVideo, fixedDate: fixedDate, location: currentLocation)
             processingVideo.save(cancel: false, handler: { url in
                 Anon.processingVideos.removeValue(forKey: processingVideo.uuid)
                 if let url = url {
                     
-                    Anon.saveToPhotoLibrary(image: nil, url: url, fixedDate: fixedDate, location: location) { success, localIdentifier in
+                    Anon.saveToPhotoLibrary(image: nil, url: url, fixedDate: fixedDate, location: anonymous.currentLocation) { success, localIdentifier in
                         DispatchQueue.main.async {
                             if success && localIdentifier != "" {
                                 if Anon.history.count == Anon.historyCount { Anon.history.removeLast() }
@@ -354,7 +379,7 @@ class Anon: NSObject {
         photo?.watermark = watermark
         photo?.onImageReady({ image in
             CameraShader.shared.takeImage(feed: -1, delegate: nil)
-            Anon.saveToPhotoLibrary(image: image, url: nil, fixedDate: fixedDate, location: location) { success, localIdentifier in
+            Anon.saveToPhotoLibrary(image: image, url: nil, fixedDate: fixedDate, location: anonymous.currentLocation) { success, localIdentifier in
                 DispatchQueue.main.async {
                     if success && localIdentifier != "" {
                         if Anon.history.count == Anon.historyCount { Anon.history.removeLast() }
@@ -447,6 +472,7 @@ class Anon: NSObject {
     private var detectionChange = false
     private var fromState: AnonState?
     private var sourceSize: CGSize = .zero
+    private var currentLocation: CLLocation?
     
     private func convertAVFaceRect(_ b: CGRect) -> CGRect {
         if currentFacing == .front {
@@ -752,7 +778,7 @@ class Anon: NSObject {
         PHPhotoLibrary.shared().performChanges({
             PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: "Anonymous Camera")
         }) { saved, error in
-            Anon.saveToPhotoLibrary(image: image, url: url, fixedDate: fixedDate, location: location, completion: completion)
+            Anon.saveToPhotoLibrary(image: image, url: url, fixedDate: fixedDate, location: anonymous.currentLocation, completion: completion)
         }
     }
     
