@@ -40,7 +40,7 @@ class BodyShader: BaseShader, ARDepthShader {
         uniforms.edge = edge
         uniforms.axis = axis
         uniforms.divider = divider
-        uniforms.padding = 0
+        uniforms.padding = 0.01
         uniforms.invert = invert
         uniforms.red = -1
         uniforms.green = -1
