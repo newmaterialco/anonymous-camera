@@ -145,11 +145,12 @@ struct BottomSheetView<Content: View>: View {
                             Spacer()
                         })
                         
-                        
-                        Picker(selection: self.$anonymisation.anonymisationType, label: Text("What is your favorite color?")) {
-                            Text("Face").tag(Anon.AnonDetection.face)
-                            Text("Full Body").tag(Anon.AnonDetection.body)
-                        }.pickerStyle(SegmentedPickerStyle())
+                        if Platform.hasDepthSegmentation {
+                            Picker(selection: self.$anonymisation.anonymisationType, label: Text("What is your favorite color?")) {
+                                Text("Face").tag(Anon.AnonDetection.face)
+                                Text("Full Body").tag(Anon.AnonDetection.body)
+                            }.pickerStyle(SegmentedPickerStyle())
+                        }
                         
                         VStack {
                             ForEach(self.anonymisation.filterGroups.indices) { idx in
@@ -206,7 +207,7 @@ struct BottomSheetView<Content: View>: View {
                             HStack {
                                 Text("Split Screen")
                                 Spacer()
-                                Toggle(isOn: self.$anonymisation.splitScreenAvailable) {
+                                Toggle(isOn: self.$sceneInformation.interviewModeAvailable) {
                                     Spacer()
                                 }
                             }

@@ -41,6 +41,7 @@ final public class ACScene : ObservableObject {
     @Published public var deviceLandscapeRotationAngle : Angle = Angle(degrees: 90)
     @Published public var devicePreviousOrientationWasLandscape : Bool = false
 
+    @Published public var interviewModeAvailable : Bool = false
     @Published public var interviewModeControlIsHoveringOverClose : Bool = false
     @Published public var interviewModeControlIsBeingTouched : Bool = false
     

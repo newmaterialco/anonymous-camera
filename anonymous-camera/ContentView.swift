@@ -235,6 +235,7 @@ struct ACViewfinderCard : View {
                             .frame(width: geometry.size.height, height: geometry.size.width, alignment: .center)
                             .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
                             .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
+                            .opacity(self.sceneInformation.interviewModeAvailable ? 1 : 0)
                     }
                     
                     ACShutterLockArea(isRecording: self.$isRecording, hovering: self.$knobIsHoveringOverLockArea)
@@ -290,6 +291,16 @@ struct ACViewfinderCard : View {
                                     }
                                 })
                     )
+                    
+                    ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
+                        .simultaneousGesture(
+                            TapGesture()
+                                .onEnded({ _ in
+                                    ACAnonymisation.shared.toggleFrontAndBackCamera()
+                                })
+                    )
+                        .position(CGPoint(x: self.viewFinderFrame.width*0.75, y: self.viewFinderFrame.height-(70/2)))
+
                 }
                 .aspectRatio(self.isRecording ? self.sixteenByNineAspectRatio : self.threeByFourAspectRatio, contentMode: .fit)
                 .foregroundColor(Color(UIColor.darkGray))
