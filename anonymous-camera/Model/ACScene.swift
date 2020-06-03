@@ -47,5 +47,11 @@ final public class ACScene : ObservableObject {
     @Published public var isDraggingBottomSheet : Bool = false
     @Published public var bottomSheetIsOpen : Bool = false
     
+    @Published public var showHUD : Bool = false
+    @Published public var hudLoading : Bool = false
+    @Published public var hudTint : UIColor = .black
+    @Published public var hudString : String = "Placeholder"
+    @Published public var hudIcon : UIImage?
+    
     static var shared = ACScene()
 }

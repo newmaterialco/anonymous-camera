@@ -145,10 +145,31 @@ struct BottomSheetView<Content: View>: View {
                             Spacer()
                         })
                         
+                        
                         Picker(selection: self.$anonymisation.anonymisationType, label: Text("What is your favorite color?")) {
                             Text("Face").tag(Anon.AnonDetection.face)
                             Text("Full Body").tag(Anon.AnonDetection.body)
                         }.pickerStyle(SegmentedPickerStyle())
+                        
+                        VStack {
+                            ForEach(self.anonymisation.filterGroups.indices) { idx in
+                                VStack {
+                                    ForEach(self.anonymisation.filterGroups[idx].filters.indices) { jdx in
+                                        HStack {
+                                            Text(self.anonymisation.filterGroups[idx].filters[jdx].name)
+                                            Spacer()
+                                            Image(uiImage: UIImage(systemName: "checkmark")!)
+                                                .opacity((self.anonymisation.filterGroups[idx].selectedFilterIndex == jdx) ? 1 : 0)
+                                        }
+                                        .padding()
+                                        .onTapGesture {
+                                            print("tapped")
+                                            self.anonymisation.select(filter: self.anonymisation.filterGroups[idx].filters[jdx], inGroup: self.anonymisation.filterGroups[idx])
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         
                         VStack {
                             
@@ -181,6 +202,26 @@ struct BottomSheetView<Content: View>: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
+                            
+                            HStack {
+                                Text("Split Screen")
+                                Spacer()
+                                Toggle(isOn: self.$anonymisation.splitScreenAvailable) {
+                                    Spacer()
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            
+                            HStack {
+                                Text("Watermark")
+                                Spacer()
+                                Toggle(isOn: self.$anonymisation.includeWatermark) {
+                                    Spacer()
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
                         }
                         .background(Color(UIColor.secondarySystemBackground))
                         .cornerRadius(radius: 12, style: .continuous)
@@ -194,6 +235,8 @@ struct BottomSheetView<Content: View>: View {
                         .sheet(isPresented: self.$showSafetyCard) {
                             SafetyCard(isPresented: self.$showSafetyCard)
                         }
+                        
+                        ACPlaygroundCredit()
                         
                     }
                     .padding(.horizontal)
@@ -311,18 +354,9 @@ struct ACFilterSelector: View {
     var body: some View {
         ZStack {
             HStack(spacing: sceneInformation.deviceOrientation.isLandscape ? 18 : 12){
-                ForEach(anonymisation.filters) { filter in
-                    ACFilterButton(filter: filter)
-                        .simultaneousGesture(
-                            TapGesture()
-                                .onEnded({ _ in
-                                    self.generator.selectionChanged()
-                                    
-                                    withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)) {
-                                        self.anonymisation.select(filter: filter)
-                                    }
-                                })
-                    )}
+                ForEach(anonymisation.filterGroups.indices) { idx in
+                    ACFilterButton(filterGroup: self.$anonymisation.filterGroups[idx])
+                }
             }
         }
     }
@@ -331,15 +365,20 @@ struct ACFilterSelector: View {
 struct ACFilterButton: View {
     
     @EnvironmentObject var sceneInformation : ACScene
+    @EnvironmentObject var anonymisation : ACAnonymisation
     @State internal var isBeingTouched : Bool = false
-    var filter : ACFilter
+    @Binding var filterGroup : ACFilterGroup
+    
+    let selectionGenerator = UISelectionFeedbackGenerator()
+    let impactGenerator = UIImpactFeedbackGenerator()
+
     
     var body: some View {
         HStack (alignment: .center) {
             
-            Image(uiImage: filter.icon)
+            Image(uiImage: filterGroup.filters[filterGroup.selectedFilterIndex].filterType.icon)
                 .foregroundColor(
-                    filter.selected ? (filter.modifiesImage ? Color(.black) :
+                    filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
                         Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
                         ) :
                         Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
@@ -347,11 +386,11 @@ struct ACFilterButton: View {
                 .rotationEffect(sceneInformation.deviceRotationAngle)
                 .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0), value: sceneInformation.deviceRotationAngle)
             
-            if (filter.selected && !sceneInformation.deviceOrientation.isLandscape) {
-                Text(filter.name)
+            if (filterGroup.selected && !sceneInformation.deviceOrientation.isLandscape) {
+                Text(filterGroup.filters[filterGroup.selectedFilterIndex].name)
                     .font(Font.system(size: 16, weight: .semibold, design: .default))
                     .foregroundColor(
-                        filter.selected ? (filter.modifiesImage ? Color(.black) :
+                        filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
                             Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
                             
                             ) : Color(.label)
@@ -373,8 +412,8 @@ struct ACFilterButton: View {
         )
             .background(
                 
-                filter.selected ? (
-                    filter.modifiesImage ? Color("highlight") :
+                filterGroup.selected ? (
+                    filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color("highlight") :
                         
                         Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
                     
@@ -389,7 +428,7 @@ struct ACFilterButton: View {
             .animation(Animation.easeInOut(duration: 0.2), value: self.sceneInformation.isDraggingBottomSheet)
             .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
             .scaleEffect(isBeingTouched ? 0.92 : 1)
-            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filter.selected ? 1.12 : 1) : 1)
+            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filterGroup.filters[filterGroup.selectedFilterIndex].selected ? 1.12 : 1) : 1)
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ _ in
@@ -400,6 +439,16 @@ struct ACFilterButton: View {
                     .onEnded({ _ in
                         withAnimation(.easeOut(duration: 0.24)) {
                             self.isBeingTouched = false
+                        }
+                    })
+        )
+        .simultaneousGesture(
+                TapGesture()
+                    .onEnded({ _ in
+                        self.selectionGenerator.selectionChanged()
+                        
+                        withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)) {
+                            self.anonymisation.select(filterGroup: self.filterGroup)
                         }
                     })
         )

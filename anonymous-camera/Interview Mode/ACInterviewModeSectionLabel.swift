@@ -41,7 +41,7 @@ class ACInterviewModeSectionLabel: UIView {
             make.trailing.equalTo(labelContainer)
         }
         
-        self.configureForFilters(filters: ACAnonymisation.shared.filters)
+        self.configureForFilters(filters: ACAnonymisation.shared.allAvailableFilters)
     }
     
     var hide = false
@@ -76,7 +76,7 @@ class ACInterviewModeSectionLabel: UIView {
         let animator = UIViewPropertyAnimator(duration: 0, timingParameters: UISpringTimingParameters(dampingRatio: 0.68, frequencyResponse: 0.5))
         
         animator.addAnimations {
-            for (index, f) in ACAnonymisation.shared.filters.enumerated() {
+            for (index, f) in ACAnonymisation.shared.allAvailableFilters.enumerated() {
                 
                 if f.filterIdentifier == filter.filterIdentifier {
                     
@@ -97,7 +97,7 @@ class ACInterviewModeSectionLabel: UIView {
     func configureForFilters (filters : [ACFilter]) {
         
         labels = []
-        
+                
         for filter in filters {
             let label = UILabel()
             label.textAlignment = .center
