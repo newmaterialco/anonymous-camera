@@ -30,6 +30,8 @@
 	<string>Please allow access to save photo in your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Use photo library?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Use location?</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

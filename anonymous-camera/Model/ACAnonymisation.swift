@@ -22,7 +22,17 @@ class ACAnonymisation : ObservableObject {
         }
     }
     
-    @Published var exifLocation : Bool = false
+    @Published var exifLocation : Bool = false {
+        didSet {
+            if exifLocation {
+                Anon.requestLocationAccess { status in
+                    if status == .granted { anonymous.getLocation(true) }
+                    else { anonymous.getLocation(false) }
+                }
+            }
+            else { anonymous.getLocation(false) }
+        }
+    }
     @Published var exifDateTime : Bool = false
     
     @Published var distortAudio : Bool = false
