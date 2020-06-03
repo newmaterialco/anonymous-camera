@@ -350,7 +350,6 @@ class Anon: NSObject {
     
     func takePhoto(fixedDate: Bool, location: CLLocation?, _ block: @escaping AnonSavedToPhotos) {
         CameraShader.shared.takeImage(feed: 0, delegate: self)
-        captureHandler = block
         photo = AnonPhoto()
         photo?.watermark = watermark
         photo?.onImageReady({ image in
@@ -362,9 +361,8 @@ class Anon: NSObject {
                         let item = CapturedItem(localIdentifier: localIdentifier, image: image, url: nil)
                         Anon.history.insert(item, at: 0)
                     }
-                    self.captureHandler?(success)
+                    block(success)
                 }
-                self.captureHandler = nil
                 self.photo = nil
             }
         })
@@ -437,7 +435,6 @@ class Anon: NSObject {
     private var currentLens: CameraLens = .normal
     private var photo: AnonPhoto?
     private var video: AnonVideo?
-    private var captureHandler: AnonSavedToPhotos?
     private var trackedIdleCount: [UUID: Int] = [:]
     private var detectRequest: VNDetectFaceRectanglesRequest!
     private var startCount = 0

@@ -26,7 +26,8 @@ open class BaseShader: NSObject {
     var positionBuffer: MTLBuffer?
     var coordBuffer: MTLBuffer?
     
-    open func aspect() -> Float { return aspectScale.float }
+    open func invertAspect() -> Bool { return false }
+    open func flipAspect() -> Bool { return false }
     open func needsSourceAspect() -> Bool { return false }
     open func obseleteForCurrentFrame() -> Bool { return false }
     open func generate(device: MTLDevice) {}
@@ -56,6 +57,9 @@ open class BaseShader: NSObject {
         coordBuffer = device.makeBuffer(bytes: texCoordVertex, length: coordDataCount, options: [])
         coordBuffer?.label = "\(theClassName)CoordBuffer"
         aspectScale = (viewport.width / viewport.height) / (resolution.height / resolution.width)
+        if flipAspect() { aspectScale = 1.0 }
+        AnonPhoto.viewportSize = viewport
+        AnonPhoto.resolution = resolution
     }
     
     public func render(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, texY: CVMetalTexture, texCbCr: CVMetalTexture, mirrored: Bool, size: CGSize) -> Bool {
@@ -69,7 +73,7 @@ open class BaseShader: NSObject {
             var vertexUniforms = VertexUniforms()
             if mirrored { vertexUniforms.mirrored = -1.0 }
             else { vertexUniforms.mirrored = 1.0 }
-            vertexUniforms.aspectScale = aspect()
+            vertexUniforms.aspectScale = aspectScale.float
             encoder.setVertexBytes(&vertexUniforms, length: MemoryLayout<VertexUniforms>.size, index: 3)
             encoder.setFragmentTexture(CVMetalTextureGetTexture(texY), index: 1)
             encoder.setFragmentTexture(CVMetalTextureGetTexture(texCbCr), index: 2)
