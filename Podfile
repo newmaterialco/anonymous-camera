@@ -4,6 +4,7 @@ inhibit_all_warnings!
 def shared_pods
   pod 'SwifterSwift'
   pod 'SnapKit'
+  pod 'SwiftyUserDefaults', '~> 5.0'
 end
 
 target 'anonymous-camera' do

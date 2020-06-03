@@ -8,6 +8,12 @@
 
 import SwiftUI
 import Combine
+import SwiftyUserDefaults
+
+extension DefaultsKeys {
+    var exifLocation: DefaultsKey<Bool?> { .init("exifLocation", defaultValue: false) }
+    var exifDateTime: DefaultsKey<Bool?> { .init("exifDateTime", defaultValue: true) }
+}
 
 class ACAnonymisation : ObservableObject {
     
@@ -25,8 +31,11 @@ class ACAnonymisation : ObservableObject {
         }
     }
     
-    @Published var exifLocation : Bool = false {
+    @Published var exifLocation : Bool = Defaults[\.exifLocation]! {
         didSet {
+            
+            Defaults[\.exifLocation]! = exifLocation
+            
             if exifLocation {
                 ACScene.shared.hudString = "Include Location"
                 Anon.requestLocationAccess { status in
@@ -52,8 +61,10 @@ class ACAnonymisation : ObservableObject {
     
     
     
-    @Published var exifDateTime : Bool = true {
+    @Published var exifDateTime : Bool = Defaults[\.exifDateTime]! {
         didSet {
+            
+            Defaults[\.exifDateTime]! = exifDateTime
             
             if exifDateTime {
                 ACScene.shared.hudString = "Include Timestamp"
@@ -228,7 +239,7 @@ class ACAnonymisation : ObservableObject {
             anonymous.watermark = nil
         }
         
-        anonymous.takePhoto(fixedDate: self.exifDateTime, location: nil) { success in
+        anonymous.takePhoto(fixedDate: !self.exifDateTime, location: nil) { success in
             
             print("took photo")
             
