@@ -82,6 +82,7 @@ class FaceBlurShader: FaceShader {
     
     override func postRender(pass: Int, encoder: MTLRenderCommandEncoder, device: MTLDevice, drawable: CAMetalDrawable, commandBuffer: MTLCommandBuffer) {
         if pass == 0 {
+            scale = 1.0
             let descriptor = MTLTextureDescriptor()
             descriptor.depth = 1
             descriptor.width = drawable.texture.width
