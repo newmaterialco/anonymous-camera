@@ -44,6 +44,8 @@ typealias AnonPhotoReady = (_ : UIImage) -> Void
 class AnonPhoto {
     
     var watermark: UIImage?
+    static var viewportSize: CGSize = .zero
+    static var resolution: CGSize = .zero
     
     func onImageReady(_ block: @escaping AnonPhotoReady) {
         imageReadyHandler = block
@@ -62,10 +64,13 @@ class AnonPhoto {
             if let anonImage = anonImage {
                 let w = anonImage.size.width
                 let h = anonImage.size.height
-                print("anonImage.scale: \(anonImage.scale)")
-                print("width x height = \(w) x \(h)")
+                let viewportAspect = AnonPhoto.viewportSize.width / AnonPhoto.viewportSize.height
+                let aspect = w / h
+                let stretch = viewportAspect / aspect
+                let aspectW = stretch * w
+                let x = (w - aspectW) / 2
                 UIGraphicsBeginImageContextWithOptions(CGSize(width: w, height: h), false, anonImage.scale)
-                anonImage.draw(in: CGRect(x: 0, y: 0, width: w, height: h))
+                anonImage.draw(in: CGRect(x: x, y: 0, width: aspectW, height: h))
                 self.anonImage = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
             }

@@ -35,7 +35,7 @@ class ACCameraFeedViewController: UIViewController {
         #if !targetEnvironment(simulator)
         anonymous.showCamera(facing: .front)
         anonymous.watermark = UIImage(named: "AC_WATERMARK")
-        anonymous.showMask(type: .none, detection: .face)
+        //anonymous.showMask(type: .none, detection: .face)
         #endif
     }
     
