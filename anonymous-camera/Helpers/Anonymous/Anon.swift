@@ -720,6 +720,28 @@ class Anon: NSObject {
             faceShader.color = fillColor
         }
         if let bodyShader = CameraShader.shared.shader(at: 0) as? BodyShader {
+            if currentEffect == .pixelate {
+                if fillColor != nil, bodyShader as? BodyColorFillShader == nil {
+                    CameraShader.shared.useShader(shader: BodyColorFillShader(), index: 0)
+                    updateShaders(rects: rects)
+                    return
+                }
+                if pixellateType == .normal, fillColor == nil, bodyShader as? BodyPixelShader == nil {
+                    CameraShader.shared.useShader(shader: BodyPixelShader(), index: 0)
+                    updateShaders(rects: rects)
+                    return
+                }
+                if pixellateType == .noise, fillColor == nil, bodyShader as? BodyColorNoiseShader == nil {
+                    CameraShader.shared.useShader(shader: BodyColorNoiseShader(), index: 0)
+                    updateShaders(rects: rects)
+                    return
+                }
+                if pixellateType == .bwNoise, fillColor == nil, bodyShader as? BodyBwNoiseShader == nil {
+                    CameraShader.shared.useShader(shader: BodyBwNoiseShader(), index: 0)
+                    updateShaders(rects: rects)
+                    return
+                }
+            }
             bodyShader.widthOfPixel = widthOfPixel
             bodyShader.axis = currentAxis
             bodyShader.divider = currentDivider
