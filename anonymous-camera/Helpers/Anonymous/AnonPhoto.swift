@@ -64,7 +64,10 @@ class AnonPhoto {
             if let anonImage = anonImage {
                 let w = anonImage.size.width
                 let h = anonImage.size.height
-                let viewportAspect = AnonPhoto.viewportSize.width / AnonPhoto.viewportSize.height
+                var viewportAspect = AnonPhoto.viewportSize.width / AnonPhoto.viewportSize.height
+                if orientation == .landscapeRight || orientation == .landscapeLeft {
+                    viewportAspect = AnonPhoto.viewportSize.height / AnonPhoto.viewportSize.width
+                }
                 let aspect = w / h
                 let stretch = viewportAspect / aspect
                 let aspectW = stretch * w
