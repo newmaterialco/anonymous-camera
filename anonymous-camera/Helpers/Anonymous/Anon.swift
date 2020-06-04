@@ -679,33 +679,35 @@ class Anon: NSObject {
             scale = 4 * pos
         }
         if let faceShader = CameraShader.shared.shader(at: 0) as? FaceShader {
-            if fillColor != nil, faceShader as? FaceColorFillShader == nil {
-                DispatchQueue.main.sync {
-                    CameraShader.shared.useShader(shader: FaceColorFillShader(), index: 0)
-                    updateShaders(rects: rects)
+            if currentEffect == .pixelate {
+                if fillColor != nil, faceShader as? FaceColorFillShader == nil {
+                    DispatchQueue.main.sync {
+                        CameraShader.shared.useShader(shader: FaceColorFillShader(), index: 0)
+                        updateShaders(rects: rects)
+                    }
+                    return
                 }
-                return
-            }
-            if pixellateType == .normal, fillColor == nil, faceShader as? FacePixelShader == nil {
-                DispatchQueue.main.sync {
-                    CameraShader.shared.useShader(shader: FacePixelShader(), index: 0)
-                    updateShaders(rects: rects)
+                if pixellateType == .normal, fillColor == nil, faceShader as? FacePixelShader == nil {
+                    DispatchQueue.main.sync {
+                        CameraShader.shared.useShader(shader: FacePixelShader(), index: 0)
+                        updateShaders(rects: rects)
+                    }
+                    return
                 }
-                return
-            }
-            if pixellateType == .noise, fillColor == nil, faceShader as? FaceColorNoiseShader == nil {
-                DispatchQueue.main.sync {
-                    CameraShader.shared.useShader(shader: FaceColorNoiseShader(), index: 0)
-                    updateShaders(rects: rects)
+                if pixellateType == .noise, fillColor == nil, faceShader as? FaceColorNoiseShader == nil {
+                    DispatchQueue.main.sync {
+                        CameraShader.shared.useShader(shader: FaceColorNoiseShader(), index: 0)
+                        updateShaders(rects: rects)
+                    }
+                    return
                 }
-                return
-            }
-            if pixellateType == .bwNoise, fillColor == nil, faceShader as? FaceBWNoiseShader == nil {
-                DispatchQueue.main.sync {
-                    CameraShader.shared.useShader(shader: FaceBWNoiseShader(), index: 0)
-                    updateShaders(rects: rects)
+                if pixellateType == .bwNoise, fillColor == nil, faceShader as? FaceBWNoiseShader == nil {
+                    DispatchQueue.main.sync {
+                        CameraShader.shared.useShader(shader: FaceBWNoiseShader(), index: 0)
+                        updateShaders(rects: rects)
+                    }
+                    return
                 }
-                return
             }
             faceShader.widthOfPixel = widthOfPixel
             faceShader.padding = padding
