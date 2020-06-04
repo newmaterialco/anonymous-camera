@@ -305,7 +305,6 @@ struct ACViewfinderCard : View {
                 }
                 .aspectRatio(self.isRecording ? self.sixteenByNineAspectRatio : self.threeByFourAspectRatio, contentMode: .fit)
                 .foregroundColor(Color(UIColor.darkGray))
-                .saturation((self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0 : 1)
                 .blur(radius: self.sceneInformation.sceneIsActive ? 0 : 60)
                 .overlay(
                     ZStack {

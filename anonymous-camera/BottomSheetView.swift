@@ -142,76 +142,251 @@ struct BottomSheetView<Content: View>: View {
                 )
                 
                 UIScrollViewWrapper(content: {
-                    VStack {
+                    VStack (spacing: 32) {
                         ChildFrameReader(frame: self.$movingViewFrame, content: {
                             Spacer()
                         })
                         
-                        if Platform.hasDepthSegmentation {
-                            Picker(selection: self.$anonymisation.anonymisationType, label: Text("What is your favorite color?")) {
-                                Text("Face").tag(Anon.AnonDetection.face)
-                                Text("Full Body").tag(Anon.AnonDetection.body)
-                            }.pickerStyle(SegmentedPickerStyle())
-                        }
-                        
-                        VStack {
-                            ForEach(self.anonymisation.filterGroups.indices) { idx in
-                                if idx > 0 {
-                                    VStack {
-                                        ForEach(self.anonymisation.filterGroups[idx].filters.indices) { jdx in
+                            VStack (alignment: .leading, spacing: 12) {
+                                if Platform.hasDepthSegmentation {
+                                
+                                Text("Anonymisation")
+                                    .font(Font.system(size: 16, weight: .medium, design: .default))
+                                    .opacity(0.68)
+                                    .padding(.horizontal)
+                                
+                                VStack {
+                                    
+                                    VStack (spacing: 1) {
+                                        Button(action: {
+                                            self.anonymisation.anonymisationType = .face
+                                        }) {
                                             HStack {
-                                                Text(self.anonymisation.filterGroups[idx].filters[jdx].name)
+                                                Text("Head")
+                                                    .foregroundColor(Color(UIColor.label))
                                                 Spacer()
-                                                Image(uiImage: UIImage(systemName: "checkmark")!)
-                                                    .opacity((self.anonymisation.filterGroups[idx].selectedFilterIndex == jdx) ? 1 : 0)
+                                                if self.anonymisation.anonymisationType == .face {
+                                                    Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
+                                                        .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
+                                                }
                                             }
                                             .padding()
-                                            .onTapGesture {
-                                                print("tapped")
-                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[idx].filters[jdx], inGroup: self.anonymisation.filterGroups[idx])
-                                            }
+                                            .background(Color(UIColor.label.withAlphaComponent(0.036)))
+                                            .opacity(self.anonymisation.anonymisationType == .face ? 1 : 0.75)
+                                            .animation(Animation.interactiveSpring())
                                         }
                                         
-                                        Rectangle()
-                                            .frame(height: 0.5)
-                                            .foregroundColor(Color.black.opacity(0.25))
+                                        Button(action: {
+                                            self.anonymisation.anonymisationType = .body
+                                        }) {
+                                            HStack {
+                                                Text("Full Body")
+                                                .foregroundColor(Color(UIColor.label))
+                                                Spacer()
+                                                if self.anonymisation.anonymisationType == .body {
+                                                    Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
+                                                    .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
+                                                }
+                                            }
+                                            .padding()
+                                            .background(Color(UIColor.label.withAlphaComponent(0.036)))
+                                            .opacity(self.anonymisation.anonymisationType == .body ? 1 : 0.75)
+                                            .animation(Animation.interactiveSpring())
+                                        }
                                     }
+                                    .cornerRadius(radius: 12, style: .continuous)
+
+                                    Spacer()
+                                        .frame(height: 16)
+
+                                    
+                                    HStack {
+                                        Text("Only available on the back-facing camera.")
+                                            .font(Font.system(.footnote))
+                                            .opacity(0.75)
+                                            .multilineTextAlignment(.leading)
+                                            .lineLimit(nil)
+                                        Spacer()
+                                    }
+                                    .animation(Animation.spring())
+                                    .padding(.leading, 16)
+                                    
+                                    Spacer()
+                                        .frame(height: 24)
 
                                 }
                             }
-                        }
+                                
+                            HStack {
+                                    Text("Solid")
+                                        .foregroundColor(Color(UIColor.label))
+                                .padding()
+                                HStack () {
+                                    ForEach(self.anonymisation.filterGroups[1].filters.indices) { jdx in
+                                        if self.anonymisation.filterGroups[1].filters[jdx].colour != nil {
+                                            Circle()
+                                            .frame(width: 24, height: 24)
+                                            .foregroundColor(Color(self.anonymisation.filterGroups[1].filters[jdx].colour ?? UIColor.clear))
+                                            .overlay(
+                                                Circle()
+                                                    .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                                            )
+                                            .shadow(color: Color.black.opacity(0.08), radius: 24, x: 0, y: 0)
+                                            .padding()
+                                            .onTapGesture {
+                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
+                                            }
+                                        } else {
+                                            Image("noise-preview")
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                            .clipShape(
+                                                Circle()
+                                            )
+                                            .overlay(
+                                                ZStack {
+                                                    Circle()
+                                                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                                                    Circle()
+                                                        .stroke(Color.black.opacity(0.25), lineWidth: 1)
+                                                }
+                                            )
+                                            .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 0)
+                                            .padding()
+                                            .onTapGesture {
+                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .background(Color(UIColor.label.withAlphaComponent(0.018)))
+                            .cornerRadius(radius: 12, style: .continuous)
+
                         
-                        VStack {
-                            
                             HStack {
-                                Text("Include Location")
-                                Spacer()
-                                Toggle(isOn: self.$anonymisation.exifLocation) {
-                                    Spacer()
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            
-                            HStack {
-                                Text("Include Date+Time")
-                                Spacer()
-                                Toggle(isOn: self.$anonymisation.exifDateTime) {
-                                    Spacer()
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            
-                            HStack {
-                                Text("Distort Audio")
+                                    Text("Distort Audio")
+                                        .foregroundColor(Color(UIColor.label))
+                                .padding()
                                 Spacer()
                                 Toggle(isOn: self.$anonymisation.distortAudio) {
                                     Spacer()
                                 }
+                                .padding(.trailing)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding()
+                            .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.distortAudio ? 0.036 : 0.018)))
+                            .cornerRadius(radius: 12, style: .continuous)
+                        }
+                        
+                        VStack {
+                            VStack (alignment: .leading) {
+                                
+                                Text("Metadata")
+                                    .font(Font.system(size: 16, weight: .medium, design: .default))
+                                    .opacity(0.68)
+                                    .padding(.horizontal)
+                                
+                                VStack (spacing: 1) {
+                                    
+                                    HStack {
+                                        HStack {
+                                            Image(uiImage: UIImage(named: "AC_PRIVACY_LOCATION")!)
+                                                .resizable()
+                                                .frame(width: 24, height: 24, alignment: .center)
+                                            Spacer()
+                                                .frame(width: 12)
+
+                                            Text("Location")
+                                                .foregroundColor(Color(UIColor.label))
+                                        }
+                                        .padding()
+                                        Spacer()
+                                        Toggle(isOn: self.$anonymisation.exifLocation) {
+                                            Spacer()
+                                        }
+                                        .padding(.trailing)
+                                    }
+                                    .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.exifLocation ? 0.036 : 0.018)))
+                                    
+                                    HStack {
+                                        HStack {
+                                            Image(uiImage: UIImage(named: "AC_PRIVACY_TIMESTAMP")!)
+                                            .resizable()
+                                            .frame(width: 24, height: 24, alignment: .center)
+                                            Spacer()
+                                                .frame(width: 12)
+                                            Text("Timestamp")
+                                                .foregroundColor(Color(UIColor.label))
+                                        }
+                                        .padding()
+                                        Spacer()
+                                        Toggle(isOn: self.$anonymisation.exifDateTime) {
+                                            Spacer()
+                                        }
+                                        .padding(.trailing)
+                                    }
+                                    .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.exifDateTime ? 0.036 : 0.018)))
+                                }
+                                .cornerRadius(radius: 12, style: .continuous)
+                            }
+                            Spacer()
+                                .frame(height: 16)
+                            HStack {
+                                Text("Sets the timestamp to Jan 1, 1970. Scroll to the top of your camera roll to find your footage.")
+                                    .font(Font.system(.footnote))
+                                    .opacity(self.anonymisation.exifDateTime ? 0.25 : 0.75)
+                                Spacer()
+                            }
+                            .animation(Animation.spring())
+                            .padding(.leading, 16)
+                        }
+                        
+                        VStack (alignment: .leading) {
+                            
+                            Text("Pro")
+                                .font(Font.system(size: 16, weight: .medium, design: .default))
+                                .opacity(0.68)
+                                .padding(.horizontal)
+                            
+                            VStack (spacing: 1) {
+                                
+                                HStack {
+                                    HStack {
+                                        Text("Split Screen")
+                                            .foregroundColor(Color(UIColor.label))
+                                    }
+                                    .padding()
+                                    Spacer()
+                                    Toggle(isOn: self.$anonymisation.exifLocation) {
+                                        Spacer()
+                                    }
+                                    .padding(.trailing)
+                                }
+                                .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.exifLocation ? 0.036 : 0.018)))
+                                
+                                HStack {
+                                    HStack {
+                                        Image(uiImage: UIImage(named: "AC_PRIVACY_TIMESTAMP")!)
+                                        .resizable()
+                                        .frame(width: 24, height: 24, alignment: .center)
+                                        Spacer()
+                                            .frame(width: 12)
+                                        Text("Timestamp")
+                                            .foregroundColor(Color(UIColor.label))
+                                    }
+                                    .padding()
+                                    Spacer()
+                                    Toggle(isOn: self.$anonymisation.exifDateTime) {
+                                        Spacer()
+                                    }
+                                    .padding(.trailing)
+                                }
+                                .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.exifDateTime ? 0.036 : 0.018)))
+                            }
+                            .cornerRadius(radius: 12, style: .continuous)
+                        }
+                        
+                        VStack {
                             
                             HStack {
                                 Text("Split Screen")
@@ -239,8 +414,21 @@ struct BottomSheetView<Content: View>: View {
                         Button(action: {
                             self.showSafetyCard.toggle()
                         }) {
-                            DocumentButton(title: "Safety & Privacy", icon: "checkmark.shield.fill", readingtime: "")
-                                .frame(maxWidth: .infinity)
+                                HStack {
+                                    HStack(spacing: 12) {
+                                        Text("Safety & Privacy")
+                                    }.foregroundColor(Color(UIColor.label))
+                                    Spacer()
+                                    HStack {
+                                        Image(systemName: "chevron.right")
+                                            .font(Font.system(size: 15, weight: .semibold))
+                                    }.foregroundColor(Color(UIColor.label).opacity(0.5))
+                                    
+                                }
+                                .padding(.horizontal)
+                                .frame(height: 56)
+                                .background(Color(UIColor.label.withAlphaComponent(0.018)))
+                                .cornerRadius(12)
                         }
                         .sheet(isPresented: self.$showSafetyCard) {
                             SafetyCard(isPresented: self.$showSafetyCard)
@@ -249,7 +437,8 @@ struct BottomSheetView<Content: View>: View {
                         ACPlaygroundCredit()
                         
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 36)
                     .frame(width: geometry.size.width,
                                height: nil,
                                alignment: .topLeading)
@@ -397,7 +586,7 @@ struct ACFilterButton: View {
                 .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0), value: sceneInformation.deviceRotationAngle)
             
             if (filterGroup.selected && !sceneInformation.deviceOrientation.isLandscape) {
-                Text(filterGroup.filters[filterGroup.selectedFilterIndex].name)
+                Text(filterGroup.name)
                     .font(Font.system(size: 16, weight: .semibold, design: .default))
                     .foregroundColor(
                         filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :

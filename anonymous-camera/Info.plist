@@ -23,7 +23,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Your camera is required to capture photos and videos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Use location?</string>
+	<string>Location access is required to embed location into metadata.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Your microphone is used to embed audio in video recordings.</string>
 	<key>NSMotionUsageDescription</key>

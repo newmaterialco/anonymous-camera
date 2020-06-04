@@ -13,6 +13,9 @@ import SwiftyUserDefaults
 extension DefaultsKeys {
     var exifLocation: DefaultsKey<Bool?> { .init("exifLocation", defaultValue: false) }
     var exifDateTime: DefaultsKey<Bool?> { .init("exifDateTime", defaultValue: true) }
+    var distortAudio: DefaultsKey<Bool?> { .init("distortAudio", defaultValue: false) }
+    var includeWatermark: DefaultsKey<Bool?> { .init("includeWatermark", defaultValue: true) }
+    var cameraFacingFront: DefaultsKey<Bool?> { .init("cameraFacingFront", defaultValue: true) }
 }
 
 class ACAnonymisation : ObservableObject {
@@ -27,7 +30,9 @@ class ACAnonymisation : ObservableObject {
     
     @Published var anonymisationType : Anon.AnonDetection = .face {
         didSet {
-            self.updateAnonConfiguration()
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.36) {
+                self.updateAnonConfiguration()
+            }
         }
     }
     
@@ -84,7 +89,12 @@ class ACAnonymisation : ObservableObject {
         }
     }
 
-    @Published var distortAudio : Bool = false
+    @Published var distortAudio : Bool = Defaults[\.distortAudio]! {
+        didSet {
+            Defaults[\.distortAudio]! = distortAudio
+
+        }
+    }
     
     enum ACInterviewModeConfiguration {
         case off
@@ -128,7 +138,11 @@ class ACAnonymisation : ObservableObject {
         }
     }
         
-    @Published var includeWatermark : Bool = true
+    @Published var includeWatermark : Bool = Defaults[\.includeWatermark]! {
+        didSet {
+            Defaults[\.includeWatermark]! = includeWatermark
+        }
+    }
     
     @Published var interviewModeEffectsSwitched : Bool = false
     
@@ -197,9 +211,7 @@ class ACAnonymisation : ObservableObject {
     }
     
     func switchEffectsInInterviewMode () {
-        
-        print("FUCKIN SWITCH")
-        
+            
         if interviewModeConfiguration != .off {
             if interviewModeConfiguration == .effectTrailing {
                 self.interviewModeConfiguration = .effectLeading
@@ -208,23 +220,27 @@ class ACAnonymisation : ObservableObject {
             }
         }
     }
+//
+//    func nextLens () {
+//        print(anonymous.availableLens.count)
+//
+//        anonymous.showCamera(facing: .back, lens: .telephoto)
+//    }
     
-    func nextLens () {
-        print(anonymous.availableLens.count)
-        
-        anonymous.showCamera(facing: .back, lens: .telephoto)
+    @Published var cameraFacingFront : Bool = Defaults[\.cameraFacingFront]! {
+        didSet {
+            Defaults[\.cameraFacingFront]! = cameraFacingFront
+        }
     }
-    
-    @Published var cameraFacingFront : Bool = true
     
     func toggleFrontAndBackCamera () {
         if anonymous.facing == .front {
             self.cameraFacingFront = false
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.35) {
                 anonymous.showCamera(facing: .back)
             }
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.35) {
                 anonymous.showCamera(facing: .front)
             }
             self.cameraFacingFront = true
@@ -391,7 +407,7 @@ var noFilterType = ACFilterType(filterIdentifier: "NO_TYPE", icon: UIImage(named
 var colourFilterType = ACFilterType(filterIdentifier: "COLOUR_TYPE", icon: UIImage(named: "AC_FILTER_COLOUR_ICON")!, modifiesImage: true)
 var noiseFilterType = ACFilterType(filterIdentifier: "NOISE_TYPE", icon: UIImage(named: "AC_FILTER_NOISE_ICON")!, modifiesImage: true)
 var blurFilterType = ACFilterType(filterIdentifier: "BLUR_TYPE", icon: UIImage(named: "AC_FILTER_BLUR_ICON")!, modifiesImage: true)
-var pixelateFilterType = ACFilterType(filterIdentifier: "PIXEL_TYPE", icon: UIImage(named: "AC_FILTER_PIXEL_ICON")!, modifiesImage: true)
+//var pixelateFilterType = ACFilterType(filterIdentifier: "PIXEL_TYPE", icon: UIImage(named: "AC_FILTER_PIXEL_ICON")!, modifiesImage: true)
 
 
 var noFilter = ACFilter(filterIdentifier: "AC_FILTER_NONE", name: NSLocalizedString("No Filter", comment: "Not any"), selected: false, filterType: noFilterType)
@@ -402,23 +418,23 @@ var yellowFilter = ACFilter(filterIdentifier: "AC_FILTER_COLOUR_YELLOW", name: "
 
 var noiseFilter =  ACFilter(filterIdentifier: "AC_FILTER_NOISE", name: "Noise", selected: false, colour:  nil, filterType: noiseFilterType)
 
-var pixelateFilter = ACFilter(filterIdentifier: "AC_FILTER_PIXEL", name: NSLocalizedString("Pixelate", comment: "Any of the small discrete elements that together constitute an image (as on a television or digital screen)"), selected: false, filterType: pixelateFilterType)
+//var pixelateFilter = ACFilter(filterIdentifier: "AC_FILTER_PIXEL", name: NSLocalizedString("Pixelate", comment: "Any of the small discrete elements that together constitute an image (as on a television or digital screen)"), selected: false, filterType: pixelateFilterType)
 
 var blurFilter = ACFilter(filterIdentifier: "AC_FILTER_BLUR", name: NSLocalizedString("Blur", comment: "A smear or stain that obscures"), selected: false, filterType: blurFilterType)
 
-var allFilters = [noFilter, whiteFilter, blackFilter, yellowFilter, noiseFilter, pixelateFilter, blurFilter]
-var availableFilterTypes = [noFilterType, colourFilterType, noiseFilterType, blurFilterType, pixelateFilterType]
+var allFilters = [noFilter, whiteFilter, blackFilter, yellowFilter, noiseFilter, blurFilter]
+var availableFilterTypes = [noFilterType, colourFilterType, noiseFilterType, blurFilterType]
 
 var availableFilterGroups = [
     ACFilterGroup(groupIdentifier: "AC_FILTERGROUP_NONE", name: "No Filter", selected: false, selectedFilterIndex: 0, modifiesImage: false, filters: [
         noFilter
     ], availableFilterTypes: [noFilterType]),
-    ACFilterGroup(id:UUID(), groupIdentifier: "AC_FILTERGROUP_COVER", name: "Cover", selected: true, selectedFilterIndex: 0, modifiesImage: true, filters: [
+    ACFilterGroup(id:UUID(), groupIdentifier: "AC_FILTERGROUP_COVER", name: "Solid", selected: true, selectedFilterIndex: 0, modifiesImage: true, filters: [
         yellowFilter, whiteFilter, blackFilter, noiseFilter
     ], availableFilterTypes: [colourFilterType, noiseFilterType]),
-    ACFilterGroup(groupIdentifier: "AC_FILTERGROUP_FILTER", name: "Filter", selected: false, selectedFilterIndex: 0, modifiesImage: true, filters: [
-        blurFilter, pixelateFilter
-    ], availableFilterTypes: [blurFilterType, pixelateFilterType])
+    ACFilterGroup(groupIdentifier: "AC_FILTERGROUP_FILTER", name: "Blur", selected: false, selectedFilterIndex: 0, modifiesImage: true, filters: [
+        blurFilter
+    ], availableFilterTypes: [blurFilterType])
 ]
 
 extension TimeInterval {
