@@ -7,10 +7,17 @@
 //
 
 import SwiftUI
+import StoreKit
 import UIKit
+import SwiftyUserDefaults
+
 
 final public class ACScene : ObservableObject {
     @Published public var sceneIsActive : Bool = false
+    
+    @Published public var product : SKProduct?
+    @Published public var proPurchased : Bool = false
+
     
     @Published public var deviceOrientation : UIDeviceOrientation = UIDevice.current.orientation {
         didSet {
@@ -43,7 +50,11 @@ final public class ACScene : ObservableObject {
     
     @Published public var internetConnection : Bool = true
 
-    @Published public var interviewModeAvailable : Bool = true
+    @Published public var interviewModeAvailable : Bool = Defaults[\.interviewMode]! {
+        didSet {
+            Defaults[\.interviewMode]! = interviewModeAvailable
+        }
+    }
     @Published public var interviewModeControlIsHoveringOverClose : Bool = false
     @Published public var interviewModeControlIsBeingTouched : Bool = false
     

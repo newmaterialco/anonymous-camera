@@ -218,9 +218,7 @@ struct ACViewfinderCard : View {
                     VStack {
                         if self.sceneInformation.showHUD {
                             HStack {
-                                Spacer()
                                 ACHuD()
-                                Spacer()
                             }
                             .padding()
                             .transition(AnyTransition.opacity.combined(with: AnyTransition.move(edge: .top)))

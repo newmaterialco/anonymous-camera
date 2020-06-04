@@ -167,6 +167,7 @@ struct BottomSheetView<Content: View>: View {
                                                 Spacer()
                                                 if self.anonymisation.anonymisationType == .face {
                                                     Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
+                                                        .foregroundColor(Color("highlight"))
                                                         .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
                                                 }
                                             }
@@ -185,6 +186,7 @@ struct BottomSheetView<Content: View>: View {
                                                 Spacer()
                                                 if self.anonymisation.anonymisationType == .body {
                                                     Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
+                                                        .foregroundColor(Color("highlight"))
                                                     .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
                                                 }
                                             }
@@ -228,11 +230,13 @@ struct BottomSheetView<Content: View>: View {
                                             .frame(width: 24, height: 24)
                                             .foregroundColor(Color(self.anonymisation.filterGroups[1].filters[jdx].colour ?? UIColor.clear))
                                             .overlay(
-                                                Circle()
-                                                    .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                                                    Circle()
+                                                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
                                             )
+                                            .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.4 : 1)
                                             .shadow(color: Color.black.opacity(0.08), radius: 24, x: 0, y: 0)
                                             .padding()
+                                                .animation(Animation.interactiveSpring())
                                             .onTapGesture {
                                                 self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
                                             }
@@ -251,7 +255,9 @@ struct BottomSheetView<Content: View>: View {
                                                         .stroke(Color.black.opacity(0.25), lineWidth: 1)
                                                 }
                                             )
+                                            .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.4 : 1)
                                             .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 0)
+                                                .animation(Animation.interactiveSpring())
                                             .padding()
                                             .onTapGesture {
                                                 self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
@@ -341,75 +347,121 @@ struct BottomSheetView<Content: View>: View {
                             .padding(.leading, 16)
                         }
                         
-                        VStack (alignment: .leading) {
-                            
-                            Text("Pro")
-                                .font(Font.system(size: 16, weight: .medium, design: .default))
-                                .opacity(0.68)
-                                .padding(.horizontal)
-                            
-                            VStack (spacing: 1) {
+                        VStack {
+                            VStack (alignment: .leading) {
+                                
+                                Text("Pro")
+                                    .font(Font.system(size: 16, weight: .medium, design: .default))
+                                    .opacity(0.68)
+                                    .padding(.horizontal)
+                                
+                                VStack (spacing: 1) {
+            
+                                    
+                                    HStack {
+                                        HStack {
+                                            Text("Watermark")
+                                                .foregroundColor(Color(UIColor.label))
+                                        }
+                                        .padding()
+                                        Spacer()
+                                        Toggle(isOn: self.$anonymisation.includeWatermark) {
+                                            Spacer()
+                                        }
+                                        .padding(.trailing)
+                                    }
+                                    .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.includeWatermark ? 0.036 : 0.018)))
+                                    
+                                    HStack {
+                                        HStack {
+                                            Text("Split Screen")
+                                                .foregroundColor(Color(UIColor.label))
+                                        }
+                                        .padding()
+                                        Spacer()
+                                        Toggle(isOn: self.$sceneInformation.interviewModeAvailable) {
+                                            Spacer()
+                                        }
+                                        .padding(.trailing)
+                                    }
+                                    .background(Color(UIColor.label.withAlphaComponent(self.sceneInformation.interviewModeAvailable ? 0.036 : 0.018)))
+
+                                }
+                                .opacity(self.sceneInformation.proPurchased ? 1 : 0.5)
+                                .disabled(self.sceneInformation.proPurchased ? false : true)
+                                .cornerRadius(radius: 12, style: .continuous)
                                 
                                 HStack {
-                                    HStack {
-                                        Text("Split Screen")
+                                    Button(action: {
+                                        print("restoring")
+
+                                        InAppManager.shared.restore { success in
+                                            
+                                            print("trying")
+
+                                            if success {
+                                                  print("success")
+                                                  self.sceneInformation.proPurchased = InAppManager.shared.isPro
+                                                
+                                                self.anonymisation.includeWatermark = false
+                                                self.sceneInformation.interviewModeAvailable = true
+                                              }
+                                        }
+                                    }) {
+                                        Text("RESTORE")
+                                            .font(Font.system(size: 18).uppercaseSmallCaps())
                                             .foregroundColor(Color(UIColor.label))
                                     }
-                                    .padding()
+                                    
                                     Spacer()
-                                    Toggle(isOn: self.$anonymisation.exifLocation) {
-                                        Spacer()
-                                    }
-                                    .padding(.trailing)
-                                }
-                                .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.exifLocation ? 0.036 : 0.018)))
-                                
-                                HStack {
-                                    HStack {
-                                        Image(uiImage: UIImage(named: "AC_PRIVACY_TIMESTAMP")!)
-                                        .resizable()
-                                        .frame(width: 24, height: 24, alignment: .center)
-                                        Spacer()
-                                            .frame(width: 12)
-                                        Text("Timestamp")
+                                    
+                                    Button(action: {
+                                        
+                                        InAppManager.shared.purchase { success in
+                                            
+                                            if success {
+                                                print("success")
+                                                self.sceneInformation.proPurchased = InAppManager.shared.isPro
+                                                
+                                                self.anonymisation.includeWatermark = false
+                                                self.sceneInformation.interviewModeAvailable = true
+                                            }
+                                            
+                                        }
+                                        
+                                    }) {
+                                        if self.sceneInformation.proPurchased{
+                                            HStack(spacing: 6) {
+                                                Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
+                                                    .foregroundColor(Color(UIColor.label))
+                                                    .opacity(0.75)
+                                                Text("PURCHASED")
+                                                    .font(Font.system(size: 18).uppercaseSmallCaps())
+                                            }
                                             .foregroundColor(Color(UIColor.label))
+                                            .padding(.vertical, 8)
+                                            .padding(.horizontal, 12)
+                                        } else {
+                                            HStack(spacing: 6) {
+                                                Text("BUY")
+                                                    .font(Font.system(size: 18).uppercaseSmallCaps())
+                                                    .opacity(0.75)
+                                                Text(self.sceneInformation.product?.localizedPrice ?? "")
+                                                    .font(Font.system(size: 18).uppercaseSmallCaps())
+                                            }
+                                            .foregroundColor(Color.white)
+                                            .padding(.vertical, 8)
+                                            .padding(.horizontal, 12)
+                                            .background(Color.blue)
+                                            .cornerRadius(radius: 100, style: .circular)
+                                        }
                                     }
-                                    .padding()
-                                    Spacer()
-                                    Toggle(isOn: self.$anonymisation.exifDateTime) {
-                                        Spacer()
-                                    }
-                                    .padding(.trailing)
                                 }
-                                .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.exifDateTime ? 0.036 : 0.018)))
+                                .padding()
+
                             }
-                            .cornerRadius(radius: 12, style: .continuous)
                         }
                         
-                        VStack {
-                            
-                            HStack {
-                                Text("Split Screen")
-                                Spacer()
-                                Toggle(isOn: self.$sceneInformation.interviewModeAvailable) {
-                                    Spacer()
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            
-                            HStack {
-                                Text("Watermark")
-                                Spacer()
-                                Toggle(isOn: self.$anonymisation.includeWatermark) {
-                                    Spacer()
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                        }
-                        .background(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(radius: 12, style: .continuous)
                         
                         Button(action: {
                             self.showSafetyCard.toggle()

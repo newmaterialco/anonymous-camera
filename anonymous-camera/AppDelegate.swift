@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        checkForProducts()
+        checkIfPro()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
         do{
           try reachability.startNotifier()
@@ -33,14 +36,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func checkIfPro () {
+        ACScene.shared.proPurchased = InAppManager.shared.isPro
+    }
+    
+    func checkForProducts () {
+        InAppManager.shared.pro { product in
+            ACScene.shared.product = product
+            
+            print("product found")
+        }
+    }
+    
     @objc func reachabilityChanged(note: Notification) {
       let reachability = note.object as! Reachability
 
       switch reachability.connection {
       case .wifi:
         ACScene.shared.internetConnection = true
+        checkForProducts()
+        checkIfPro()
+
       case .cellular:
           ACScene.shared.internetConnection = true
+        checkForProducts()
+        checkIfPro()
+
       case .unavailable:
         ACScene.shared.internetConnection = false
       case .none:

@@ -19,9 +19,10 @@ struct ACPlaygroundCredit: View {
                 Image("playground")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: 36)
-                Text("Designed by Playground in London")
+                    .frame(height: 28)
             }
+            .foregroundColor(Color(UIColor.label))
+            .opacity(0.5)
         }
     }
 }
