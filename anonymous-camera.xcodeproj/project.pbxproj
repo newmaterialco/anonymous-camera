@@ -638,7 +638,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
 				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;
@@ -663,7 +663,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
 				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;

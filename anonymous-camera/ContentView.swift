@@ -236,10 +236,10 @@ struct ACViewfinderCard : View {
                             .opacity(self.sceneInformation.interviewModeAvailable ? 1 : 0)
                     }
                     
-                    ACShutterLockArea(isRecording: self.$isRecording, hovering: self.$knobIsHoveringOverLockArea)
+                    ACShutterLockArea(isRecording: self.$isRecording, hovering: self.$knobIsHoveringOverLockArea, locked: self.$lockedRecording)
                         .position(CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
                     
-                    ACShutterKnob(isRecording: self.$isRecording)
+                    ACShutterKnob(isRecording: self.$isRecording, locked: self.$lockedRecording)
                         .position(self.isRecording && !self.lockedRecording ? self.shutterPosition : CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
                         .animation(self.isRecording ? Animation.interactiveSpring() : Animation.spring())
                         .onTapGesture {

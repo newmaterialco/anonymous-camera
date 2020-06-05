@@ -43,7 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func checkForProducts () {
         InAppManager.shared.pro { product in
             ACScene.shared.product = product
-            
             print("product found")
         }
     }
