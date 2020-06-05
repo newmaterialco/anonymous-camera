@@ -68,6 +68,14 @@ class CameraFeed: NSObject {
         return tmp
     }
     
+    func snap() {
+        if let photoOutput = photoOutput {
+            let settings = AVCapturePhotoSettings()
+            settings.isHighResolutionPhotoEnabled = true
+            photoOutput.capturePhoto(with: settings, delegate: self)
+        }
+    }
+    
     func resume() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .restricted || status == .denied { self.stop() }
@@ -119,6 +127,7 @@ class CameraFeed: NSObject {
     private var inputCamera: AVCaptureDevice?
     private var videoInput: AVCaptureDeviceInput?
     private var videoOutput: AVCaptureVideoDataOutput?
+    private var photoOutput: AVCapturePhotoOutput?
     private var arSession: ARSession?
     private var outputType: CameraFeedType = .none
     private var lastFacesDetected = 0.0
@@ -174,6 +183,14 @@ class CameraFeed: NSObject {
             metadataOutput.setMetadataObjectsDelegate(self, queue: cameraProcessingQueue)
             metadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.face]
         }
+        let photoOutput = AVCapturePhotoOutput()
+        photoOutput.isHighResolutionCaptureEnabled = true
+        photoOutput.isLivePhotoCaptureEnabled = false
+        if session.canAddOutput(photoOutput) {
+            print("add photo output: \(photoOutput)")
+            session.addOutput(photoOutput)
+        }
+        self.photoOutput = photoOutput
         
         videoOutput = output
         captureSession = session
@@ -181,6 +198,14 @@ class CameraFeed: NSObject {
         session.startRunning()
     }
     
+}
+
+extension CameraFeed: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let data = photo.fileDataRepresentation(), let image = UIImage(data: data) {
+            print("captured photo: \(image)")
+        }
+    }
 }
 
 extension CameraFeed: AVCaptureVideoDataOutputSampleBufferDelegate {
