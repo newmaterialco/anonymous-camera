@@ -295,6 +295,7 @@ extension CameraShader: CameraFeedDelegate {
             if type != cameraType, let currentPixelBuffer = currentPixelBuffer {
                 let width = CVPixelBufferGetWidth(currentPixelBuffer)
                 let height = CVPixelBufferGetHeight(currentPixelBuffer)
+                print("size of camera feed: \(width)x\(height)")
                 sourceResolution = CGSize(width: width, height: height)
                 cameraTypeChange = true
                 cameraType = type
@@ -326,6 +327,7 @@ extension CameraShader: CameraFeedDelegate {
         if type != cameraType, let currentPixelBuffer = currentPixelBuffer {
             let width = CVPixelBufferGetWidth(currentPixelBuffer)
             let height = CVPixelBufferGetHeight(currentPixelBuffer)
+            print("size of ar feed: \(width)x\(height)")
             sourceResolution = CGSize(width: width, height: height)
             cameraTypeChange = true
             cameraType = type
