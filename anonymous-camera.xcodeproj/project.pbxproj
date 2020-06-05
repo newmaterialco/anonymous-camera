@@ -18,6 +18,9 @@
 		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
 		77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */; };
 		77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09085242DEFCF00E6727D /* ACBlurFilterIconView.swift */; };
+		77EE1BD42489848500D96F27 /* BodyColorFillShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EE1BD32489848500D96F27 /* BodyColorFillShader.swift */; };
+		77EE1BD62489857B00D96F27 /* BodyColorNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EE1BD52489857B00D96F27 /* BodyColorNoiseShader.swift */; };
+		77EE1BD8248985A600D96F27 /* BodyBwNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EE1BD7248985A600D96F27 /* BodyBwNoiseShader.swift */; };
 		8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */; };
 		8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0B229F2421798A0096A444 /* ACAnonymisation.swift */; };
 		8F0B22A224217B3C0096A444 /* Anon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3FC242177C700497EA6 /* Anon.swift */; };
@@ -69,6 +72,19 @@
 		8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		77EE1BCF2489647E00D96F27 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7740E3CB248587DE00694FE4 /* NoiseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseView.swift; sourceTree = "<group>"; };
@@ -82,6 +98,11 @@
 		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
 		77D09085242DEFCF00E6727D /* ACBlurFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACBlurFilterIconView.swift; sourceTree = "<group>"; };
+		77EE1BC12489647E00D96F27 /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
+		77EE1BC32489647E00D96F27 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		77EE1BD32489848500D96F27 /* BodyColorFillShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyColorFillShader.swift; sourceTree = "<group>"; };
+		77EE1BD52489857B00D96F27 /* BodyColorNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyColorNoiseShader.swift; sourceTree = "<group>"; };
+		77EE1BD7248985A600D96F27 /* BodyBwNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyBwNoiseShader.swift; sourceTree = "<group>"; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
 		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
 		8F25F4742486917D00615989 /* ACShutterKnob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACShutterKnob.swift; sourceTree = "<group>"; };
@@ -248,6 +269,9 @@
 				8FE3F3FB242177C700497EA6 /* BasicShader.metal */,
 				8FE3F3F6242177C700497EA6 /* BodyShader.swift */,
 				8FE3F3FF242177C700497EA6 /* BodyPixelShader.swift */,
+				77EE1BD32489848500D96F27 /* BodyColorFillShader.swift */,
+				77EE1BD52489857B00D96F27 /* BodyColorNoiseShader.swift */,
+				77EE1BD7248985A600D96F27 /* BodyBwNoiseShader.swift */,
 				8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */,
 				8FE3F400242177C700497EA6 /* BodyBlurShader.swift */,
 				8FE3F409242177C700497EA6 /* BodyBlurShader.metal */,
@@ -313,6 +337,8 @@
 			children = (
 				77523596242A231500483BFA /* StoreKit.framework */,
 				6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */,
+				77EE1BC12489647E00D96F27 /* PhotosUI.framework */,
+				77EE1BC32489647E00D96F27 /* Photos.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -329,6 +355,7 @@
 				8FE3F3D5242176E400497EA6 /* Frameworks */,
 				8FE3F3D6242176E400497EA6 /* Resources */,
 				9E211A6BAAAA37A73608A555 /* [CP] Embed Pods Frameworks */,
+				77EE1BCF2489647E00D96F27 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -345,7 +372,7 @@
 		8FE3F3D0242176E400497EA6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Aaron Abentheuer";
 				TargetAttributes = {
@@ -439,6 +466,7 @@
 				8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */,
 				8F25F4752486917D00615989 /* ACShutterKnob.swift in Sources */,
 				8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */,
+				77EE1BD8248985A600D96F27 /* BodyBwNoiseShader.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
 				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
 				8FA8EA8624312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift in Sources */,
@@ -450,6 +478,7 @@
 				7761577E24879512000C00AF /* AnonLocation.swift in Sources */,
 				77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */,
 				8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */,
+				77EE1BD62489857B00D96F27 /* BodyColorNoiseShader.swift in Sources */,
 				77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */,
 				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
 				8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */,
@@ -485,6 +514,7 @@
 				8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */,
 				8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */,
 				8F0B22B224217BA70096A444 /* BasicShader.swift in Sources */,
+				77EE1BD42489848500D96F27 /* BodyColorFillShader.swift in Sources */,
 				8F0B22A924217B860096A444 /* BasicShader.metal in Sources */,
 				8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */,
 				8FA8EA7E24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift in Sources */,
@@ -636,6 +666,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3E726ED89E5B81BB920D9AE /* Pods-anonymous-camera.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
@@ -661,6 +692,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
