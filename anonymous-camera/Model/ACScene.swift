@@ -15,6 +15,7 @@ import SwiftyUserDefaults
 final public class ACScene : ObservableObject {
     @Published public var sceneIsActive : Bool = false
     
+    @Published public var productsAvailable : Bool = false
     @Published public var product : SKProduct?
     @Published public var proPurchased : Bool = false
 
@@ -76,9 +77,6 @@ final public class ACScene : ObservableObject {
     @Published public var bottomSheetIsOpen : Bool = false {
         
         didSet {
-            print("bottom sheet open")
-            print(bottomSheetIsOpen)
-            
             if bottomSheetIsOpen {
                 Anon.pause()
             } else {

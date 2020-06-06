@@ -18,7 +18,6 @@
 		77B275D1248816F4005E85E1 /* FaceColorFillShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */; };
 		77B275D324881720005E85E1 /* FaceColorNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */; };
 		77B275D52488174A005E85E1 /* FaceBWNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */; };
-		77B312E72424EDA1007172A0 /* face.dae in Resources */ = {isa = PBXBuildFile; fileRef = 77B312E62424EDA1007172A0 /* face.dae */; };
 		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
 		77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */; };
 		77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09085242DEFCF00E6727D /* ACBlurFilterIconView.swift */; };
@@ -65,6 +64,7 @@
 		8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516B2424AB900021600C /* ACInterviewControl.swift */; };
 		8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516D2424BE780021600C /* MainHostingViewController.swift */; };
 		8FB251702424BED70021600C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516F2424BED70021600C /* ContainerView.swift */; };
+		8FCB5407248B8C5A00ED4177 /* ACProPurchaseElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB5406248B8C5A00ED4177 /* ACProPurchaseElement.swift */; };
 		8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DB242176E400497EA6 /* AppDelegate.swift */; };
 		8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */; };
 		8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DF242176E400497EA6 /* ContentView.swift */; };
@@ -123,7 +123,6 @@
 		77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorFillShader.swift; sourceTree = "<group>"; };
 		77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorNoiseShader.swift; sourceTree = "<group>"; };
 		77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceBWNoiseShader.swift; sourceTree = "<group>"; };
-		77B312E62424EDA1007172A0 /* face.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = face.dae; sourceTree = "<group>"; };
 		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
 		77D09085242DEFCF00E6727D /* ACBlurFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACBlurFilterIconView.swift; sourceTree = "<group>"; };
@@ -153,6 +152,7 @@
 		8FB2516B2424AB900021600C /* ACInterviewControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControl.swift; sourceTree = "<group>"; };
 		8FB2516D2424BE780021600C /* MainHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHostingViewController.swift; sourceTree = "<group>"; };
 		8FB2516F2424BED70021600C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		8FCB5406248B8C5A00ED4177 /* ACProPurchaseElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACProPurchaseElement.swift; sourceTree = "<group>"; };
 		8FE3F3D8242176E400497EA6 /* Anonymous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3F3DB242176E400497EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -161,8 +161,6 @@
 		8FE3F3E4242176E500497EA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8FE3F3E7242176E500497EA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FE3F3E9242176E500497EA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8FE3F3F12421770B00497EA6 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "../../../Documents/GitHub/untitled folder/anonymous-camera/anonymous-camera/en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		8FE3F3F22421770B00497EA6 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "../../../Documents/GitHub/untitled folder/anonymous-camera/anonymous-camera/zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8FE3F3F32421770B00497EA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "../../../Documents/GitHub/untitled folder/anonymous-camera/anonymous-camera/en.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8FE3F3F6242177C700497EA6 /* BodyShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyShader.swift; sourceTree = "<group>"; };
 		8FE3F3F8242177C700497EA6 /* CameraShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShader.swift; sourceTree = "<group>"; };
@@ -275,6 +273,7 @@
 				8F25F491248742B000615989 /* ACShutterLockArea.swift */,
 				8F25F48F2486F1D300615989 /* ACPlaygroundCredit.swift */,
 				8F4FAF1A24326B320017347F /* BottomSheetView.swift */,
+				8FCB5406248B8C5A00ED4177 /* ACProPurchaseElement.swift */,
 				8F648B042483002500703C44 /* UIScrollViewWrapper.swift */,
 				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
 				8F7C58322487B62C00C408AD /* Reachability.swift */,
@@ -284,7 +283,6 @@
 				8FEB1CF2242C93AC0024352A /* Model */,
 				8FEB1CF1242C939B0024352A /* Helpers */,
 				8FE3F3E1242176E500497EA6 /* Assets.xcassets */,
-				77B312E62424EDA1007172A0 /* face.dae */,
 				8FE3F3F02421770B00497EA6 /* Localizable.strings */,
 				8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */,
 				8FE3F3E9242176E500497EA6 /* Info.plist */,
@@ -501,7 +499,6 @@
 				8FE3F3E8242176E500497EA6 /* LaunchScreen.storyboard in Resources */,
 				8FE3F3E5242176E500497EA6 /* Preview Assets.xcassets in Resources */,
 				8FE3F3E2242176E500497EA6 /* Assets.xcassets in Resources */,
-				77B312E72424EDA1007172A0 /* face.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,6 +570,7 @@
 				8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */,
 				8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */,
 				77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */,
+				8FCB5407248B8C5A00ED4177 /* ACProPurchaseElement.swift in Sources */,
 				8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */,
 				8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */,
 				7761577E24879512000C00AF /* AnonLocation.swift in Sources */,
@@ -644,8 +642,6 @@
 		8FE3F3F02421770B00497EA6 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8FE3F3F12421770B00497EA6 /* en-GB */,
-				8FE3F3F22421770B00497EA6 /* zh-HK */,
 				8FE3F3F32421770B00497EA6 /* en */,
 			);
 			name = Localizable.strings;
@@ -836,7 +832,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1005;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
 				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;
@@ -862,7 +858,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1005;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
 				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;

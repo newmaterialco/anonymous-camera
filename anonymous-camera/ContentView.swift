@@ -194,7 +194,7 @@ struct ACViewfinderCard : View {
                     
                     Rectangle()
                         .foregroundColor(.clear)
-                        .overlay(RadialGradient(gradient: Gradient(colors: [Color.white.opacity(0.25), Color.white.opacity(0.36)]), center: UnitPoint(x: 0.5, y: 0.5), startRadius: 0, endRadius: self.viewFinderFrame.height/2))
+                        .overlay(RadialGradient(gradient: Gradient(colors: [Color.white.opacity(0.68), Color.white.opacity(1)]), center: UnitPoint(x: 0.5, y: 0.5), startRadius: 0, endRadius: self.viewFinderFrame.height/2))
                         .opacity(self.flash ? 1 : 0)
 
                     ZStack {
@@ -246,7 +246,7 @@ struct ACViewfinderCard : View {
                                     self.flash = true
                                 }
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
                                     withAnimation(Animation.spring()) {
                                         self.flash = false
                                     }
@@ -290,6 +290,8 @@ struct ACViewfinderCard : View {
                 .aspectRatio(self.sceneInformation.isVideoRecording ? self.sixteenByNineAspectRatio : self.threeByFourAspectRatio, contentMode: .fit)
                 .foregroundColor(Color(UIColor.darkGray))
                 .blur(radius: self.sceneInformation.sceneIsActive ? 0 : 60)
+                .blur(radius: self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen ? 28 : 0)
+                .saturation(self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen ? 0 : 1)
                 .overlay(
                     ZStack {
                         RoundedRectangle(cornerRadius: (UIScreen.current > ScreenType.iPhone4_7) ? 12 : (self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 4 : 0, style: .continuous)

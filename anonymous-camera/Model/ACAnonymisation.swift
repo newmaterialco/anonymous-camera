@@ -248,6 +248,8 @@ class ACAnonymisation : ObservableObject {
         }
     }
     
+    let impactGenerator = UIImpactFeedbackGenerator()
+    
     func takePhoto () {
         
         if self.includeWatermark {
@@ -255,6 +257,8 @@ class ACAnonymisation : ObservableObject {
         } else {
             anonymous.watermark = nil
         }
+        
+        impactGenerator.impactOccurred(intensity: 0.5)
         
         anonymous.takePhoto(fixedDate: !self.exifDateTime, location: nil) { success in
             
@@ -370,7 +374,10 @@ class ACAnonymisation : ObservableObject {
             }
         }
         
-        self.updateAnonConfiguration()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.36) {
+            self.updateAnonConfiguration()
+        }
     }
     
     func didSwitch(from: Anon.AnonState, to: Anon.AnonState) {
@@ -412,10 +419,10 @@ var blurFilterType = ACFilterType(filterIdentifier: "BLUR_TYPE", icon: UIImage(n
 
 
 var noFilter = ACFilter(filterIdentifier: "AC_FILTER_NONE", name: NSLocalizedString("No Filter", comment: "Not any"), selected: false, filterType: noFilterType)
-var whiteFilter = ACFilter(filterIdentifier: "AC_FILTER_COLOUR_WHITE", name: "White", selected: true, colour: UIColor(red: 1, green: 1, blue: 1, alpha: 1), filterType: colourFilterType)
+var whiteFilter = ACFilter(filterIdentifier: "AC_FILTER_COLOUR_WHITE", name: "White", selected: false, colour: UIColor(red: 1, green: 1, blue: 1, alpha: 1), filterType: colourFilterType)
 var blackFilter = ACFilter(filterIdentifier: "AC_FILTER_COLOUR_BLACK", name: "Black", selected: false, colour: UIColor(red: 0, green: 0, blue: 0, alpha: 1), filterType: colourFilterType)
 
-var yellowFilter = ACFilter(filterIdentifier: "AC_FILTER_COLOUR_YELLOW", name: "Yellow", selected: false, colour: UIColor(red: 1.00, green: 0.84, blue: 0.00, alpha: 1.00), filterType: colourFilterType)
+var yellowFilter = ACFilter(filterIdentifier: "AC_FILTER_COLOUR_YELLOW", name: "Yellow", selected: true, colour: UIColor(red: 1.00, green: 0.84, blue: 0.00, alpha: 1.00), filterType: colourFilterType)
 
 var noiseFilter =  ACFilter(filterIdentifier: "AC_FILTER_NOISE", name: "Noise", selected: false, colour:  nil, filterType: noiseFilterType)
 

@@ -42,8 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func checkForProducts () {
         InAppManager.shared.pro { product in
+            
+            print("products available")
+            
             ACScene.shared.product = product
-            print("product found")
+            ACScene.shared.productsAvailable = true
         }
     }
     
