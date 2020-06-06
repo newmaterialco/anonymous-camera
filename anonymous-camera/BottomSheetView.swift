@@ -79,6 +79,8 @@ struct BottomSheetView<Content: View>: View {
     
     @State var expandTest : Bool = false
     
+    @State var communicatingWithAppStore : Bool = false
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -104,41 +106,41 @@ struct BottomSheetView<Content: View>: View {
                 .background(
                     Color.black.opacity(0.00001)
                 )
-                .simultaneousGesture(
-                    DragGesture(coordinateSpace: .global).updating(self.$translation) { value, state, _ in
-                        if self.fixedViewFrame.contains(value.location) {
-                        } else {
-                            if self.sceneInformation.isDraggingBottomSheet {
-                                state = value.translation.height
+                    .simultaneousGesture(
+                        DragGesture(coordinateSpace: .global).updating(self.$translation) { value, state, _ in
+                            if self.fixedViewFrame.contains(value.location) {
+                            } else {
+                                if self.sceneInformation.isDraggingBottomSheet {
+                                    state = value.translation.height
+                                }
                             }
                         }
-                    }
-                    .onChanged({ value in
-                        
-                        if value.translation.height.abs > value.translation.width.abs {
-                            if !self.sceneInformation.bottomSheetIsOpen {
-                                if value.translation.height < 0 {
+                        .onChanged({ value in
+                            
+                            if value.translation.height.abs > value.translation.width.abs {
+                                if !self.sceneInformation.bottomSheetIsOpen {
+                                    if value.translation.height < 0 {
+                                        self.sceneInformation.isDraggingBottomSheet = true
+                                    }
+                                } else {
                                     self.sceneInformation.isDraggingBottomSheet = true
                                 }
-                            } else {
-                                self.sceneInformation.isDraggingBottomSheet = true
                             }
+                            
+                        })
+                            .onEnded { value in
+                                if self.sceneInformation.isDraggingBottomSheet {
+                                    self.sceneInformation.isDraggingBottomSheet = false
+                                    let snapDistance = self.maxHeight * Constants.snapRatio
+                                    guard abs(value.translation.height) > snapDistance else {
+                                        return
+                                    }
+                                    self.sceneInformation.bottomSheetIsOpen = value.translation.height < 0
+                                    if self.sceneInformation.bottomSheetIsOpen {
+                                        self.dragOffsetPercentage = 0
+                                    }
+                                }
                         }
-                        
-                    })
-                        .onEnded { value in
-                            if self.sceneInformation.isDraggingBottomSheet {
-                                self.sceneInformation.isDraggingBottomSheet = false
-                                let snapDistance = self.maxHeight * Constants.snapRatio
-                                guard abs(value.translation.height) > snapDistance else {
-                                    return
-                                }
-                                self.sceneInformation.bottomSheetIsOpen = value.translation.height < 0
-                                if self.sceneInformation.bottomSheetIsOpen {
-                                    self.dragOffsetPercentage = 0
-                                }
-                            }
-                    }
                 )
                 
                 UIScrollViewWrapper(content: {
@@ -147,8 +149,8 @@ struct BottomSheetView<Content: View>: View {
                             Spacer()
                         })
                         
-                            VStack (alignment: .leading, spacing: 12) {
-                                if Platform.hasDepthSegmentation {
+                        VStack (alignment: .leading, spacing: 12) {
+                            if Platform.hasDepthSegmentation {
                                 
                                 Text("Anonymisation")
                                     .font(Font.system(size: 16, weight: .medium, design: .default))
@@ -182,12 +184,12 @@ struct BottomSheetView<Content: View>: View {
                                         }) {
                                             HStack {
                                                 Text("Full Body")
-                                                .foregroundColor(Color(UIColor.label))
+                                                    .foregroundColor(Color(UIColor.label))
                                                 Spacer()
                                                 if self.anonymisation.anonymisationType == .body {
                                                     Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
                                                         .foregroundColor(Color("highlight"))
-                                                    .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
+                                                        .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
                                                 }
                                             }
                                             .padding()
@@ -197,10 +199,10 @@ struct BottomSheetView<Content: View>: View {
                                         }
                                     }
                                     .cornerRadius(radius: 12, style: .continuous)
-
+                                    
                                     Spacer()
                                         .frame(height: 16)
-
+                                    
                                     
                                     HStack {
                                         Text("Only available on the back-facing camera.")
@@ -215,52 +217,52 @@ struct BottomSheetView<Content: View>: View {
                                     
                                     Spacer()
                                         .frame(height: 24)
-
+                                    
                                 }
                             }
-                                
+                            
                             HStack {
-                                    Text("Solid")
-                                        .foregroundColor(Color(UIColor.label))
-                                .padding()
+                                Text("Solid")
+                                    .foregroundColor(Color(UIColor.label))
+                                    .padding()
                                 HStack () {
                                     ForEach(self.anonymisation.filterGroups[1].filters.indices) { jdx in
                                         if self.anonymisation.filterGroups[1].filters[jdx].colour != nil {
                                             Circle()
-                                            .frame(width: 24, height: 24)
-                                            .foregroundColor(Color(self.anonymisation.filterGroups[1].filters[jdx].colour ?? UIColor.clear))
-                                            .overlay(
+                                                .frame(width: 24, height: 24)
+                                                .foregroundColor(Color(self.anonymisation.filterGroups[1].filters[jdx].colour ?? UIColor.clear))
+                                                .overlay(
                                                     Circle()
                                                         .stroke(Color.white.opacity(0.25), lineWidth: 1)
                                             )
-                                            .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.4 : 1)
-                                            .shadow(color: Color.black.opacity(0.08), radius: 24, x: 0, y: 0)
-                                            .padding()
+                                                .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.4 : 1)
+                                                .shadow(color: Color.black.opacity(0.08), radius: 24, x: 0, y: 0)
+                                                .padding()
                                                 .animation(Animation.interactiveSpring())
-                                            .onTapGesture {
-                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
+                                                .onTapGesture {
+                                                    self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
                                             }
                                         } else {
                                             Image("noise-preview")
-                                            .resizable()
-                                            .frame(width: 24, height: 24)
-                                            .clipShape(
-                                                Circle()
-                                            )
-                                            .overlay(
-                                                ZStack {
+                                                .resizable()
+                                                .frame(width: 24, height: 24)
+                                                .clipShape(
                                                     Circle()
-                                                        .stroke(Color.white.opacity(0.25), lineWidth: 1)
-                                                    Circle()
-                                                        .stroke(Color.black.opacity(0.25), lineWidth: 1)
-                                                }
                                             )
-                                            .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.4 : 1)
-                                            .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 0)
+                                                .overlay(
+                                                    ZStack {
+                                                        Circle()
+                                                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
+                                                        Circle()
+                                                            .stroke(Color.black.opacity(0.25), lineWidth: 1)
+                                                    }
+                                            )
+                                                .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.4 : 1)
+                                                .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 0)
                                                 .animation(Animation.interactiveSpring())
-                                            .padding()
-                                            .onTapGesture {
-                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
+                                                .padding()
+                                                .onTapGesture {
+                                                    self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
                                             }
                                         }
                                     }
@@ -268,12 +270,12 @@ struct BottomSheetView<Content: View>: View {
                             }
                             .background(Color(UIColor.label.withAlphaComponent(0.018)))
                             .cornerRadius(radius: 12, style: .continuous)
-
-                        
+                            
+                            
                             HStack {
-                                    Text("Distort Audio")
-                                        .foregroundColor(Color(UIColor.label))
-                                .padding()
+                                Text("Distort Audio")
+                                    .foregroundColor(Color(UIColor.label))
+                                    .padding()
                                 Spacer()
                                 Toggle(isOn: self.$anonymisation.distortAudio) {
                                     Spacer()
@@ -301,7 +303,7 @@ struct BottomSheetView<Content: View>: View {
                                                 .frame(width: 24, height: 24, alignment: .center)
                                             Spacer()
                                                 .frame(width: 12)
-
+                                            
                                             Text("Location")
                                                 .foregroundColor(Color(UIColor.label))
                                         }
@@ -317,8 +319,8 @@ struct BottomSheetView<Content: View>: View {
                                     HStack {
                                         HStack {
                                             Image(uiImage: UIImage(named: "AC_PRIVACY_TIMESTAMP")!)
-                                            .resizable()
-                                            .frame(width: 24, height: 24, alignment: .center)
+                                                .resizable()
+                                                .frame(width: 24, height: 24, alignment: .center)
                                             Spacer()
                                                 .frame(width: 12)
                                             Text("Timestamp")
@@ -356,7 +358,7 @@ struct BottomSheetView<Content: View>: View {
                                     .padding(.horizontal)
                                 
                                 VStack (spacing: 1) {
-            
+                                    
                                     
                                     HStack {
                                         HStack {
@@ -385,39 +387,52 @@ struct BottomSheetView<Content: View>: View {
                                         .padding(.trailing)
                                     }
                                     .background(Color(UIColor.label.withAlphaComponent(self.sceneInformation.interviewModeAvailable ? 0.036 : 0.018)))
-
+                                    
                                 }
                                 .opacity(self.sceneInformation.proPurchased ? 1 : 0.5)
                                 .disabled(self.sceneInformation.proPurchased ? false : true)
                                 .cornerRadius(radius: 12, style: .continuous)
                                 
                                 HStack {
-                                    Button(action: {
-                                        print("restoring")
-
-                                        InAppManager.shared.restore { success in
+                                    
+                                    if !self.sceneInformation.proPurchased {
+                                        Button(action: {
+                                            print("restoring")
                                             
-                                            print("trying")
-
-                                            if success {
-                                                  print("success")
-                                                  self.sceneInformation.proPurchased = InAppManager.shared.isPro
+                                            self.communicatingWithAppStore = true
+                                            
+                                            InAppManager.shared.restore { success in
                                                 
-                                                self.anonymisation.includeWatermark = false
-                                                self.sceneInformation.interviewModeAvailable = true
-                                              }
+                                                
+                                                self.communicatingWithAppStore = false
+                                                
+                                                if success {
+                                                    print("success")
+                                                    self.sceneInformation.proPurchased = InAppManager.shared.isPro
+                                                    
+                                                    self.anonymisation.includeWatermark = false
+                                                    self.sceneInformation.interviewModeAvailable = true
+                                                }
+                                            }
+                                        }) {
+                                            Text("RESTORE")
+                                                .font(Font.system(size: 18).uppercaseSmallCaps())
+                                                .foregroundColor(Color(UIColor.label))
                                         }
-                                    }) {
-                                        Text("RESTORE")
-                                            .font(Font.system(size: 18).uppercaseSmallCaps())
-                                            .foregroundColor(Color(UIColor.label))
+                                        .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
                                     }
                                     
                                     Spacer()
                                     
                                     Button(action: {
                                         
+                                        self.communicatingWithAppStore = true
+                                        
                                         InAppManager.shared.purchase { success in
+                                            
+                                            print("purchase callback")
+                                            
+                                            self.communicatingWithAppStore = false
                                             
                                             if success {
                                                 print("success")
@@ -442,30 +457,38 @@ struct BottomSheetView<Content: View>: View {
                                             .padding(.vertical, 8)
                                             .padding(.horizontal, 12)
                                         } else {
-                                            HStack(spacing: 6) {
-                                                Text("BUY")
-                                                    .font(Font.system(size: 18).uppercaseSmallCaps())
-                                                    .opacity(0.75)
-                                                Text(self.sceneInformation.product?.localizedPrice ?? "")
-                                                    .font(Font.system(size: 18).uppercaseSmallCaps())
-                                            }
-                                            .foregroundColor(Color.white)
-                                            .padding(.vertical, 8)
-                                            .padding(.horizontal, 12)
-                                            .background(Color.blue)
-                                            .cornerRadius(radius: 100, style: .circular)
+                                            if self.communicatingWithAppStore {
+                                                    HStack {
+                                                        Image("app-store-style-spinner")
+                                                    }
+                                                    
+                                                    
+                                                } else {
+                                                    HStack(spacing: 6) {
+                                                        Text("BUY")
+                                                            .font(Font.system(size: 18).uppercaseSmallCaps())
+                                                            .opacity(0.75)
+                                                        Text(self.sceneInformation.product?.localizedPrice ?? "")
+                                                            .font(Font.system(size: 18).uppercaseSmallCaps())
+                                                    }
+                                                    .foregroundColor(Color.white)
+                                                    .padding(.vertical, 8)
+                                                    .padding(.horizontal, 12)
+                                                    .background(Color.blue)
+                                                    .cornerRadius(radius: 100, style: .circular)
+                                                    
+                                                }                                        }
                                         }
                                     }
+                                    .padding()
+                                    
                                 }
-                                .padding()
-
                             }
-                        }
-                        
-                        
-                        Button(action: {
-                            self.showSafetyCard.toggle()
-                        }) {
+                            
+                            
+                            Button(action: {
+                                self.showSafetyCard.toggle()
+                            }) {
                                 HStack {
                                     HStack(spacing: 12) {
                                         Text("Safety & Privacy")
@@ -481,244 +504,244 @@ struct BottomSheetView<Content: View>: View {
                                 .frame(height: 56)
                                 .background(Color(UIColor.label.withAlphaComponent(0.018)))
                                 .cornerRadius(12)
+                            }
+                            .sheet(isPresented: self.$showSafetyCard) {
+                                SafetyCard(isPresented: self.$showSafetyCard)
+                            }
+                            
+                            ACPlaygroundCredit()
+                            
                         }
-                        .sheet(isPresented: self.$showSafetyCard) {
-                            SafetyCard(isPresented: self.$showSafetyCard)
-                        }
-                        
-                        ACPlaygroundCredit()
-                        
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 36)
-                    .frame(width: geometry.size.width,
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 36)
+                        .frame(width: geometry.size.width,
                                height: nil,
                                alignment: .topLeading)
+                            .background(Color.clear)
+                    }, bottomSheetIsOpen: self.$sceneInformation.bottomSheetIsOpen, dragOffsetPercentage: self.$dragOffsetPercentage)
                     .background(Color.clear)
-                }, bottomSheetIsOpen: self.$sceneInformation.bottomSheetIsOpen, dragOffsetPercentage: self.$dragOffsetPercentage)
-                .background(Color.clear)
-                .opacity((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? 1 : 0)
-                .offset(y: (self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? 0 : 48)
-                .frame(width: geometry.size.width)
-            }
-            .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
-            .background(
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .background(
-                        ZStack {
-                            Blur(style: .systemChromeMaterial)
-                                .opacity((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? 1 : 0)
-                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground.withAlphaComponent(0.75) : UIColor.black.withAlphaComponent(0))
-                        }
-                        .clipShape(
-                            RoundedCorner(radius: 12, corners: [.topRight, .topLeft])
-                        )
+                    .opacity((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? 1 : 0)
+                    .offset(y: (self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? 0 : 48)
+                    .frame(width: geometry.size.width)
+                    }
+                .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
+                .background(
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .background(
+                            ZStack {
+                                Blur(style: .systemChromeMaterial)
+                                    .opacity((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? 1 : 0)
+                                Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground.withAlphaComponent(0.75) : UIColor.black.withAlphaComponent(0))
+                            }
+                            .clipShape(
+                                RoundedCorner(radius: 12, corners: [.topRight, .topLeft])
+                            )
+                    )
+                        .shadow(color: Color.black.opacity(0.12), radius: 18, x: 0, y: 0)
+                        .offset(x: 0, y: (self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0 : self.minHeight)
                 )
-                    .shadow(color: Color.black.opacity(0.12), radius: 18, x: 0, y: 0)
-                    .offset(x: 0, y: (self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0 : self.minHeight)
-            )
-            .frame(height: geometry.size.height, alignment: .bottom)
-            .offset(y: max(self.offset + self.translation, 0))
-            .offset(y: self.sceneInformation.bottomSheetIsOpen ? 48*self.dragOffsetPercentage : 0)
-            .animation(self.sceneInformation.isDraggingBottomSheet ? Animation.interactiveSpring(response: 0.02, dampingFraction: 0.9, blendDuration: 0.25) : Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0.25), value: self.translation)
-            .animation(Animation.interactiveSpring(response: 0.3, dampingFraction: 0.9, blendDuration: 0.25), value: self.sceneInformation.bottomSheetIsOpen)
-            .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.7, blendDuration: 0.25))
-            .animation(nil, value: self.dragOffsetPercentage)
+                    .frame(height: geometry.size.height, alignment: .bottom)
+                    .offset(y: max(self.offset + self.translation, 0))
+                    .offset(y: self.sceneInformation.bottomSheetIsOpen ? 48*self.dragOffsetPercentage : 0)
+                    .animation(self.sceneInformation.isDraggingBottomSheet ? Animation.interactiveSpring(response: 0.02, dampingFraction: 0.9, blendDuration: 0.25) : Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0.25), value: self.translation)
+                    .animation(Animation.interactiveSpring(response: 0.3, dampingFraction: 0.9, blendDuration: 0.25), value: self.sceneInformation.bottomSheetIsOpen)
+                    .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.7, blendDuration: 0.25))
+                    .animation(nil, value: self.dragOffsetPercentage)
+            }
         }
     }
-}
-
-struct ChildFrameReader<Content: View>: View {
-    @Binding var frame: CGRect
-    let content: () -> Content
-    var body: some View {
-        ZStack {
-            content()
-                .background(
-                    GeometryReader { proxy in
-                        Color.clear
-                            .preference(key: FramePreferenceKey.self, value: proxy.frame(in: .global))
+    
+    struct ChildFrameReader<Content: View>: View {
+        @Binding var frame: CGRect
+        let content: () -> Content
+        var body: some View {
+            ZStack {
+                content()
+                    .background(
+                        GeometryReader { proxy in
+                            Color.clear
+                                .preference(key: FramePreferenceKey.self, value: proxy.frame(in: .global))
+                        }
+                )
+            }
+            .onPreferenceChange(FramePreferenceKey.self) { preferences in
+                self.frame = preferences
+            }
+        }
+    }
+    
+    
+    struct ChildPositionReader<Content: View>: View {
+        @Binding var position: CGPoint
+        let content: () -> Content
+        var body: some View {
+            ZStack {
+                content()
+                    .background(
+                        GeometryReader { proxy in
+                            Color.clear
+                                .preference(key: PositionPreferenceKey.self, value: CGPoint(x: proxy.frame(in: .global).minX, y: proxy.frame(in: .global).minY))
+                        }
+                )
+            }
+            .onPreferenceChange(PositionPreferenceKey.self) { preferences in
+                self.position = preferences
+            }
+        }
+    }
+    
+    struct FramePreferenceKey: PreferenceKey {
+        typealias Value = CGRect
+        static var defaultValue: Value = .zero
+        
+        static func reduce(value _: inout Value, nextValue: () -> Value) {
+            _ = nextValue()
+        }
+    }
+    
+    struct PositionPreferenceKey: PreferenceKey {
+        typealias Value = CGPoint
+        static var defaultValue: Value = .zero
+        
+        static func reduce(value _: inout Value, nextValue: () -> Value) {
+            _ = nextValue()
+        }
+    }
+    
+    struct BottomSheetView_Previews: PreviewProvider {
+        static var previews: some View {
+            BottomSheetView(maxHeight: 600, minHeight: 12) {
+                Rectangle().fill(Color.red)
+            }.edgesIgnoringSafeArea(.all)
+        }
+    }
+    
+    
+    struct ACFilterSelector: View {
+        
+        @EnvironmentObject var anonymisation : ACAnonymisation
+        @EnvironmentObject var sceneInformation : ACScene
+        
+        let generator = UISelectionFeedbackGenerator()
+        
+        var body: some View {
+            ZStack {
+                HStack(spacing: sceneInformation.deviceOrientation.isLandscape ? 18 : 12){
+                    ForEach(anonymisation.filterGroups.indices) { idx in
+                        ACFilterButton(filterGroup: self.$anonymisation.filterGroups[idx])
                     }
-            )
-        }
-        .onPreferenceChange(FramePreferenceKey.self) { preferences in
-            self.frame = preferences
-        }
-    }
-}
-
-
-struct ChildPositionReader<Content: View>: View {
-    @Binding var position: CGPoint
-    let content: () -> Content
-    var body: some View {
-        ZStack {
-            content()
-                .background(
-                    GeometryReader { proxy in
-                        Color.clear
-                            .preference(key: PositionPreferenceKey.self, value: CGPoint(x: proxy.frame(in: .global).minX, y: proxy.frame(in: .global).minY))
-                    }
-            )
-        }
-        .onPreferenceChange(PositionPreferenceKey.self) { preferences in
-            self.position = preferences
-        }
-    }
-}
-
-struct FramePreferenceKey: PreferenceKey {
-    typealias Value = CGRect
-    static var defaultValue: Value = .zero
-    
-    static func reduce(value _: inout Value, nextValue: () -> Value) {
-        _ = nextValue()
-    }
-}
-
-struct PositionPreferenceKey: PreferenceKey {
-    typealias Value = CGPoint
-    static var defaultValue: Value = .zero
-    
-    static func reduce(value _: inout Value, nextValue: () -> Value) {
-        _ = nextValue()
-    }
-}
-
-struct BottomSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        BottomSheetView(maxHeight: 600, minHeight: 12) {
-            Rectangle().fill(Color.red)
-        }.edgesIgnoringSafeArea(.all)
-    }
-}
-
-
-struct ACFilterSelector: View {
-    
-    @EnvironmentObject var anonymisation : ACAnonymisation
-    @EnvironmentObject var sceneInformation : ACScene
-    
-    let generator = UISelectionFeedbackGenerator()
-    
-    var body: some View {
-        ZStack {
-            HStack(spacing: sceneInformation.deviceOrientation.isLandscape ? 18 : 12){
-                ForEach(anonymisation.filterGroups.indices) { idx in
-                    ACFilterButton(filterGroup: self.$anonymisation.filterGroups[idx])
                 }
             }
         }
     }
-}
-
-struct ACFilterButton: View {
     
-    @EnvironmentObject var sceneInformation : ACScene
-    @EnvironmentObject var anonymisation : ACAnonymisation
-    @State internal var isBeingTouched : Bool = false
-    @Binding var filterGroup : ACFilterGroup
-    
-    let selectionGenerator = UISelectionFeedbackGenerator()
-    let impactGenerator = UIImpactFeedbackGenerator()
-
-    
-    var body: some View {
-        HStack (alignment: .center) {
-            
-            Image(uiImage: filterGroup.filters[filterGroup.selectedFilterIndex].filterType.icon)
-                .foregroundColor(
-                    filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
-                        ) :
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
-            )
-                .rotationEffect(sceneInformation.deviceRotationAngle)
-                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0), value: sceneInformation.deviceRotationAngle)
-            
-            if (filterGroup.selected && !sceneInformation.deviceOrientation.isLandscape) {
-                Text(filterGroup.name)
-                    .font(Font.system(size: 16, weight: .semibold, design: .default))
+    struct ACFilterButton: View {
+        
+        @EnvironmentObject var sceneInformation : ACScene
+        @EnvironmentObject var anonymisation : ACAnonymisation
+        @State internal var isBeingTouched : Bool = false
+        @Binding var filterGroup : ACFilterGroup
+        
+        let selectionGenerator = UISelectionFeedbackGenerator()
+        let impactGenerator = UIImpactFeedbackGenerator()
+        
+        
+        var body: some View {
+            HStack (alignment: .center) {
+                
+                Image(uiImage: filterGroup.filters[filterGroup.selectedFilterIndex].filterType.icon)
                     .foregroundColor(
                         filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
                             Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
-                            
-                            ) : Color(.label)
+                            ) :
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
                 )
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(1)
-                    .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
-                    .animation(Animation.easeInOut)
-            }
-        }
-        .padding(18)
-        .mask(
-            HStack(spacing: 0) {
-                Rectangle()
-                    .foregroundColor(Color(UIColor.systemPink))
-                LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemPink), Color(UIColor.systemPink.withAlphaComponent(0))]), startPoint: UnitPoint(x: 0, y: 0.5), endPoint: UnitPoint(x: 1, y: 0.5))
-                    .frame(width: 16)
-            }
-        )
-            .background(
+                    .rotationEffect(sceneInformation.deviceRotationAngle)
+                    .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0), value: sceneInformation.deviceRotationAngle)
                 
-                filterGroup.selected ? (
-                    filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color("highlight") :
-                        
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
+                if (filterGroup.selected && !sceneInformation.deviceOrientation.isLandscape) {
+                    Text(filterGroup.name)
+                        .font(Font.system(size: 16, weight: .semibold, design: .default))
+                        .foregroundColor(
+                            filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
+                                Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
+                                
+                                ) : Color(.label)
+                    )
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
+                        .animation(Animation.easeInOut)
+                }
+            }
+            .padding(18)
+            .mask(
+                HStack(spacing: 0) {
+                    Rectangle()
+                        .foregroundColor(Color(UIColor.systemPink))
+                    LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemPink), Color(UIColor.systemPink.withAlphaComponent(0))]), startPoint: UnitPoint(x: 0, y: 0.5), endPoint: UnitPoint(x: 1, y: 0.5))
+                        .frame(width: 16)
+                }
+            )
+                .background(
                     
-                    ) : ((isBeingTouched && !self.sceneInformation.isDraggingBottomSheet) ?
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.75) : UIColor.white.withAlphaComponent(0.75))
+                    filterGroup.selected ? (
+                        filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color("highlight") :
+                            
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
                         
-                        :
-                        
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.25) : UIColor.white.withAlphaComponent(0.25))
-                )
-        )
-            .animation(Animation.easeInOut(duration: 0.2), value: self.sceneInformation.isDraggingBottomSheet)
-            .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
-            .scaleEffect(isBeingTouched ? 0.92 : 1)
-            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filterGroup.filters[filterGroup.selectedFilterIndex].selected ? 1.12 : 1) : 1)
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged({ _ in
-                        withAnimation(.easeOut(duration: 0.08)) {
-                            self.isBeingTouched = true
-                        }
-                    })
-                    .onEnded({ _ in
-                        withAnimation(.easeOut(duration: 0.24)) {
-                            self.isBeingTouched = false
-                        }
-                    })
-        )
-        .simultaneousGesture(
-                TapGesture()
-                    .onEnded({ _ in
-                        self.selectionGenerator.selectionChanged()
-                        
-                        withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)) {
-                            self.anonymisation.select(filterGroup: self.filterGroup)
-                        }
-                    })
-        )
+                        ) : ((isBeingTouched && !self.sceneInformation.isDraggingBottomSheet) ?
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.75) : UIColor.white.withAlphaComponent(0.75))
+                            
+                            :
+                            
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.25) : UIColor.white.withAlphaComponent(0.25))
+                    )
+            )
+                .animation(Animation.easeInOut(duration: 0.2), value: self.sceneInformation.isDraggingBottomSheet)
+                .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
+                .scaleEffect(isBeingTouched ? 0.92 : 1)
+                .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filterGroup.filters[filterGroup.selectedFilterIndex].selected ? 1.12 : 1) : 1)
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged({ _ in
+                            withAnimation(.easeOut(duration: 0.08)) {
+                                self.isBeingTouched = true
+                            }
+                        })
+                        .onEnded({ _ in
+                            withAnimation(.easeOut(duration: 0.24)) {
+                                self.isBeingTouched = false
+                            }
+                        })
+            )
+                .simultaneousGesture(
+                    TapGesture()
+                        .onEnded({ _ in
+                            self.selectionGenerator.selectionChanged()
+                            
+                            withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)) {
+                                self.anonymisation.select(filterGroup: self.filterGroup)
+                            }
+                        })
+            )
+        }
     }
-}
-
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
-    }
-}
-
-struct RoundedCorner: Shape {
     
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-    
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
+    extension View {
+        func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+            clipShape( RoundedCorner(radius: radius, corners: corners) )
+        }
     }
+    
+    struct RoundedCorner: Shape {
+        
+        var radius: CGFloat = .infinity
+        var corners: UIRectCorner = .allCorners
+        
+        func path(in rect: CGRect) -> Path {
+            let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+            return Path(path.cgPath)
+        }
 }

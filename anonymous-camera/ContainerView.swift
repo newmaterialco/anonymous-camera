@@ -12,7 +12,6 @@ struct ContainerView: View {
     
     @EnvironmentObject var sceneInformation : ACScene
     @EnvironmentObject var anonymisation : ACAnonymisation
-    @State var isRecording : Bool = false
     
     var body: some View {
         ContentView()

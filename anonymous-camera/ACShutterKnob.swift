@@ -14,31 +14,30 @@ struct ACShutterKnob: View {
     @EnvironmentObject var sceneInformation : ACScene
     @EnvironmentObject var anonymisation : ACAnonymisation
     
-    @Binding var isRecording : Bool
     @Binding var locked : Bool
-
-        
+    
+    
     var body: some View {
         ZStack {
             
-            ACShutterProgressIndicator(isRecording: $isRecording)
-            .opacity(isRecording ? 1 : 0)
+            ACShutterProgressIndicator()
+                .opacity(self.sceneInformation.isVideoRecording ? 1 : 0)
                 .offset(
                     
                     x:
                     withAnimation(Animation.spring(), {
-                        isRecording ? sceneInformation.deviceOrientation.isLandscape ? (locked ? -88 : 0) : 0 : 0
+                        self.sceneInformation.isVideoRecording ? sceneInformation.deviceOrientation.isLandscape ? (locked ? -88 : 0) : 0 : 0
                     })
                     ,y:
                     withAnimation(Animation.spring(), {
-                        isRecording ? sceneInformation.deviceOrientation.isLandscape ? (locked ? 0 : -88) : -88 : 0
+                        self.sceneInformation.isVideoRecording ? sceneInformation.deviceOrientation.isLandscape ? (locked ? 0 : -88) : -88 : 0
                     })
             )
-            .rotationEffect(sceneInformation.deviceRotationAngle)
+                .rotationEffect(sceneInformation.deviceRotationAngle)
             
             Circle()
-            .foregroundColor(.white)
-            .frame(width: 70, height: 70, alignment: .center)
+                .foregroundColor(.white)
+                .frame(width: 70, height: 70, alignment: .center)
                 .shadow(color: Color.black.opacity(0.24), radius: 24, x: 0, y: 0)
             
             if locked {
@@ -55,14 +54,12 @@ struct ACShutterProgressIndicator: View {
     @EnvironmentObject var sceneInformation : ACScene
     @EnvironmentObject var anonymisation : ACAnonymisation
     
-    @Binding var isRecording : Bool
-            
     var body: some View {
         Text(anonymisation.timeCode)
             .font(Font.system(size: 12, weight: .semibold, design: .rounded).monospacedDigit())
-        .foregroundColor(Color.black)
-        .padding()
-        .background(Color.white)
-        .cornerRadius(12)
+            .foregroundColor(Color.black)
+            .padding()
+            .background(Color.white)
+            .cornerRadius(12)
     }
 }

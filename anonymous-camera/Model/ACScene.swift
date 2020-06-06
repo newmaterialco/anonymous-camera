@@ -48,6 +48,8 @@ final public class ACScene : ObservableObject {
     @Published public var deviceLandscapeRotationAngle : Angle = Angle(degrees: 90)
     @Published public var devicePreviousOrientationWasLandscape : Bool = false
     
+    @Published public var isVideoRecording : Bool = false
+    
     @Published public var internetConnection : Bool = true
 
     @Published public var interviewModeAvailable : Bool = Defaults[\.interviewMode]! {
