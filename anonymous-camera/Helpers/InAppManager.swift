@@ -84,10 +84,17 @@ class InAppManager: NSObject {
         if transaction.payment.productIdentifier == product?.productIdentifier {
             UserDefaults.standard.set(true, forKey: InAppManager.PRO_ID)
             UserDefaults.standard.synchronize()
-            DispatchQueue.main.async { self.purchaseHandler?(true) }
+            DispatchQueue.main.async {
+                self.purchaseHandler?(true)
+                self.purchaseHandler = nil
+            }
         }
-        else { DispatchQueue.main.async { self.purchaseHandler?(false) } }
-        purchaseHandler = nil
+        else {
+            DispatchQueue.main.async {
+                self.purchaseHandler?(false)
+                self.purchaseHandler = nil
+            }
+        }
         SKPaymentQueue.default().finishTransaction(transaction)
     }
     
@@ -95,16 +102,25 @@ class InAppManager: NSObject {
         if transaction.original?.payment.productIdentifier == product?.productIdentifier {
             UserDefaults.standard.set(true, forKey: InAppManager.PRO_ID)
             UserDefaults.standard.synchronize()
-            DispatchQueue.main.async { self.purchaseHandler?(true) }
+            DispatchQueue.main.async {
+                self.purchaseHandler?(true)
+                self.purchaseHandler = nil
+            }
         }
-        else { DispatchQueue.main.async { self.purchaseHandler?(false) } }
-        purchaseHandler = nil
+        else {
+            DispatchQueue.main.async {
+                self.purchaseHandler?(false)
+                self.purchaseHandler = nil
+            }
+        }
         SKPaymentQueue.default().finishTransaction(transaction)
     }
     
     private func failedTransaction(_ transaction: SKPaymentTransaction) {
-        DispatchQueue.main.async { self.purchaseHandler?(false) }
-        purchaseHandler = nil
+        DispatchQueue.main.async {
+            self.purchaseHandler?(false)
+            self.purchaseHandler = nil
+        }
         SKPaymentQueue.default().finishTransaction(transaction)
     }
     
@@ -116,9 +132,9 @@ extension InAppManager: SKProductsRequestDelegate {
             self.product = product
             DispatchQueue.main.async {
                 self.proHandler?(product)
+                self.productsRequest = nil
             }
         }
-        self.productsRequest = nil
     }
     func request(_ request: SKRequest, didFailWithError error: Error) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
@@ -133,13 +149,18 @@ extension InAppManager: SKPaymentTransactionObserver {
             switch transaction.transactionState {
             case .purchased:
                 completeTransaction(transaction)
+                print("purchased")
             case .failed:
                 failedTransaction(transaction)
+                print("failedTransaction")
             case .restored:
                 restoreTransaction(transaction)
+                print("restoreTransaction")
             case .purchasing:
+                print("purchasing")
                 break
             case .deferred:
+                print("deferred")
                 break
             @unknown default:
                 break
