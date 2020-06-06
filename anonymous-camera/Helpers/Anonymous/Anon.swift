@@ -382,8 +382,6 @@ class Anon: NSObject {
     }
     
     func takePhoto(fixedDate: Bool, location: CLLocation?, _ block: @escaping AnonSavedToPhotos) {
-        //CameraFeed.shared.snap()
-        //return
         AudioServicesPlaySystemSound(1108)
         CameraShader.shared.takeImage(feed: 0, delegate: self)
         photo = AnonPhoto()

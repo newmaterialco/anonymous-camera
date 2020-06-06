@@ -11,6 +11,10 @@
 		7752359524291AB200483BFA /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7752359424291AB200483BFA /* InAppManager.swift */; };
 		77523597242A231500483BFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77523596242A231500483BFA /* StoreKit.framework */; };
 		7761577E24879512000C00AF /* AnonLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7761577D24879512000C00AF /* AnonLocation.swift */; };
+		77662D68248A57C600BA6ED6 /* image_processing.h in Headers */ = {isa = PBXBuildFile; fileRef = 77662D66248A57C600BA6ED6 /* image_processing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		77662D6B248A57C600BA6ED6 /* image_processing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77662D64248A57C600BA6ED6 /* image_processing.framework */; };
+		77662D6C248A57C600BA6ED6 /* image_processing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77662D64248A57C600BA6ED6 /* image_processing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77662D72248A582600BA6ED6 /* AnonCoreImageProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77662D71248A582600BA6ED6 /* AnonCoreImageProcessing.swift */; };
 		77B275D1248816F4005E85E1 /* FaceColorFillShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */; };
 		77B275D324881720005E85E1 /* FaceColorNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */; };
 		77B275D52488174A005E85E1 /* FaceBWNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */; };
@@ -72,7 +76,28 @@
 		8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		77662D69248A57C600BA6ED6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FE3F3D0242176E400497EA6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77662D63248A57C600BA6ED6;
+			remoteInfo = image.processing;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		77662D6D248A57C600BA6ED6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				77662D6C248A57C600BA6ED6 /* image_processing.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77EE1BCF2489647E00D96F27 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,6 +116,10 @@
 		7752359424291AB200483BFA /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
 		77523596242A231500483BFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7761577D24879512000C00AF /* AnonLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonLocation.swift; sourceTree = "<group>"; };
+		77662D64248A57C600BA6ED6 /* image_processing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = image_processing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77662D66248A57C600BA6ED6 /* image_processing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image_processing.h; sourceTree = "<group>"; };
+		77662D67248A57C600BA6ED6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77662D71248A582600BA6ED6 /* AnonCoreImageProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonCoreImageProcessing.swift; sourceTree = "<group>"; };
 		77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorFillShader.swift; sourceTree = "<group>"; };
 		77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorNoiseShader.swift; sourceTree = "<group>"; };
 		77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceBWNoiseShader.swift; sourceTree = "<group>"; };
@@ -164,10 +193,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		77662D61248A57C600BA6ED6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FE3F3D5242176E400497EA6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77662D6B248A57C600BA6ED6 /* image_processing.framework in Frameworks */,
 				8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */,
 				77523597242A231500483BFA /* StoreKit.framework in Frameworks */,
 			);
@@ -185,6 +222,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		77662D65248A57C600BA6ED6 /* image.processing */ = {
+			isa = PBXGroup;
+			children = (
+				77662D71248A582600BA6ED6 /* AnonCoreImageProcessing.swift */,
+				77662D66248A57C600BA6ED6 /* image_processing.h */,
+				77662D67248A57C600BA6ED6 /* Info.plist */,
+			);
+			path = image.processing;
+			sourceTree = "<group>";
+		};
 		8F25F48E2486E70F00615989 /* Data Safety Card */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				8FE3F3DA242176E400497EA6 /* anonymous-camera */,
+				77662D65248A57C600BA6ED6 /* image.processing */,
 				8FE3F3D9242176E400497EA6 /* Products */,
 				4F429929DFD57C9AE21BCBE2 /* Pods */,
 				DECF7013C07D9655D61F774E /* Frameworks */,
@@ -209,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				8FE3F3D8242176E400497EA6 /* Anonymous.app */,
+				77662D64248A57C600BA6ED6 /* image_processing.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -345,7 +394,36 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		77662D5F248A57C600BA6ED6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77662D68248A57C600BA6ED6 /* image_processing.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		77662D63248A57C600BA6ED6 /* image.processing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77662D70248A57C600BA6ED6 /* Build configuration list for PBXNativeTarget "image.processing" */;
+			buildPhases = (
+				77662D5F248A57C600BA6ED6 /* Headers */,
+				77662D60248A57C600BA6ED6 /* Sources */,
+				77662D61248A57C600BA6ED6 /* Frameworks */,
+				77662D62248A57C600BA6ED6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = image.processing;
+			productName = image.processing;
+			productReference = 77662D64248A57C600BA6ED6 /* image_processing.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		8FE3F3D7242176E400497EA6 /* anonymous-camera */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FE3F3EC242176E500497EA6 /* Build configuration list for PBXNativeTarget "anonymous-camera" */;
@@ -356,10 +434,12 @@
 				8FE3F3D6242176E400497EA6 /* Resources */,
 				9E211A6BAAAA37A73608A555 /* [CP] Embed Pods Frameworks */,
 				77EE1BCF2489647E00D96F27 /* Embed App Extensions */,
+				77662D6D248A57C600BA6ED6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				77662D6A248A57C600BA6ED6 /* PBXTargetDependency */,
 			);
 			name = "anonymous-camera";
 			productName = "anonymous-camera";
@@ -376,6 +456,10 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Aaron Abentheuer";
 				TargetAttributes = {
+					77662D63248A57C600BA6ED6 = {
+						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1150;
+					};
 					8FE3F3D7242176E400497EA6 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -397,11 +481,19 @@
 			projectRoot = "";
 			targets = (
 				8FE3F3D7242176E400497EA6 /* anonymous-camera */,
+				77662D63248A57C600BA6ED6 /* image.processing */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		77662D62248A57C600BA6ED6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FE3F3D6242176E400497EA6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -458,6 +550,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		77662D60248A57C600BA6ED6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77662D72248A582600BA6ED6 /* AnonCoreImageProcessing.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FE3F3D4242176E400497EA6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -524,6 +624,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		77662D6A248A57C600BA6ED6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77662D63248A57C600BA6ED6 /* image.processing */;
+			targetProxy = 77662D69248A57C600BA6ED6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -546,6 +654,65 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		77662D6E248A57C600BA6ED6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8NMAC9567F;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = image.processing/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "playground.ai.image-processing";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		77662D6F248A57C600BA6ED6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 6NDKXMMXT5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = image.processing/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "playground.ai.image-processing";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		8FE3F3EA242176E500497EA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -717,6 +884,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		77662D70248A57C600BA6ED6 /* Build configuration list for PBXNativeTarget "image.processing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77662D6E248A57C600BA6ED6 /* Debug */,
+				77662D6F248A57C600BA6ED6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8FE3F3D3242176E400497EA6 /* Build configuration list for PBXProject "anonymous-camera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
