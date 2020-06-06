@@ -76,6 +76,10 @@ class CameraFeed: NSObject {
         }
     }
     
+    func pause(_ flag: Bool) {
+        isPaused = flag
+    }
+    
     func resume() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .restricted || status == .denied { self.stop() }
@@ -131,6 +135,7 @@ class CameraFeed: NSObject {
     private var arSession: ARSession?
     private var outputType: CameraFeedType = .none
     private var lastFacesDetected = 0.0
+    private var isPaused = false
     
     private func destroySession() {
         if let captureSession = captureSession {
@@ -210,6 +215,7 @@ extension CameraFeed: AVCapturePhotoCaptureDelegate {
 
 extension CameraFeed: AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        if isPaused { return }
         delegate?.captureOutput(output, sampleBuffer: sampleBuffer, connection: connection, type: outputType)
         let timeSinceLastFace = Date().timeIntervalSince1970 - lastFacesDetected
         if timeSinceLastFace > 0.2 {
@@ -220,6 +226,7 @@ extension CameraFeed: AVCaptureVideoDataOutputSampleBufferDelegate {
 
 extension CameraFeed: ARSessionDelegate {
     public func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        if isPaused { return }
         let time = Date().timeIntervalSince1970
         let frameTime = frame.timestamp
         let uptime = ProcessInfo.processInfo.systemUptime
@@ -234,6 +241,7 @@ extension CameraFeed: ARSessionDelegate {
 
 extension CameraFeed: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        if isPaused { return }
         var tmp: [CGRect] = []
         for face in metadataObjects {
             if face.type == .face { tmp.append(face.bounds) }

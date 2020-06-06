@@ -81,11 +81,11 @@ class Anon: NSObject {
     }
     
     public static func pause() {
-        CameraFeed.shared.stop()
+        CameraFeed.shared.pause(true)
     }
     
     public static func resume() {
-        CameraFeed.shared.resume()
+        CameraFeed.shared.pause(false)
     }
     
     public static func requestLocationAccess(_ block: @escaping (_: AnonPermission) -> Void) {
