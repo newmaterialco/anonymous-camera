@@ -83,7 +83,6 @@ public class AnonCoreImageProcessing {
                 }
                 else if processType == .noise, let noiseFilter = CIFilter(name: "CIRandomGenerator") {
                     noiseFilter.setDefaults()
-                    noiseFilter.setDefaults()
                     maskImage = noiseFilter.outputImage?.cropped(to: activeImage.extent)
                 }
                 else if processType == .color {
