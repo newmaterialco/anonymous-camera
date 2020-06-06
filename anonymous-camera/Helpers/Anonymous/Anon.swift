@@ -80,6 +80,14 @@ class Anon: NSObject {
         CameraFeed.shared.resume()
     }
     
+    public static func pause() {
+        CameraFeed.shared.stop()
+    }
+    
+    public static func resume() {
+        CameraFeed.shared.resume()
+    }
+    
     public static func requestLocationAccess(_ block: @escaping (_: AnonPermission) -> Void) {
         let status = CLLocationManager.authorizationStatus()
         if status == .denied || status == .restricted { block(.denied) }
