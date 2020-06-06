@@ -60,8 +60,33 @@ final public class ACScene : ObservableObject {
     @Published public var interviewModeControlIsHoveringOverClose : Bool = false
     @Published public var interviewModeControlIsBeingTouched : Bool = false
     
-    @Published public var isDraggingBottomSheet : Bool = false
-    @Published public var bottomSheetIsOpen : Bool = false
+    @Published public var isDraggingBottomSheet : Bool = false  {
+        
+        didSet {
+            if !bottomSheetIsOpen && !isDraggingBottomSheet {
+                Anon.resume()
+            } else {
+                Anon.pause()
+            }
+            
+        }
+        
+    }
+    
+    @Published public var bottomSheetIsOpen : Bool = false {
+        
+        didSet {
+            print("bottom sheet open")
+            print(bottomSheetIsOpen)
+            
+            if bottomSheetIsOpen {
+                Anon.pause()
+            } else {
+                Anon.resume()
+            }
+        }
+        
+    }
     
     @Published public var showHUD : Bool = false
     @Published public var hudLoading : Bool = false
