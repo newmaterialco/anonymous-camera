@@ -30,6 +30,7 @@ struct ACHuD: View {
             .font(Font.system(size: 16).uppercaseSmallCaps())
             .foregroundColor(Color(self.sceneInformation.hudTint))
             .fixedSize(horizontal: true, vertical: true)
+            .frame(minHeight: 18)
         }
         .animation(nil)
         .padding(12)
