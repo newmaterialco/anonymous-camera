@@ -16,6 +16,7 @@ extension DefaultsKeys {
     var distortAudio: DefaultsKey<Bool?> { .init("distortAudio", defaultValue: false) }
     var includeWatermark: DefaultsKey<Bool?> { .init("includeWatermark", defaultValue: true) }
     var cameraFacingFront: DefaultsKey<Bool?> { .init("cameraFacingFront", defaultValue: true) }
+    var interviewMode: DefaultsKey<Bool?> { .init("interviewMode", defaultValue: false) }
 }
 
 class ACAnonymisation : ObservableObject {

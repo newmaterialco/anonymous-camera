@@ -12,7 +12,6 @@ struct ContentView: View {
     
     @EnvironmentObject var sceneInformation : ACScene
     @EnvironmentObject var anonymisation : ACAnonymisation
-    @State var isRecording : Bool = false
     
     @State var dragOffset : CGSize = CGSize.zero
     @State var bottomSize: CGSize = .zero
@@ -20,7 +19,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             VStack {
-                if (!isRecording && UIScreen.current > ScreenType.iPhone4_7) {
+                if (!sceneInformation.isVideoRecording && UIScreen.current > ScreenType.iPhone4_7) {
                     
                     HStack (spacing: 8) {
                         ACQuickSetting(isOn: $anonymisation.exifLocation, icon: Image("AC_PRIVACY_LOCATION"))
@@ -39,7 +38,7 @@ struct ContentView: View {
                     }
                 }
                 
-                ACViewfinder(isRecording: $isRecording)
+                ACViewfinder()
                 ChildSizeReader(size: $bottomSize) {
                     Spacer()
                 }
@@ -58,7 +57,7 @@ struct ContentView: View {
                     self.sceneInformation.bottomSheetIsOpen.toggle()
             }
             GeometryReader { geometry in
-                if (!self.isRecording) {
+                if (!self.sceneInformation.isVideoRecording) {
                     BottomSheetView(
                         maxHeight: geometry.size.height*0.75,
                         minHeight: self.bottomSize.height
@@ -160,15 +159,13 @@ struct ACViewfinder: View {
     
     @EnvironmentObject var sceneInformation : ACScene
     @EnvironmentObject var anonymisation : ACAnonymisation
-    
-    @Binding var isRecording : Bool
-    
+        
     internal var threeByFourAspectRatio : CGFloat = 3.0/4.0
     internal var sixteenByNineAspectRatio : CGFloat = 9.0/16.0
     
     var body: some View {
         ZStack {
-            ACViewfinderCard(isRecording: $isRecording)
+            ACViewfinderCard()
         }
     }
 }
@@ -177,7 +174,6 @@ struct ACViewfinderCard : View {
     @EnvironmentObject var sceneInformation : ACScene
     @EnvironmentObject var anonymisation : ACAnonymisation
     
-    @Binding var isRecording : Bool
     @State internal var shutterPosition : CGPoint = CGPoint.zero
     @GestureState var isLongPressed : Bool = false
     
@@ -218,9 +214,7 @@ struct ACViewfinderCard : View {
                     VStack {
                         if self.sceneInformation.showHUD {
                             HStack {
-                                Spacer()
                                 ACHuD()
-                                Spacer()
                             }
                             .padding()
                             .transition(AnyTransition.opacity.combined(with: AnyTransition.move(edge: .top)))
@@ -238,21 +232,14 @@ struct ACViewfinderCard : View {
                             .opacity(self.sceneInformation.interviewModeAvailable ? 1 : 0)
                     }
                     
-                    ACShutterLockArea(isRecording: self.$isRecording, hovering: self.$knobIsHoveringOverLockArea)
+                    ACShutterLockArea(hovering: self.$knobIsHoveringOverLockArea, locked: self.$lockedRecording)
                         .position(CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
                     
-                    ACShutterKnob(isRecording: self.$isRecording)
-                        .position(self.isRecording && !self.lockedRecording ? self.shutterPosition : CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
-                        .animation(self.isRecording ? Animation.interactiveSpring() : Animation.spring())
+                    ACShutterKnob(locked: self.$lockedRecording)
+                        .position(self.sceneInformation.isVideoRecording && !self.lockedRecording ? self.shutterPosition : CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
+                        .animation(self.sceneInformation.isVideoRecording ? Animation.interactiveSpring() : Animation.spring())
                         .onTapGesture {
-                            
-                            print("tap received")
-                            
-                            if !self.isRecording {
-                                
-                                print("should technically take photo")
-
-                                
+                            if !self.sceneInformation.isVideoRecording {
                                 ACAnonymisation.shared.takePhoto()
                                 
                                 withAnimation(Animation.interactiveSpring()) {
@@ -265,26 +252,23 @@ struct ACViewfinderCard : View {
                                     }
                                 }
                             } else {
-                                self.isRecording = false
+                                self.sceneInformation.isVideoRecording = false
                             }
                             
                             if self.lockedRecording {
-                                print("locked + end recording")
                                 withAnimation(Animation.spring()) {
                                     ACAnonymisation.shared.finishRecording()
                                 }
                                 self.lockedRecording = false
-                                self.isRecording = false
+                                self.sceneInformation.isVideoRecording = false
                             }
-                            
-                            print("_____________________-")
                         }
                         .simultaneousGesture(
                             LongPressGesture(minimumDuration: 0.3, maximumDistance: CGFloat.infinity)
                                 .onEnded({ _ in
                                     print("start recording")
                                     
-                                    self.isRecording = true
+                                    self.sceneInformation.isVideoRecording = true
                                     
                                     withAnimation(Animation.spring()) {
                                         ACAnonymisation.shared.startRecording()
@@ -299,11 +283,11 @@ struct ACViewfinderCard : View {
                                     ACAnonymisation.shared.toggleFrontAndBackCamera()
                                 })
                     )
-                        .opacity(self.isRecording ? 0 : 1)
+                        .opacity(self.sceneInformation.isVideoRecording ? 0 : 1)
                         .position(CGPoint(x: self.viewFinderFrame.width*0.75, y: self.viewFinderFrame.height-(70/2)-24))
 
                 }
-                .aspectRatio(self.isRecording ? self.sixteenByNineAspectRatio : self.threeByFourAspectRatio, contentMode: .fit)
+                .aspectRatio(self.sceneInformation.isVideoRecording ? self.sixteenByNineAspectRatio : self.threeByFourAspectRatio, contentMode: .fit)
                 .foregroundColor(Color(UIColor.darkGray))
                 .blur(radius: self.sceneInformation.sceneIsActive ? 0 : 60)
                 .overlay(
@@ -333,7 +317,7 @@ struct ACViewfinderCard : View {
                                 
                                 self.shutterPosition = value.location
                                 
-                                if self.isRecording {
+                                if self.sceneInformation.isVideoRecording {
                                     
                                     if self.shutterPosition.y + 35 >= self.viewFinderFrame.height-70 {
                                         self.knobIsHoveringOverLockArea = true
@@ -345,19 +329,13 @@ struct ACViewfinderCard : View {
                             })
                             .onEnded({ value in
                                 
-                                if self.isRecording {
+                                if self.sceneInformation.isVideoRecording {
                                     if self.knobIsHoveringOverLockArea {
-                                        
-                                        print("was hovering")
-                                        
                                         self.lockedRecording = true
                                         
                                     } else {
-                                        print("end recording")
                                         withAnimation(Animation.spring()) {
-                                            self.isRecording = false
-                                            
-                                            print(self.isRecording)
+                                            self.sceneInformation.isVideoRecording = false
                                         }
                                         ACAnonymisation.shared.finishRecording()
                                     }
@@ -371,10 +349,6 @@ struct ACViewfinderCard : View {
                         (!self.sceneInformation.sceneIsActive || self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0.94 : 1
                 )
                     .animation(Animation.spring())
-                //                .animation(Animation.easeInOut(duration: 0.3), value: sceneInformation.sceneIsActive)
-                //                .animation(Animation.easeInOut(duration: 0.3), value: self.sceneInformation.isDraggingBottomSheet)
-                //                .animation(Animation.easeInOut(duration: 0.3), value: self.sceneInformation.bottomSheetIsOpen)
-                //                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0), value: isRecording)
             }
         }
     }

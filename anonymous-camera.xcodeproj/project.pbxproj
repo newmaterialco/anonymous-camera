@@ -836,7 +836,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
 				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;
@@ -862,9 +862,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
-				DEVELOPMENT_TEAM = 6NDKXMMXT5;
+				DEVELOPMENT_TEAM = 8NMAC9567F;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "anonymous-camera/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -873,7 +873,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.aaab.anonymous-camera";
+				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
 				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Helpers/Anonymous/anonymous-camera-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
