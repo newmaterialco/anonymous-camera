@@ -681,7 +681,7 @@ struct ACFilterButton: View {
             .animation(Animation.easeInOut(duration: 0.2), value: self.sceneInformation.isDraggingBottomSheet)
             .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
             .scaleEffect(isBeingTouched ? 0.92 : 1)
-            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filterGroup.filters[filterGroup.selectedFilterIndex].selected ? 1.12 : 1) : 1)
+            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filterGroup.selected ? 1.12 : 1) : 1)
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged({ _ in

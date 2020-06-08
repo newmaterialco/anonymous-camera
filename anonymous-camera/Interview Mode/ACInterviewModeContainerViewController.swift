@@ -60,7 +60,7 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
         }
     }
     
-    var orientation : UIDeviceOrientation = .portrait {
+    var orientation : UIDeviceOrientation = UIDevice.current.orientation {
         didSet {
             if oldValue != orientation {
                 self.updateOrientation()
@@ -164,7 +164,7 @@ class ACInterviewModeContainerViewController: UIViewController, UIGestureRecogni
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                                
+                                        
         self.view.addSubview(track)
         track.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(12)

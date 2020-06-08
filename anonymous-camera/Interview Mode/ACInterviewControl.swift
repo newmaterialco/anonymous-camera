@@ -68,6 +68,7 @@ struct ACInterviewControl: View {
             RoundedRectangle(cornerRadius: self.anonymisation.interviewModeIsOn ? 42 : 12, style: self.anonymisation.interviewModeIsOn ? .circular : .continuous)
         )
         .scaleEffect(self.isBeingTouched ? 0.9 : 1)
+        .opacity(self.sceneInformation.deviceOrientation.isLandscape ? 1 : 0)
         .offset(y: self.sceneInformation.deviceOrientation.isLandscape ? 0 : 200)
         .shadow(color: Color(UIColor.black.withAlphaComponent(self.anonymisation.interviewModeIsOn ? 0.24 : 0.12)), radius: 18, x: 0, y: 0)
         .animation(Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0), value: self.sceneInformation.deviceOrientation.isLandscape)
