@@ -54,6 +54,7 @@ class CameraFeed: NSObject {
     static var shared: CameraFeed {
         if instance == nil {
             instance = CameraFeed()
+            instance?.configure()
         }
         return instance!
     }
@@ -66,6 +67,15 @@ class CameraFeed: NSObject {
         discovery = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTelephotoCamera], mediaType: .video, position: .back)
         if !discovery.devices.isEmpty { tmp.append(.backTelephoto) }
         return tmp
+    }
+    
+    var isRunning: Bool {
+        if let captureSession = captureSession {
+            if captureSession.isInterrupted { return false }
+            return captureSession.isRunning
+        }
+        if let _ = arSession { return isRunningAR }
+        return false
     }
     
     func snap() {
@@ -93,6 +103,10 @@ class CameraFeed: NSObject {
         if let _ = arSession { destroyARSession() }
     }
     
+    func onSessionChange(_ block: @escaping () -> Void) {
+        runChange = block
+    }
+    
     func start(type: CameraFeedType) {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .restricted || status == .denied {
@@ -118,6 +132,7 @@ class CameraFeed: NSObject {
             arSession?.delegate = self
             arSession?.run(arConfiguration)
             arSession?.pause()
+            isRunningAR = true
             DispatchQueue.main.async {
                 self.arSession?.run(arConfiguration)
             }            
@@ -136,6 +151,23 @@ class CameraFeed: NSObject {
     private var outputType: CameraFeedType = .none
     private var lastFacesDetected = 0.0
     private var isPaused = false
+    private var isRunningAR = false
+    private var runChange: (() -> Void)? = nil
+    
+    private func configure() {
+        NotificationCenter.default.addObserver(self, selector: #selector(sessionInterrupted), name: .AVCaptureSessionWasInterrupted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sessionUninterrupted), name: .AVCaptureSessionInterruptionEnded, object: nil)
+    }
+    
+    @objc private func sessionInterrupted() {
+        pause(true)
+        runChange?()
+    }
+    
+    @objc private func sessionUninterrupted() {
+        pause(false)
+        runChange?()
+    }
     
     private func destroySession() {
         if let captureSession = captureSession {
@@ -153,6 +185,7 @@ class CameraFeed: NSObject {
             session.pause()
             session.delegate = nil
         }
+        isRunningAR = false
         arSession = nil
     }
     

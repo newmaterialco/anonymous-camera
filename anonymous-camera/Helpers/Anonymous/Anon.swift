@@ -88,6 +88,12 @@ class Anon: NSObject {
         CameraFeed.shared.pause(false)
     }
     
+    public static func onSessionChange(_ block: @escaping () -> Void) {
+        CameraFeed.shared.onSessionChange {
+            block()
+        }
+    }
+    
     public static func requestLocationAccess(_ block: @escaping (_: AnonPermission) -> Void) {
         let status = CLLocationManager.authorizationStatus()
         if status == .denied || status == .restricted { block(.denied) }
