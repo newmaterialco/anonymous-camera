@@ -12,7 +12,7 @@ import SwiftyUserDefaults
 
 extension DefaultsKeys {
     var exifLocation: DefaultsKey<Bool?> { .init("exifLocation", defaultValue: false) }
-    var exifDateTime: DefaultsKey<Bool?> { .init("exifDateTime", defaultValue: true) }
+    var exifDateTime: DefaultsKey<Bool?> { .init("exifDateTime", defaultValue: true) } 
     var distortAudio: DefaultsKey<Bool?> { .init("distortAudio", defaultValue: false) }
     var includeWatermark: DefaultsKey<Bool?> { .init("includeWatermark", defaultValue: true) }
     var cameraFacingFront: DefaultsKey<Bool?> { .init("cameraFacingFront", defaultValue: true) }

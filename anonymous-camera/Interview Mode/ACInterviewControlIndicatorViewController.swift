@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 class ACInterviewControlIndicatorViewController: UIViewController {
-
+    
 }
 
 struct ACInterviewControlIndicatorView : UIViewControllerRepresentable {
