@@ -80,6 +80,10 @@ class Anon: NSObject {
         CameraFeed.shared.resume()
     }
     
+    public static var isRunning: Bool {
+        return CameraFeed.shared.isRunning
+    }
+    
     public static func pause() {
         CameraFeed.shared.pause(true)
     }
