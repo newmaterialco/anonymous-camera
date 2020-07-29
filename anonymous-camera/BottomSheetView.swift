@@ -35,25 +35,8 @@ struct BottomSheetView<Content: View>: View {
     }
     
     private var indicator: some View {
-        HStack (spacing: sceneInformation.isDraggingBottomSheet ? -4 : sceneInformation.bottomSheetIsOpen ? -3 : -3) {
-            RoundedRectangle(cornerRadius: Constants.radius)
-                .fill(Color.gray)
-                .frame(
-                    width: 24,
-                    height: 4
-            )
-                .rotationEffect(Angle(degrees: sceneInformation.isDraggingBottomSheet ? 0 : sceneInformation.bottomSheetIsOpen ? 16 : -16), anchor: UnitPoint(x: 1, y: 0.5))
-            RoundedRectangle(cornerRadius: Constants.radius)
-                .fill(Color.gray)
-                .frame(
-                    width: 24,
-                    height: 4
-            )
-                .rotationEffect(Angle(degrees: sceneInformation.isDraggingBottomSheet ? 0 : sceneInformation.bottomSheetIsOpen ? -16 : 16), anchor: UnitPoint(x: 0, y: 0.5))
-            
-        }
-        .offset(x: 0, y: sceneInformation.isDraggingBottomSheet ? 0 : sceneInformation.bottomSheetIsOpen ? 4 : -4)
-        .onTapGesture {
+        
+        Button(action: {
             withAnimation(Animation.interactiveSpring(response: 0.3, dampingFraction: 0.8, blendDuration: 0)) {
                 self.sceneInformation.bottomSheetIsOpen.toggle()
                 if self.sceneInformation.bottomSheetIsOpen {
@@ -61,7 +44,30 @@ struct BottomSheetView<Content: View>: View {
                 }
                 self.selectionGenerator.selectionChanged()
             }
+            
+        }) {
+            HStack (spacing: sceneInformation.isDraggingBottomSheet ? -4 : sceneInformation.bottomSheetIsOpen ? -3 : -3) {
+                RoundedRectangle(cornerRadius: Constants.radius)
+                    .fill(Color.gray)
+                    .frame(
+                        width: 24,
+                        height: 4
+                )
+                    .rotationEffect(Angle(degrees: sceneInformation.isDraggingBottomSheet ? 0 : sceneInformation.bottomSheetIsOpen ? 16 : -16), anchor: UnitPoint(x: 1, y: 0.5))
+                RoundedRectangle(cornerRadius: Constants.radius)
+                    .fill(Color.gray)
+                    .frame(
+                        width: 24,
+                        height: 4
+                )
+                    .rotationEffect(Angle(degrees: sceneInformation.isDraggingBottomSheet ? 0 : sceneInformation.bottomSheetIsOpen ? -16 : 16), anchor: UnitPoint(x: 0, y: 0.5))
+                
+            }
+            .offset(x: 0, y: sceneInformation.isDraggingBottomSheet ? 0 : sceneInformation.bottomSheetIsOpen ? 4 : -4)
+
         }
+        .accessibilityElement(children: /*@START_MENU_TOKEN@*/.ignore/*@END_MENU_TOKEN@*/)
+        .accessibility(label: sceneInformation.bottomSheetIsOpen ? Text("Close Settings") : Text("Open Settings"))
     }
     
     init(maxHeight: CGFloat, minHeight : CGFloat, @ViewBuilder content: () -> Content) {
@@ -488,11 +494,11 @@ struct BottomSheetView<Content: View>: View {
                             SafetyCard(isPresented: self.$showSafetyCard)
                         }
                         
-                        ACPlaygroundCredit()
+                        PGInteractiveLogo()
                         
                     }
                     .padding(.horizontal, 24)
-                    .padding(.bottom, 36)
+                    .padding(.bottom, 24)
                     .frame(width: geometry.size.width,
                            height: nil,
                            alignment: .topLeading)
@@ -606,7 +612,7 @@ struct ACFilterSelector: View {
     
     var body: some View {
         ZStack {
-            HStack(spacing: sceneInformation.deviceOrientation.isLandscape ? 18 : 12){
+            HStack(spacing: sceneInformation.deviceOrientation.isLandscape && !sceneInformation.bottomSheetIsOpen ? 18 : 12){
                 ForEach(anonymisation.filterGroups.indices) { idx in
                     ACFilterButton(filterGroup: self.$anonymisation.filterGroups[idx])
                 }
@@ -627,84 +633,74 @@ struct ACFilterButton: View {
     
     
     var body: some View {
-        HStack (alignment: .center) {
+        
+        Button(action: {
+            self.selectionGenerator.selectionChanged()
             
-            Image(uiImage: filterGroup.filters[filterGroup.selectedFilterIndex].filterType.icon)
-                .foregroundColor(
-                    filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
-                        ) :
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
-            )
-                .rotationEffect(sceneInformation.deviceRotationAngle)
-                .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0), value: sceneInformation.deviceRotationAngle)
-            
-            if (filterGroup.selected && !sceneInformation.deviceOrientation.isLandscape) {
-                Text(filterGroup.name)
-                    .font(Font.system(size: 16, weight: .semibold, design: .default))
+            withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)) {
+                self.anonymisation.select(filterGroup: self.filterGroup)
+            }
+        }) {
+            HStack (alignment: .center) {
+                
+                Image(uiImage: filterGroup.filters[filterGroup.selectedFilterIndex].filterType.icon)
                     .foregroundColor(
                         filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
                             Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
-                            
-                            ) : Color(.label)
+                            ) :
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
                 )
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(1)
-                    .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
-                    .animation(Animation.easeInOut)
-            }
-        }
-        .padding(18)
-        .mask(
-            HStack(spacing: 0) {
-                Rectangle()
-                    .foregroundColor(Color(UIColor.systemPink))
-                LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemPink), Color(UIColor.systemPink.withAlphaComponent(0))]), startPoint: UnitPoint(x: 0, y: 0.5), endPoint: UnitPoint(x: 1, y: 0.5))
-                    .frame(width: 16)
-            }
-        )
-            .background(
+                    .rotationEffect(self.sceneInformation.bottomSheetIsOpen ? Angle(degrees: 0) : sceneInformation.deviceRotationAngle)
+                    .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.6, blendDuration: 0), value: sceneInformation.deviceRotationAngle)
                 
-                filterGroup.selected ? (
-                    filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color("highlight") :
-                        
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
+                if (filterGroup.selected && (!sceneInformation.deviceOrientation.isLandscape || sceneInformation.bottomSheetIsOpen)) {
+                    Text(filterGroup.name)
+                        .font(Font.system(size: 16, weight: .semibold, design: .default))
+                        .foregroundColor(
+                            filterGroup.selected ? (filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color(.black) :
+                                Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.systemBackground : UIColor.black)
+                                
+                                ) : Color(.label)
+                    )
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .transition(AnyTransition.scale(scale: 0.5, anchor: UnitPoint(x: 0, y: 0.5)).combined(with: AnyTransition.opacity))
+                }
+            }
+            .padding(18)
+            .mask(
+                HStack(spacing: 0) {
+                    Rectangle()
+                        .foregroundColor(Color(UIColor.systemPink))
+                    LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemPink), Color(UIColor.systemPink.withAlphaComponent(0))]), startPoint: UnitPoint(x: 0, y: 0.5), endPoint: UnitPoint(x: 1, y: 0.5))
+                        .frame(width: 16)
+                }
+            )
+                .background(
                     
-                    ) : ((isBeingTouched && !self.sceneInformation.isDraggingBottomSheet) ?
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.75) : UIColor.white.withAlphaComponent(0.75))
+                    filterGroup.selected ? (
+                        filterGroup.filters[filterGroup.selectedFilterIndex].filterType.modifiesImage ? Color("highlight") :
+                            
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label : UIColor.white)
                         
-                        :
-                        
-                        Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.25) : UIColor.white.withAlphaComponent(0.25))
-                )
-        )
-            .animation(Animation.easeInOut(duration: 0.2), value: self.sceneInformation.isDraggingBottomSheet)
-            .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
-            .scaleEffect(isBeingTouched ? 0.92 : 1)
-            .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? (filterGroup.selected ? 1.12 : 1) : 1)
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged({ _ in
-                        withAnimation(.easeOut(duration: 0.08)) {
-                            self.isBeingTouched = true
-                        }
-                    })
-                    .onEnded({ _ in
-                        withAnimation(.easeOut(duration: 0.24)) {
-                            self.isBeingTouched = false
-                        }
-                    })
-        )
-            .simultaneousGesture(
-                TapGesture()
-                    .onEnded({ _ in
-                        self.selectionGenerator.selectionChanged()
-                        
-                        withAnimation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)) {
-                            self.anonymisation.select(filterGroup: self.filterGroup)
-                        }
-                    })
-        )
+                        ) : ((isBeingTouched && !self.sceneInformation.isDraggingBottomSheet) ?
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.75) : UIColor.white.withAlphaComponent(0.75))
+                            
+                            :
+                            
+                            Color((self.sceneInformation.bottomSheetIsOpen || self.sceneInformation.isDraggingBottomSheet) ? UIColor.label.withAlphaComponent(0.25) : UIColor.white.withAlphaComponent(0.25))
+                    )
+                    
+            )
+                .animation(Animation.easeInOut(duration: 0.2), value: self.sceneInformation.isDraggingBottomSheet)
+                .clipShape(RoundedRectangle(cornerRadius: 100, style: .circular))
+                .scaleEffect(isBeingTouched ? 0.92 : 1)
+                        .scaleEffect(sceneInformation.deviceOrientation.isLandscape ? ((filterGroup.selected && !sceneInformation.bottomSheetIsOpen) ? 1.12 : 1) : 1)
+        }
+        .buttonStyle(BlankButtonStyle(isTapped: $isBeingTouched))
+        .accessibilityElement(children: /*@START_MENU_TOKEN@*/.ignore/*@END_MENU_TOKEN@*/)
+        .accessibility(label: Text("\(filterGroup.modifiesImage ? "Filter" : "") \(filterGroup.name) \((filterGroup.filters[filterGroup.selectedFilterIndex].name != filterGroup.name) ? filterGroup.filters[filterGroup.selectedFilterIndex].name : "" ), \(filterGroup.selected ? "on" : "off")"))
+
     }
 }
 

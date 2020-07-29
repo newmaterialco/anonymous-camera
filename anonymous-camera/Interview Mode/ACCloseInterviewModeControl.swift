@@ -29,6 +29,8 @@ struct ACCloseInterviewModeControl: View {
                 .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
             }
         }
+        .environmentObject(anonymisation)
+        .environmentObject(sceneInformation)
         .offset(y: self.sceneInformation.deviceOrientation.isLandscape ? 0 : 200)
         .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
         .transition(.scale(scale: 0.5))

@@ -12,6 +12,9 @@ import SnapKit
 
 class ACInterviewModeContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    @EnvironmentObject var sceneInformation : ACScene
+    @EnvironmentObject var anonymisation : ACAnonymisation
+    
     let track = UIView()
     let thumb = UIView()
     var interviewControl = ACInterviewControl()

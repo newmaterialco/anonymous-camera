@@ -23,11 +23,11 @@ struct ContentView: View {
                     
                     HStack (spacing: 8) {
                         ACQuickSetting(isOn: $anonymisation.exifLocation, icon: Image("AC_PRIVACY_LOCATION"))
-                            .rotationEffect(sceneInformation.deviceRotationAngle)
+                            .rotationEffect(self.sceneInformation.bottomSheetIsOpen ? Angle(degrees: 0) : sceneInformation.deviceRotationAngle)
                             .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
                         
                         ACQuickSetting(isOn: $anonymisation.exifDateTime, icon: Image("AC_PRIVACY_TIMESTAMP"))
-                            .rotationEffect(sceneInformation.deviceRotationAngle)
+                            .rotationEffect(self.sceneInformation.bottomSheetIsOpen ? Angle(degrees: 0) : sceneInformation.deviceRotationAngle)
                             .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.8, blendDuration: 0))
                     }
                     .saturation((self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0 : 1)
@@ -289,7 +289,7 @@ struct ACViewfinderCard : View {
                 }
                 .aspectRatio(self.sceneInformation.isVideoRecording ? self.sixteenByNineAspectRatio : self.threeByFourAspectRatio, contentMode: .fit)
                 .foregroundColor(Color(UIColor.darkGray))
-                .blur(radius: self.sceneInformation.sceneIsActive ? 0 : 60)
+                .blur(radius: self.sceneInformation.sceneIsActive && Anon.isRunning ? 0 : 60)
                 .blur(radius: self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen ? 28 : 0)
                 .saturation(self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen ? 0 : 1)
                 .overlay(

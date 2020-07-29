@@ -45,11 +45,11 @@
 		8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40B242177C700497EA6 /* AnonPhoto.swift */; };
 		8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40C242177C700497EA6 /* FacePixelShader.swift */; };
 		8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */; };
+		8F24A07024D21DFB00679067 /* PGInteractiveLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24A06F24D21DFB00679067 /* PGInteractiveLogo.swift */; };
 		8F25F4752486917D00615989 /* ACShutterKnob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4742486917D00615989 /* ACShutterKnob.swift */; };
 		8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */; };
 		8F25F48B2486E6FF00615989 /* EULAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4892486E6FF00615989 /* EULAView.swift */; };
 		8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F48C2486E70A00615989 /* SafetyCard.swift */; };
-		8F25F4902486F1D300615989 /* ACPlaygroundCredit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F48F2486F1D300615989 /* ACPlaygroundCredit.swift */; };
 		8F25F492248742B000615989 /* ACShutterLockArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F491248742B000615989 /* ACShutterLockArea.swift */; };
 		8F25F49424874DEE00615989 /* ACHuD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F49324874DEE00615989 /* ACHuD.swift */; };
 		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
@@ -133,11 +133,11 @@
 		77EE1BD7248985A600D96F27 /* BodyBwNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyBwNoiseShader.swift; sourceTree = "<group>"; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
 		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
+		8F24A06F24D21DFB00679067 /* PGInteractiveLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGInteractiveLogo.swift; sourceTree = "<group>"; };
 		8F25F4742486917D00615989 /* ACShutterKnob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACShutterKnob.swift; sourceTree = "<group>"; };
 		8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		8F25F4892486E6FF00615989 /* EULAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAView.swift; sourceTree = "<group>"; };
 		8F25F48C2486E70A00615989 /* SafetyCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafetyCard.swift; sourceTree = "<group>"; };
-		8F25F48F2486F1D300615989 /* ACPlaygroundCredit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACPlaygroundCredit.swift; sourceTree = "<group>"; };
 		8F25F491248742B000615989 /* ACShutterLockArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACShutterLockArea.swift; sourceTree = "<group>"; };
 		8F25F49324874DEE00615989 /* ACHuD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACHuD.swift; sourceTree = "<group>"; };
 		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -270,8 +270,8 @@
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
 				8F25F4742486917D00615989 /* ACShutterKnob.swift */,
 				8F25F49324874DEE00615989 /* ACHuD.swift */,
+				8F24A06F24D21DFB00679067 /* PGInteractiveLogo.swift */,
 				8F25F491248742B000615989 /* ACShutterLockArea.swift */,
-				8F25F48F2486F1D300615989 /* ACPlaygroundCredit.swift */,
 				8F4FAF1A24326B320017347F /* BottomSheetView.swift */,
 				8FCB5406248B8C5A00ED4177 /* ACProPurchaseElement.swift */,
 				8F648B042483002500703C44 /* UIScrollViewWrapper.swift */,
@@ -451,7 +451,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Aaron Abentheuer";
 				TargetAttributes = {
 					77662D63248A57C600BA6ED6 = {
@@ -581,6 +581,7 @@
 				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
 				8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */,
 				77B275D324881720005E85E1 /* FaceColorNoiseShader.swift in Sources */,
+				8F24A07024D21DFB00679067 /* PGInteractiveLogo.swift in Sources */,
 				8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */,
 				8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
@@ -596,7 +597,6 @@
 				8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */,
 				8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
-				8F25F4902486F1D300615989 /* ACPlaygroundCredit.swift in Sources */,
 				8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */,
 				7752359524291AB200483BFA /* InAppManager.swift in Sources */,
 				8F0B22B024217BA20096A444 /* Easing.swift in Sources */,
@@ -736,6 +736,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -797,6 +798,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -832,9 +834,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1005;
+				CURRENT_PROJECT_VERSION = 1006;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
-				DEVELOPMENT_TEAM = 8NMAC9567F;
+				DEVELOPMENT_TEAM = 6NDKXMMXT5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "anonymous-camera/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -843,7 +845,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aaab.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
 				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Helpers/Anonymous/anonymous-camera-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -858,9 +860,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1005;
+				CURRENT_PROJECT_VERSION = 1006;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
-				DEVELOPMENT_TEAM = 8NMAC9567F;
+				DEVELOPMENT_TEAM = 6NDKXMMXT5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "anonymous-camera/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -869,7 +871,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aaab.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
 				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Helpers/Anonymous/anonymous-camera-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

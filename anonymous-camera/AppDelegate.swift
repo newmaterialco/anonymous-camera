@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func checkIfPro () {
-        ACScene.shared.proPurchased = InAppManager.shared.isPro
+        ACScene.shared.proPurchased = true
     }
     
     func checkForProducts () {
