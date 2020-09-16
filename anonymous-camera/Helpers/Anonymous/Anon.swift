@@ -125,17 +125,32 @@ class Anon: NSObject {
     }
     
     static func requestPhotosAccess(_ block: @escaping (_: AnonPermission) -> Void) {
-        let status = PHPhotoLibrary.authorizationStatus()
-        if status == .denied || status == .restricted { block(.denied) }
-        else if status == .notDetermined {
-            PHPhotoLibrary.requestAuthorization { auth in
-                DispatchQueue.main.async {
-                    if auth == .authorized { block(.granted) }
-                    else { block(.denied) }
+        if #available(iOS 14.0, *) {
+            let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+            if status == .denied || status == .restricted { block(.denied) }
+            else if status == .notDetermined {
+                PHPhotoLibrary.requestAuthorization(for: .addOnly) { auth in
+                    DispatchQueue.main.async {
+                        if auth == .authorized { block(.granted) }
+                        else { block(.denied) }
+                    }
                 }
             }
+            else { block(.granted) }
         }
-        else { block(.granted) }
+        else {
+            let status = PHPhotoLibrary.authorizationStatus()
+            if status == .denied || status == .restricted { block(.denied) }
+            else if status == .notDetermined {
+                PHPhotoLibrary.requestAuthorization { auth in
+                    DispatchQueue.main.async {
+                        if auth == .authorized { block(.granted) }
+                        else { block(.denied) }
+                    }
+                }
+            }
+            else { block(.granted) }
+        }
     }
     
     static func requestCameraAccess(_ block: @escaping (_: AnonPermission) -> Void) {
