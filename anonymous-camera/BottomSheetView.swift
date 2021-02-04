@@ -175,7 +175,8 @@ struct BottomSheetView<Content: View>: View {
                                                 Spacer()
                                                 if self.anonymisation.anonymisationType == .face {
                                                     Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
-                                                        .foregroundColor(Color("highlight"))
+                                                        .renderingMode(.template)
+                                                        .foregroundColor(Color(UIColor.label))
                                                         .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
                                                 }
                                             }
@@ -194,7 +195,8 @@ struct BottomSheetView<Content: View>: View {
                                                 Spacer()
                                                 if self.anonymisation.anonymisationType == .body {
                                                     Image(uiImage: UIImage(systemName: "checkmark.circle.fill")!)
-                                                        .foregroundColor(Color("highlight"))
+                                                        .renderingMode(.template)
+                                                        .foregroundColor(Color(UIColor.label))
                                                         .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
                                                 }
                                             }

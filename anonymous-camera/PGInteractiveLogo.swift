@@ -61,7 +61,7 @@ struct PGInteractiveLogo: View {
                     LetterContainer(up: true, imageName: "playground-8", globalDragPosition: $globalDragPosition)
                     LetterContainer(up: true, imageName: "playground-9", globalDragPosition: $globalDragPosition)
                 }
-                .frame(height: 53, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(height: 42, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .padding(.horizontal, 32)
                 .padding(.vertical, 18)
                 .background(
