@@ -26,13 +26,12 @@ struct ACHuD: View {
                 .frame(width: 18, height: 18)
                 .transition(AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.75)))
             }
-            Text(self.sceneInformation.hudString.uppercased())
-            .font(Font.system(size: 16).uppercaseSmallCaps())
+            Text(self.sceneInformation.hudString)
+                .font(Font.system(.body))
             .foregroundColor(Color(self.sceneInformation.hudTint))
             .fixedSize(horizontal: true, vertical: true)
             .frame(minHeight: 18)
         }
-        .animation(nil)
         .padding(12)
         .background(Color.white)
         .cornerRadius(8)

@@ -165,7 +165,8 @@ struct ACViewfinder: View {
     
     var body: some View {
         ZStack {
-            ACViewfinderCard()
+                ACViewfinderCard()
+
         }
     }
 }
@@ -187,10 +188,19 @@ struct ACViewfinderCard : View {
     @State internal var lockedRecording : Bool = false
     
     var body : some View {
-        VStack {
-            ChildFrameReader(frame: $viewFinderFrame) {
+        ZStack {
                 ZStack {
                     ACViewfinderView()
+                        .background(
+                            GeometryReader { geometry in
+                            Spacer()
+                                .preference(key: FramePreferenceKey.self, value: geometry.frame(in: .local))
+                                .onPreferenceChange(FramePreferenceKey.self) { value in
+                                    print("new frame: \(value)")
+                                    viewFinderFrame = value
+                                }
+                            }
+                        )
                     
                     Rectangle()
                         .foregroundColor(.clear)
@@ -203,9 +213,8 @@ struct ACViewfinderCard : View {
                                 ACFaceRectangle()
                                     .transition(AnyTransition.scale(scale: 0.75).combined(with: AnyTransition.opacity))
                                     .frame(width: face.rect.width, height: face.rect.height, alignment: .center)
-                                    .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
                                     .position(CGPoint(x: face.rect.minX, y: face.rect.minY))
-                                    .animation(nil)
+                                    .animation(Animation.interactiveSpring())
                             }
                         }
                     }
@@ -223,14 +232,6 @@ struct ACViewfinderCard : View {
                     }
                     .frame(maxWidth: self.sceneInformation.deviceOrientation.isLandscape ? self.viewFinderFrame.height : self.viewFinderFrame.width, maxHeight: self.sceneInformation.deviceOrientation.isLandscape ? self.viewFinderFrame.width : self.viewFinderFrame.height)
                     .rotationEffect(self.sceneInformation.deviceRotationAngle)
-                    
-                    GeometryReader { (geometry) in
-                        ACViewfinderLandscapeContainer()
-                            .frame(width: geometry.size.height, height: geometry.size.width, alignment: .center)
-                            .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
-                            .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
-                            .opacity(self.sceneInformation.interviewModeAvailable ? 1 : 0)
-                    }
                     
                     ACShutterLockArea(hovering: self.$knobIsHoveringOverLockArea, locked: self.$lockedRecording)
                         .position(CGPoint(x: self.viewFinderFrame.width/2, y: self.viewFinderFrame.height-(70/2)-24))
@@ -275,7 +276,7 @@ struct ACViewfinderCard : View {
                                     }
                                 })
                     )
-                    
+                            
                     ACRotationAccessoryButton(icon: UIImage(named: "AC_SWITCH_CAMERA")!)
                         .simultaneousGesture(
                             TapGesture()
@@ -294,6 +295,17 @@ struct ACViewfinderCard : View {
                 .saturation(self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen ? 0 : 1)
                 .overlay(
                     ZStack {
+                        
+                        ZStack {
+                                ACViewfinderLandscapeContainer()
+                                    .frame(width: viewFinderFrame.height, height: viewFinderFrame.width, alignment: .center)
+                                    .rotationEffect(self.sceneInformation.deviceLandscapeRotationAngle)
+                                    .animation(self.sceneInformation.devicePreviousOrientationWasLandscape ? (Animation.interactiveSpring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) : nil, value: self.sceneInformation.deviceLandscapeRotationAngle)
+                                    .opacity(self.sceneInformation.interviewModeAvailable ? 1 : 0)
+                        }
+                        .padding()
+
+                        
                         RoundedRectangle(cornerRadius: (UIScreen.current > ScreenType.iPhone4_7) ? 12 : (self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 4 : 0, style: .continuous)
                             .stroke(Color.white.opacity(0.1), lineWidth: 2)
                         if !self.sceneInformation.sceneIsActive {
@@ -351,7 +363,6 @@ struct ACViewfinderCard : View {
                         (!self.sceneInformation.sceneIsActive || self.sceneInformation.isDraggingBottomSheet || self.sceneInformation.bottomSheetIsOpen) ? 0.94 : 1
                 )
                     .animation(Animation.spring())
-            }
         }
     }
 }
@@ -410,17 +421,29 @@ struct ACFaceRectangle : View {
     @State var isBeingTouched : Bool = false
     @EnvironmentObject var anonymisation : ACAnonymisation
     
+    @State var faceRectangle : CGRect = .zero
+    
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundColor(Color.clear)
-                .background(
-                    LinearGradient(gradient: Gradient(colors: [Color.white.opacity(isBeingTouched ? 0.32 : 0.24), Color.white.opacity(isBeingTouched ? 0.64 : 0.48)]), startPoint: UnitPoint(x: 0.5, y: 0), endPoint: UnitPoint(x: 0.5, y: 1))
-            )
+            GeometryReader { geometry in
+                Rectangle()
+                    .foregroundColor(Color.white.opacity(0.18))
+                    .preference(key: FramePreferenceKey.self, value: geometry.frame(in: .global))
+                    .onPreferenceChange(FramePreferenceKey.self) { value in
+                        faceRectangle = value
+                        print(faceRectangle.height)
+                    }
+            }
         }
-        .cornerRadius(percentage: 0.25, style: .continuous)
-        .stroke(color: Color(UIColor(named: "highlight")?.withAlphaComponent(1) ?? .clear), lineWidth: 2, cornerPercentage: 0.25, style: .automatic)
+        .clipShape(
+            RoundedRectangle(cornerRadius: faceRectangle.height*0.125, style: .continuous)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: faceRectangle.height*0.25, style: .continuous)
+                .foregroundColor(.clear)
+                .stroke(color: Color(UIColor(named: "highlight")?.withAlphaComponent(1) ?? .clear), lineWidth: 2, cornerPercentage: 0.25, style: .automatic)
+        )
         .opacity(self.anonymisation.selectedFilterGroup.filters[self.anonymisation.selectedFilterGroup.selectedFilterIndex].filterType.modifiesImage ? 0 : 1)
         .scaleEffect(isBeingTouched ? 0.9 : 1)
         .shadow(color: Color(UIColor(named: "highlight")?.withAlphaComponent(0.25) ?? .clear), radius: 24, x: 0, y: 0)

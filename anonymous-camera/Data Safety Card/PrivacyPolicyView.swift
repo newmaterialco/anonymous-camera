@@ -112,8 +112,6 @@ struct PrivacyPolicyView: View {
                 }
                 
                 Group{
-                    MainText(text: "Likewise, we offer an in-App purchase that uses Apple’s built-in payment system to pay for a “watermark” to be removed. Apple handles the payment process, so we do not require or receive any payment information other than an anonymized token provided by Apple.")
-                    
                     MainText(text: "Finally, Playground does not drop cookies.")
                     
                     DotSeperator()

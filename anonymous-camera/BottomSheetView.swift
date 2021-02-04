@@ -30,6 +30,8 @@ struct BottomSheetView<Content: View>: View {
     let selectionGenerator = UISelectionFeedbackGenerator()
     let impactGenerator = UIImpactFeedbackGenerator()
     
+    @State var color : Color = Color("highlight")
+    
     private var offset: CGFloat {
         sceneInformation.bottomSheetIsOpen ? 0 : maxHeight - minHeight
     }
@@ -225,78 +227,48 @@ struct BottomSheetView<Content: View>: View {
                                 }
                             }
                             
-                            HStack {
-                                Text("Solid")
-                                    .foregroundColor(Color(UIColor.label))
-                                    .padding()
-                                HStack () {
-                                    ForEach(self.anonymisation.filterGroups[1].filters.indices) { jdx in
-                                        if self.anonymisation.filterGroups[1].filters[jdx].colour != nil {
-                                            
-                                            Button(action: {
-                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
-                                            }) {
-                                                Circle()
-                                                    .frame(width: 24, height: 24)
-                                                    .foregroundColor(Color(self.anonymisation.filterGroups[1].filters[jdx].colour ?? UIColor.clear))
-                                                    .overlay(
-                                                        Circle()
-                                                            .stroke(Color.white.opacity(1), lineWidth: 2)
-                                                )
-                                                    .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.5 : 1)
-                                                    .shadow(color: Color.black.opacity(0.08), radius: 24, x: 0, y: 0)
-                                                    .padding()
-                                                    .animation(Animation.easeOut(duration: 0.3))
+                            VStack (spacing: 1) {
+                                HStack {
+                                    Text("Solid Color")
+                                        .foregroundColor(Color(UIColor.label))
+                                        .padding()
+                                    HStack () {
+                                        Spacer()
+                                        
+                                        ColorPicker("", selection: Binding(get: {
+                                            color
+                                        }, set: { newValue in
+                                            self.anonymisation.solidColor = prepareColorForAppStorage(color: newValue)
+                                            color = newValue
+                                        }), supportsOpacity: false)
+                                    }
+                                    .padding(.trailing)
+                                    .onAppear {
+                                        if (anonymisation.solidColor != "") {
+                                            let rgbArray = anonymisation.solidColor.components(separatedBy: ",")
+                                            if let red = Double(rgbArray[0]), let green = Double(rgbArray[1]), let blue = Double(rgbArray[2]) {
+                                                color = Color(.sRGB, red: red, green : green, blue : blue)
                                             }
-                                            .buttonStyle(PlainButtonStyle())
-                                            
-                                        } else {
-                                            
-                                            
-                                            Button(action: {
-                                                self.anonymisation.select(filter: self.anonymisation.filterGroups[1].filters[jdx], inGroup: self.anonymisation.filterGroups[1])
-                                            }) {
-                                                Image("noise-preview")
-                                                    .renderingMode(.original)
-                                                    .resizable()
-                                                    .frame(width: 24, height: 24)
-                                                    .clipShape(
-                                                        Circle()
-                                                )
-                                                    .overlay(
-                                                        ZStack {
-                                                            Circle()
-                                                                .stroke(Color.white.opacity(1), lineWidth: 2)
-                                                                .foregroundColor(Color.clear)
-                                                        }
-                                                )
-                                                    .scaleEffect(self.anonymisation.filterGroups[1].filters[jdx].selected ? 1.5 : 1)
-                                                    .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 0)
-                                                    .padding()
-                                                    .animation(Animation.easeOut(duration: 0.3))
-                                            }
-                                            .buttonStyle(PlainButtonStyle())
-                                            
                                         }
                                     }
                                 }
-                            }
-                            .background(Color(UIColor.label.withAlphaComponent(0.018)))
-                            .cornerRadius(radius: 12, style: .continuous)
-                            
-                            
-                            HStack {
-                                Text("Distort Audio")
-                                    .foregroundColor(Color(UIColor.label))
-                                    .padding()
-                                Spacer()
-                                Toggle(isOn: self.$anonymisation.distortAudio) {
+                                .background(Color(UIColor.label.withAlphaComponent(0.018)))
+
+                                
+                                HStack {
+                                    Text("Distort Audio")
+                                        .foregroundColor(Color(UIColor.label))
+                                        .padding()
                                     Spacer()
+                                    Toggle(isOn: self.$anonymisation.distortAudio) {
+                                        Spacer()
+                                    }
+                                    .padding(.trailing)
                                 }
-                                .padding(.trailing)
+                                .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.distortAudio ? 0.036 : 0.018)))
                             }
-                            .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.distortAudio ? 0.036 : 0.018)))
                             .cornerRadius(radius: 12, style: .continuous)
+                            
                         }
                         
                         VStack {
@@ -361,115 +333,7 @@ struct BottomSheetView<Content: View>: View {
                             .animation(Animation.spring())
                             .padding(.leading, 16)
                         }
-                        
-                        VStack {
-                            VStack (alignment: .leading) {
-                                
-                                Text("Pro")
-                                    .font(Font.system(size: 16, weight: .medium, design: .default))
-                                    .opacity(0.68)
-                                    .padding(.horizontal)
-                                
-                                VStack (spacing: 1) {
-                                    
-                                    
-                                    HStack {
-                                        HStack {
-                                            Text("Watermark")
-                                                .foregroundColor(Color(UIColor.label))
-                                        }
-                                        .padding()
-                                        Spacer()
-                                        Toggle(isOn: self.$anonymisation.includeWatermark) {
-                                            Spacer()
-                                        }
-                                        .padding(.trailing)
-                                    }
-                                    .background(Color(UIColor.label.withAlphaComponent(self.anonymisation.includeWatermark ? 0.036 : 0.018)))
-                                    
-                                    HStack {
-                                        HStack {
-                                            Text("Split Screen")
-                                                .foregroundColor(Color(UIColor.label))
-                                        }
-                                        .padding()
-                                        Spacer()
-                                        Toggle(isOn: self.$sceneInformation.interviewModeAvailable) {
-                                            Spacer()
-                                        }
-                                        .padding(.trailing)
-                                    }
-                                    .background(Color(UIColor.label.withAlphaComponent(self.sceneInformation.interviewModeAvailable ? 0.036 : 0.018)))
-                                    
-                                }
-                                .opacity(self.sceneInformation.proPurchased ? 1 : 0.36)
-                                .disabled(self.sceneInformation.proPurchased ? false : true)
-                                .cornerRadius(radius: 12, style: .continuous)
-                                
-                                VStack {
-                                    if !self.sceneInformation.proPurchased {
-                                        if !self.sceneInformation.internetConnection {
-                                            HStack {
-                                                HStack (alignment: .center, spacing : 6) {
-                                                    Image(systemName: "bolt.horizontal.fill")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 18, height: 18, alignment: .center)
-                                                        .foregroundColor(Color.orange)
-                                                        .opacity(1)
-                                                    Text("Check your connection.")
-                                                    .font(Font.system(size: 14, weight: .medium, design: .rounded))
-                                                        .opacity(0.5)
-                                                }
-                                                Spacer()
-                                            }
-                                            .transition(AnyTransition.opacity.combined(with: AnyTransition.offset(y: 32)))
-                                        } else if !self.sceneInformation.productsAvailable {
-                                            HStack {
-                                                HStack (alignment: .center, spacing : 6) {
-                                                    Image(systemName: "cart.fill")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .foregroundColor(Color.orange)
-                                                        .frame(width: 18, height: 18, alignment: .center)
-                                                        .opacity(1)
-                                                    Text("Currently unavailable.")
-                                                    .font(Font.system(size: 14, weight: .medium, design: .rounded))
-                                                        .opacity(0.5)
-                                                }
-                                                Spacer()
-                                            }
-                                            .transition(AnyTransition.opacity.combined(with: AnyTransition.offset(y: 32)))
-
-                                        } else {
-                                            ACProPurchaseElement()
-                                            .environmentObject(self.sceneInformation)
-                                            .transition(AnyTransition.opacity.combined(with: AnyTransition.offset(y: 32)))
-                                        }
-                                    } else {
-                                        HStack {
-                                            HStack (alignment: .center, spacing : 6) {
-                                                Image("AC_FILTER_NONE_ICON")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 24, height: 24, alignment: .center)
-                                                    .opacity(0.75)
-                                                Text("Thank you for your support.")
-                                                .font(Font.system(size: 14, weight: .medium, design: .rounded))
-                                                    .opacity(0.5)
-                                            }
-                                            Spacer()
-                                        }
-                                        .transition(AnyTransition.opacity.combined(with: AnyTransition.offset(y: 32)))
-                                    }
-                                }
-                                .animation(.default)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .frame(height: 40)
-                                .padding()
-                            }
-                        }
-                        
+    
                         
                         Button(action: {
                             self.showSafetyCard.toggle()
@@ -537,21 +401,34 @@ struct BottomSheetView<Content: View>: View {
     }
 }
 
+func prepareColorForAppStorage ( color : Color) -> String {
+    let uiColor = UIColor(color)
+    var red : CGFloat = 0
+    var green : CGFloat = 0
+    var blue : CGFloat = 0
+    var alpha : CGFloat = 0
+    
+    uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+    
+    return "\(red),\(green),\(blue),\(alpha)"
+}
+
 struct ChildFrameReader<Content: View>: View {
     @Binding var frame: CGRect
     let content: () -> Content
     var body: some View {
-        ZStack {
+        HStack {
             content()
                 .background(
                     GeometryReader { proxy in
                         Color.clear
-                            .preference(key: FramePreferenceKey.self, value: proxy.frame(in: .global))
+                            .preference(key: FramePreferenceKey.self, value: proxy.frame(in: .local))
                     }
             )
         }
         .onPreferenceChange(FramePreferenceKey.self) { preferences in
             self.frame = preferences
+            print(preferences)
         }
     }
 }

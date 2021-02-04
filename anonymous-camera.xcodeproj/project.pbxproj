@@ -839,7 +839,7 @@
 				DEVELOPMENT_TEAM = 6NDKXMMXT5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "anonymous-camera/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -865,7 +865,7 @@
 				DEVELOPMENT_TEAM = 6NDKXMMXT5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "anonymous-camera/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

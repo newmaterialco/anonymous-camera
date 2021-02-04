@@ -22,7 +22,7 @@ struct ACCloseInterviewModeControl: View {
                     Image("xmark")
                 }
                 .padding(8)
-                .background(sceneInformation.interviewModeControlIsHoveringOverClose ? Blur(style: .systemThickMaterialLight) : Blur(style: .systemThinMaterialLight))
+                .background(sceneInformation.interviewModeControlIsHoveringOverClose ? Blur(style: .systemChromeMaterialDark) : Blur(style: .systemThinMaterialDark))
                 .cornerRadius(percentage: 1, style: .circular)
                 .scaleEffect(sceneInformation.interviewModeControlIsHoveringOverClose ? 1.2 : 1)
                 .scaleEffect(highlighted ? 1.2 : 1)
@@ -34,27 +34,12 @@ struct ACCloseInterviewModeControl: View {
         .offset(y: self.sceneInformation.deviceOrientation.isLandscape ? 0 : 200)
         .animation(Animation.interactiveSpring(response: 0.32, dampingFraction: 0.72, blendDuration: 0))
         .transition(.scale(scale: 0.5))
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: 0, maximumDistance: CGFloat.infinity)
-                .onEnded({ _ in
-                    withAnimation(.easeOut(duration: 0.24)) {
-                        self.highlighted = true
-                    }
-                })
-        )
-        .simultaneousGesture(
-            TapGesture()
-                .onEnded({ _ in
-                    self.anonymisation.interviewModeConfiguration = .off
-                    self.highlighted = false
-                })
-        )
-        .simultaneousGesture(
-            DragGesture()
-                .onEnded({ _ in
-                    self.highlighted = false
-                })
-        )
+        .onTapGesture {
+            self.anonymisation.interviewModeConfiguration = .off
+            self.highlighted = false
+
+        }
+
     }
 }
 

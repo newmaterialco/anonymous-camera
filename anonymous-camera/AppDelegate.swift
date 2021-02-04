@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        checkForProducts()
-        checkIfPro()
+//        checkForProducts()
+//        checkIfPro()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
         do{
@@ -40,15 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ACScene.shared.proPurchased = true
     }
     
-    func checkForProducts () {
-        InAppManager.shared.pro { product in
-            
-            print("products available")
-            
-            ACScene.shared.product = product
-            ACScene.shared.productsAvailable = true
-        }
-    }
+//    func checkForProducts () {
+//        InAppManager.shared.pro { product in
+//
+//            print("products available")
+//
+//            ACScene.shared.product = product
+//            ACScene.shared.productsAvailable = true
+//        }
+//    }
     
     @objc func reachabilityChanged(note: Notification) {
       let reachability = note.object as! Reachability
@@ -56,13 +56,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       switch reachability.connection {
       case .wifi:
         ACScene.shared.internetConnection = true
-        checkForProducts()
-        checkIfPro()
+//        checkForProducts()
+//        checkIfPro()
 
       case .cellular:
           ACScene.shared.internetConnection = true
-        checkForProducts()
-        checkIfPro()
+//        checkForProducts()
+//        checkIfPro()
 
       case .unavailable:
         ACScene.shared.internetConnection = false
@@ -85,9 +85,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return .portrait
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        InAppManager.shared.deactivate()
-    }
-    
+//    func applicationWillTerminate(_ application: UIApplication) {
+//        InAppManager.shared.deactivate()
+//    }
+//
 }
 

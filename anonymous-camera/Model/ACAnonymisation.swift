@@ -14,7 +14,7 @@ extension DefaultsKeys {
     var exifLocation: DefaultsKey<Bool?> { .init("exifLocation", defaultValue: false) }
     var exifDateTime: DefaultsKey<Bool?> { .init("exifDateTime", defaultValue: true) }
     var distortAudio: DefaultsKey<Bool?> { .init("distortAudio", defaultValue: false) }
-    var includeWatermark: DefaultsKey<Bool?> { .init("includeWatermark", defaultValue: true) }
+    var includeWatermark: DefaultsKey<Bool?> { .init("includeWatermark", defaultValue: false) }
     var cameraFacingFront: DefaultsKey<Bool?> { .init("cameraFacingFront", defaultValue: true) }
     var interviewMode: DefaultsKey<Bool?> { .init("interviewMode", defaultValue: true) }
 }
@@ -166,6 +166,12 @@ class ACAnonymisation : ObservableObject {
         }
     }
     
+    @AppStorage("solid-color") var solidColor = "" {
+        didSet {
+            self.updateAnonConfiguration()
+        }
+    }
+    
     private func updateAnonConfiguration () {
         #if !targetEnvironment(simulator)
         
@@ -173,21 +179,33 @@ class ACAnonymisation : ObservableObject {
             
             print(f.filterIdentifier)
             
+            var c : UIColor = UIColor(named: "highlight")!
+            
+            print(solidColor)
+            
+            if (solidColor != "") {
+                let rgbArray = solidColor.components(separatedBy: ",")
+                if let red = Double(rgbArray[0]), let green = Double(rgbArray[1]), let blue = Double(rgbArray[2]) {
+                    print("reached color change")
+                    c = UIColor(displayP3Red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1)
+                }
+            }
+            
             switch f.filterIdentifier {
             case "AC_FILTER_COLOUR_WHITE":
-                anonymous.fillColor = whiteFilter.colour
+                anonymous.fillColor = c
                 anonymous.pixellateType = .normal
                 anonymous.showMask(type: .pixelate, detection: self.anonymisationType)
             case "AC_FILTER_COLOUR_BLACK":
-                anonymous.fillColor = blackFilter.colour
+                anonymous.fillColor = c
                 anonymous.pixellateType = .normal
                 anonymous.showMask(type: .pixelate, detection: self.anonymisationType)
             case "AC_FILTER_COLOUR_YELLOW":
-                anonymous.fillColor = yellowFilter.colour
+                anonymous.fillColor = c
                 anonymous.pixellateType = .normal
                 anonymous.showMask(type: .pixelate, detection: self.anonymisationType)
             case "AC_FILTER_NOISE":
-                anonymous.fillColor = nil
+                anonymous.fillColor = c
                 anonymous.pixellateType = .bwNoise
                 anonymous.showMask(type: .pixelate, detection: self.anonymisationType)
             case "AC_FILTER_BLUR":
