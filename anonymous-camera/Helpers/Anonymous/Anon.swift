@@ -840,51 +840,36 @@ class Anon: NSObject {
     }
     
     private static func saveToPhotoLibrary(image: UIImage?, url: URL?, fixedDate: Bool, location: CLLocation?, completion: @escaping AnonSavedToPhotoLibrary) {
-        
-        if let image = image {
-            UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.saved), nil)
+    
+        print("saveToPhotoLibrary")
+        var localIdentifier = ""
+        PHPhotoLibrary.shared().performChanges({
+            var asset: PHAssetChangeRequest?
+            if let image = image { asset = PHAssetChangeRequest.creationRequestForAsset(from: image) }
+            if let url = url { asset = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url) }
+            if let asset = asset, let placeholder = asset.placeholderForCreatedAsset {
+                localIdentifier = placeholder.localIdentifier
+                var date = Date()
+                if fixedDate { date = Date(timeIntervalSince1970: 0) }
+                asset.creationDate = date
+                if let location = location { asset.location = location }
+            }
+        }) { (success, error) in
+            completion(success, localIdentifier)
         }
-        
-//        let fetchOptions = PHFetchOptions()
-//        fetchOptions.predicate = NSPredicate(format: "title = %@", "Anonymous Camera")
-//        let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
-//        var localIdentifier = ""
-//        if let assetCollection = collection.firstObject {
-//            PHPhotoLibrary.shared().performChanges({
-//                var asset: PHAssetChangeRequest?
-//                if let image = image { asset = PHAssetChangeRequest.creationRequestForAsset(from: image) }
-//                if let url = url { asset = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url) }
-//                if let asset = asset, let placeholder = asset.placeholderForCreatedAsset {
-//                    localIdentifier = placeholder.localIdentifier
-//                    var date = Date()
-//                    if fixedDate { date = Date(timeIntervalSince1970: 0) }
-//                    asset.creationDate = date
-//                    if let location = location { asset.location = location }
-//                    if let albumChangeRequest = PHAssetCollectionChangeRequest(for: assetCollection) {
-//                        let enumeration: NSArray = [placeholder]
-//                        albumChangeRequest.addAssets(enumeration)
-//                    }
-//                }
-//            }) { (success, error) in
-//                completion(success, localIdentifier)
-//            }
-//        }
-//        else {
-//            Anon.createAnonCameraAlbum(image: image, url: url, fixedDate: fixedDate, location: location, completion: completion)
-//        }
     }
     
     @objc func saved () {
         print("saved")
     }
     
-//    private static func createAnonCameraAlbum(image: UIImage?, url: URL?, fixedDate: Bool, location: CLLocation?, completion: @escaping AnonSavedToPhotoLibrary) {
-//        PHPhotoLibrary.shared().performChanges({
-//            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: "Anonymous Camera")
-//        }) { saved, error in
-//            Anon.saveToPhotoLibrary(image: image, url: url, fixedDate: fixedDate, location: anonymous.currentLocation, completion: completion)
-//        }
-//    }
+    private static func createAnonCameraAlbum(image: UIImage?, url: URL?, fixedDate: Bool, location: CLLocation?, completion: @escaping AnonSavedToPhotoLibrary) {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: "Anonymous Camera")
+        }) { saved, error in
+            Anon.saveToPhotoLibrary(image: image, url: url, fixedDate: fixedDate, location: anonymous.currentLocation, completion: completion)
+        }
+    }
     
 }
 
