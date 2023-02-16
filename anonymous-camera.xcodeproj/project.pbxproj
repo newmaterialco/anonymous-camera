@@ -7,12 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7740E3CB248587DE00694FE4 /* NoiseView.swift */; };
+		7752359524291AB200483BFA /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7752359424291AB200483BFA /* InAppManager.swift */; };
+		77523597242A231500483BFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77523596242A231500483BFA /* StoreKit.framework */; };
+		7761577E24879512000C00AF /* AnonLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7761577D24879512000C00AF /* AnonLocation.swift */; };
+		77662D68248A57C600BA6ED6 /* image_processing.h in Headers */ = {isa = PBXBuildFile; fileRef = 77662D66248A57C600BA6ED6 /* image_processing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		77662D6B248A57C600BA6ED6 /* image_processing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77662D64248A57C600BA6ED6 /* image_processing.framework */; };
+		77662D6C248A57C600BA6ED6 /* image_processing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77662D64248A57C600BA6ED6 /* image_processing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77662D72248A582600BA6ED6 /* AnonCoreImageProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77662D71248A582600BA6ED6 /* AnonCoreImageProcessing.swift */; };
+		77B275D1248816F4005E85E1 /* FaceColorFillShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */; };
+		77B275D324881720005E85E1 /* FaceColorNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */; };
+		77B275D52488174A005E85E1 /* FaceBWNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */; };
+		77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B312E82424F2CD007172A0 /* MotionManager.swift */; };
+		77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */; };
+		77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D09085242DEFCF00E6727D /* ACBlurFilterIconView.swift */; };
+		77EE1BD42489848500D96F27 /* BodyColorFillShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EE1BD32489848500D96F27 /* BodyColorFillShader.swift */; };
+		77EE1BD62489857B00D96F27 /* BodyColorNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EE1BD52489857B00D96F27 /* BodyColorNoiseShader.swift */; };
+		77EE1BD8248985A600D96F27 /* BodyBwNoiseShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EE1BD7248985A600D96F27 /* BodyBwNoiseShader.swift */; };
 		8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */; };
-		8F0B22A02421798A0096A444 /* ACSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0B229F2421798A0096A444 /* ACSettingsStore.swift */; };
+		8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0B229F2421798A0096A444 /* ACAnonymisation.swift */; };
 		8F0B22A224217B3C0096A444 /* Anon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3FC242177C700497EA6 /* Anon.swift */; };
 		8F0B22A424217B780096A444 /* BodyShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3F6242177C700497EA6 /* BodyShader.swift */; };
 		8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3F8242177C700497EA6 /* CameraShader.swift */; };
-		8F0B22A724217B7F0096A444 /* ShaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3F9242177C700497EA6 /* ShaderView.swift */; };
 		8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3FA242177C700497EA6 /* CameraFeed.swift */; };
 		8F0B22A924217B860096A444 /* BasicShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3FB242177C700497EA6 /* BasicShader.metal */; };
 		8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3FD242177C700497EA6 /* AnonVideo.swift */; };
@@ -29,19 +45,114 @@
 		8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40B242177C700497EA6 /* AnonPhoto.swift */; };
 		8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40C242177C700497EA6 /* FacePixelShader.swift */; };
 		8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */; };
+		8F24A07024D21DFB00679067 /* PGInteractiveLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24A06F24D21DFB00679067 /* PGInteractiveLogo.swift */; };
+		8F25F4752486917D00615989 /* ACShutterKnob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4742486917D00615989 /* ACShutterKnob.swift */; };
+		8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */; };
+		8F25F48B2486E6FF00615989 /* EULAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F4892486E6FF00615989 /* EULAView.swift */; };
+		8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F48C2486E70A00615989 /* SafetyCard.swift */; };
+		8F25F492248742B000615989 /* ACShutterLockArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F491248742B000615989 /* ACShutterLockArea.swift */; };
+		8F25F49424874DEE00615989 /* ACHuD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25F49324874DEE00615989 /* ACHuD.swift */; };
+		8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4CEB802423EDEC00369D46 /* Helpers.swift */; };
+		8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4FAF1A24326B320017347F /* BottomSheetView.swift */; };
+		8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F648B042483002500703C44 /* UIScrollViewWrapper.swift */; };
+		8F7C58332487B62C00C408AD /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C58322487B62C00C408AD /* Reachability.swift */; };
+		8FA8EA7E24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */; };
+		8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */; };
+		8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */; };
+		8FA8EA8624312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8EA8524312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift */; };
+		8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */; };
+		8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516B2424AB900021600C /* ACInterviewControl.swift */; };
+		8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516D2424BE780021600C /* MainHostingViewController.swift */; };
+		8FB251702424BED70021600C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB2516F2424BED70021600C /* ContainerView.swift */; };
+		8FCB5407248B8C5A00ED4177 /* ACProPurchaseElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCB5406248B8C5A00ED4177 /* ACProPurchaseElement.swift */; };
 		8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DB242176E400497EA6 /* AppDelegate.swift */; };
 		8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */; };
 		8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F3DF242176E400497EA6 /* ContentView.swift */; };
 		8FE3F3E2242176E500497EA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E1242176E500497EA6 /* Assets.xcassets */; };
 		8FE3F3E5242176E500497EA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E4242176E500497EA6 /* Preview Assets.xcassets */; };
 		8FE3F3E8242176E500497EA6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */; };
-		8FE3F40F2421789D00497EA6 /* ACViewFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */; };
+		8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */; };
+		8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF4242C9CF90024352A /* ACScene.swift */; };
+		8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		77662D69248A57C600BA6ED6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FE3F3D0242176E400497EA6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 77662D63248A57C600BA6ED6;
+			remoteInfo = image.processing;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		77662D6D248A57C600BA6ED6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				77662D6C248A57C600BA6ED6 /* image_processing.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77EE1BCF2489647E00D96F27 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_anonymous_camera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7740E3CB248587DE00694FE4 /* NoiseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseView.swift; sourceTree = "<group>"; };
+		7752359424291AB200483BFA /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
+		77523596242A231500483BFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		7761577D24879512000C00AF /* AnonLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonLocation.swift; sourceTree = "<group>"; };
+		77662D64248A57C600BA6ED6 /* image_processing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = image_processing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77662D66248A57C600BA6ED6 /* image_processing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image_processing.h; sourceTree = "<group>"; };
+		77662D67248A57C600BA6ED6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77662D71248A582600BA6ED6 /* AnonCoreImageProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonCoreImageProcessing.swift; sourceTree = "<group>"; };
+		77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorFillShader.swift; sourceTree = "<group>"; };
+		77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceColorNoiseShader.swift; sourceTree = "<group>"; };
+		77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceBWNoiseShader.swift; sourceTree = "<group>"; };
+		77B312E82424F2CD007172A0 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACNoFilterIconView.swift; sourceTree = "<group>"; };
+		77D09085242DEFCF00E6727D /* ACBlurFilterIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACBlurFilterIconView.swift; sourceTree = "<group>"; };
+		77EE1BC12489647E00D96F27 /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
+		77EE1BC32489647E00D96F27 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		77EE1BD32489848500D96F27 /* BodyColorFillShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyColorFillShader.swift; sourceTree = "<group>"; };
+		77EE1BD52489857B00D96F27 /* BodyColorNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyColorNoiseShader.swift; sourceTree = "<group>"; };
+		77EE1BD7248985A600D96F27 /* BodyBwNoiseShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyBwNoiseShader.swift; sourceTree = "<group>"; };
 		87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.release.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.release.xcconfig"; sourceTree = "<group>"; };
-		8F0B229F2421798A0096A444 /* ACSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACSettingsStore.swift; sourceTree = "<group>"; };
+		8F0B229F2421798A0096A444 /* ACAnonymisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACAnonymisation.swift; sourceTree = "<group>"; };
+		8F24A06F24D21DFB00679067 /* PGInteractiveLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGInteractiveLogo.swift; sourceTree = "<group>"; };
+		8F25F4742486917D00615989 /* ACShutterKnob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACShutterKnob.swift; sourceTree = "<group>"; };
+		8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		8F25F4892486E6FF00615989 /* EULAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAView.swift; sourceTree = "<group>"; };
+		8F25F48C2486E70A00615989 /* SafetyCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafetyCard.swift; sourceTree = "<group>"; };
+		8F25F491248742B000615989 /* ACShutterLockArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACShutterLockArea.swift; sourceTree = "<group>"; };
+		8F25F49324874DEE00615989 /* ACHuD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACHuD.swift; sourceTree = "<group>"; };
+		8F4CEB802423EDEC00369D46 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		8F4FAF1A24326B320017347F /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		8F648B042483002500703C44 /* UIScrollViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollViewWrapper.swift; sourceTree = "<group>"; };
+		8F7C58322487B62C00C408AD /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = "Data Safety Card/Reachability.swift"; sourceTree = "<group>"; };
+		8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionLabel.swift; sourceTree = "<group>"; };
+		8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeSectionView.swift; sourceTree = "<group>"; };
+		8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControlIndicator.swift; sourceTree = "<group>"; };
+		8FA8EA8524312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControlIndicatorViewController.swift; sourceTree = "<group>"; };
+		8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewModeContainerViewController.swift; sourceTree = "<group>"; };
+		8FB2516B2424AB900021600C /* ACInterviewControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACInterviewControl.swift; sourceTree = "<group>"; };
+		8FB2516D2424BE780021600C /* MainHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHostingViewController.swift; sourceTree = "<group>"; };
+		8FB2516F2424BED70021600C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		8FCB5406248B8C5A00ED4177 /* ACProPurchaseElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACProPurchaseElement.swift; sourceTree = "<group>"; };
 		8FE3F3D8242176E400497EA6 /* Anonymous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anonymous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FE3F3DB242176E400497EA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,12 +161,9 @@
 		8FE3F3E4242176E500497EA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8FE3F3E7242176E500497EA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FE3F3E9242176E500497EA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8FE3F3F12421770B00497EA6 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "../../../Documents/GitHub/untitled folder/anonymous-camera/anonymous-camera/en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		8FE3F3F22421770B00497EA6 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "../../../Documents/GitHub/untitled folder/anonymous-camera/anonymous-camera/zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8FE3F3F32421770B00497EA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "../../../Documents/GitHub/untitled folder/anonymous-camera/anonymous-camera/en.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8FE3F3F6242177C700497EA6 /* BodyShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyShader.swift; sourceTree = "<group>"; };
 		8FE3F3F8242177C700497EA6 /* CameraShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShader.swift; sourceTree = "<group>"; };
-		8FE3F3F9242177C700497EA6 /* ShaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderView.swift; sourceTree = "<group>"; };
 		8FE3F3FA242177C700497EA6 /* CameraFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeed.swift; sourceTree = "<group>"; };
 		8FE3F3FB242177C700497EA6 /* BasicShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BasicShader.metal; sourceTree = "<group>"; };
 		8FE3F3FC242177C700497EA6 /* Anon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Anon.swift; sourceTree = "<group>"; };
@@ -76,16 +184,27 @@
 		8FE3F40B242177C700497EA6 /* AnonPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonPhoto.swift; sourceTree = "<group>"; };
 		8FE3F40C242177C700497EA6 /* FacePixelShader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePixelShader.swift; sourceTree = "<group>"; };
 		8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BodyPixelShader.metal; sourceTree = "<group>"; };
-		8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACViewFinderViewController.swift; sourceTree = "<group>"; };
+		8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCameraFeedViewController.swift; sourceTree = "<group>"; };
+		8FEB1CF4242C9CF90024352A /* ACScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACScene.swift; sourceTree = "<group>"; };
+		8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACCloseInterviewModeControl.swift; sourceTree = "<group>"; };
 		A3E726ED89E5B81BB920D9AE /* Pods-anonymous-camera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anonymous-camera.debug.xcconfig"; path = "Target Support Files/Pods-anonymous-camera/Pods-anonymous-camera.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		77662D61248A57C600BA6ED6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FE3F3D5242176E400497EA6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77662D6B248A57C600BA6ED6 /* image_processing.framework in Frameworks */,
 				8419123294630C9ED6BC0FA6 /* Pods_anonymous_camera.framework in Frameworks */,
+				77523597242A231500483BFA /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,10 +220,31 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		77662D65248A57C600BA6ED6 /* image.processing */ = {
+			isa = PBXGroup;
+			children = (
+				77662D71248A582600BA6ED6 /* AnonCoreImageProcessing.swift */,
+				77662D66248A57C600BA6ED6 /* image_processing.h */,
+				77662D67248A57C600BA6ED6 /* Info.plist */,
+			);
+			path = image.processing;
+			sourceTree = "<group>";
+		};
+		8F25F48E2486E70F00615989 /* Data Safety Card */ = {
+			isa = PBXGroup;
+			children = (
+				8F25F48C2486E70A00615989 /* SafetyCard.swift */,
+				8F25F4882486E6FF00615989 /* PrivacyPolicyView.swift */,
+				8F25F4892486E6FF00615989 /* EULAView.swift */,
+			);
+			path = "Data Safety Card";
+			sourceTree = "<group>";
+		};
 		8FE3F3CF242176E400497EA6 = {
 			isa = PBXGroup;
 			children = (
 				8FE3F3DA242176E400497EA6 /* anonymous-camera */,
+				77662D65248A57C600BA6ED6 /* image.processing */,
 				8FE3F3D9242176E400497EA6 /* Products */,
 				4F429929DFD57C9AE21BCBE2 /* Pods */,
 				DECF7013C07D9655D61F774E /* Frameworks */,
@@ -115,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				8FE3F3D8242176E400497EA6 /* Anonymous.app */,
+				77662D64248A57C600BA6ED6 /* image_processing.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,11 +265,24 @@
 			children = (
 				8FE3F3DB242176E400497EA6 /* AppDelegate.swift */,
 				8FE3F3DD242176E400497EA6 /* SceneDelegate.swift */,
+				8FB2516D2424BE780021600C /* MainHostingViewController.swift */,
+				8FB2516F2424BED70021600C /* ContainerView.swift */,
 				8FE3F3DF242176E400497EA6 /* ContentView.swift */,
-				8FE3F40E2421789D00497EA6 /* ACViewFinderViewController.swift */,
-				8F0B229F2421798A0096A444 /* ACSettingsStore.swift */,
+				8F25F4742486917D00615989 /* ACShutterKnob.swift */,
+				8F25F49324874DEE00615989 /* ACHuD.swift */,
+				8F24A06F24D21DFB00679067 /* PGInteractiveLogo.swift */,
+				8F25F491248742B000615989 /* ACShutterLockArea.swift */,
+				8F4FAF1A24326B320017347F /* BottomSheetView.swift */,
+				8FCB5406248B8C5A00ED4177 /* ACProPurchaseElement.swift */,
+				8F648B042483002500703C44 /* UIScrollViewWrapper.swift */,
+				8FE3F40E2421789D00497EA6 /* ACCameraFeedViewController.swift */,
+				8F7C58322487B62C00C408AD /* Reachability.swift */,
+				8F25F48E2486E70F00615989 /* Data Safety Card */,
+				8FEB1CF3242C93D10024352A /* Dynamic Icon Views */,
+				8FEB1CF0242C93750024352A /* Interview Mode */,
+				8FEB1CF2242C93AC0024352A /* Model */,
+				8FEB1CF1242C939B0024352A /* Helpers */,
 				8FE3F3E1242176E500497EA6 /* Assets.xcassets */,
-				8FE3F3F4242177C700497EA6 /* Anonymous */,
 				8FE3F3F02421770B00497EA6 /* Localizable.strings */,
 				8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */,
 				8FE3F3E9242176E500497EA6 /* Info.plist */,
@@ -148,44 +302,126 @@
 		8FE3F3F4242177C700497EA6 /* Anonymous */ = {
 			isa = PBXGroup;
 			children = (
-				8FE3F3F6242177C700497EA6 /* BodyShader.swift */,
-				8FE3F3F8242177C700497EA6 /* CameraShader.swift */,
-				8FE3F3F9242177C700497EA6 /* ShaderView.swift */,
-				8FE3F3FA242177C700497EA6 /* CameraFeed.swift */,
-				8FE3F3FB242177C700497EA6 /* BasicShader.metal */,
-				8FE3F3FC242177C700497EA6 /* Anon.swift */,
-				8FE3F3FD242177C700497EA6 /* AnonVideo.swift */,
-				8FE3F3FE242177C700497EA6 /* FaceBlurShader.metal */,
-				8FE3F3FF242177C700497EA6 /* BodyPixelShader.swift */,
-				8FE3F400242177C700497EA6 /* BodyBlurShader.swift */,
-				8FE3F401242177C700497EA6 /* ShaderMethods.h */,
-				8FE3F402242177C700497EA6 /* FacePixelShader.metal */,
-				8FE3F403242177C700497EA6 /* FaceShader.swift */,
-				8FE3F404242177C700497EA6 /* ShaderTypes.h */,
 				8FE3F405242177C700497EA6 /* Easing.swift */,
+				8FE3F40A242177C700497EA6 /* anonymous-camera-Bridging-Header.h */,
+				8FE3F404242177C700497EA6 /* ShaderTypes.h */,
+				8FE3F401242177C700497EA6 /* ShaderMethods.h */,
+				8FE3F3FC242177C700497EA6 /* Anon.swift */,
+				8FE3F40B242177C700497EA6 /* AnonPhoto.swift */,
+				8FE3F3FD242177C700497EA6 /* AnonVideo.swift */,
+				8FE3F3F8242177C700497EA6 /* CameraShader.swift */,
+				8FE3F3FA242177C700497EA6 /* CameraFeed.swift */,
 				8FE3F406242177C700497EA6 /* BaseShader.swift */,
 				8FE3F407242177C700497EA6 /* BasicShader.swift */,
-				8FE3F408242177C700497EA6 /* FaceBlurShader.swift */,
-				8FE3F409242177C700497EA6 /* BodyBlurShader.metal */,
-				8FE3F40A242177C700497EA6 /* anonymous-camera-Bridging-Header.h */,
-				8FE3F40B242177C700497EA6 /* AnonPhoto.swift */,
-				8FE3F40C242177C700497EA6 /* FacePixelShader.swift */,
+				8FE3F3FB242177C700497EA6 /* BasicShader.metal */,
+				8FE3F3F6242177C700497EA6 /* BodyShader.swift */,
+				8FE3F3FF242177C700497EA6 /* BodyPixelShader.swift */,
+				77EE1BD32489848500D96F27 /* BodyColorFillShader.swift */,
+				77EE1BD52489857B00D96F27 /* BodyColorNoiseShader.swift */,
+				77EE1BD7248985A600D96F27 /* BodyBwNoiseShader.swift */,
 				8FE3F40D242177C700497EA6 /* BodyPixelShader.metal */,
+				8FE3F400242177C700497EA6 /* BodyBlurShader.swift */,
+				8FE3F409242177C700497EA6 /* BodyBlurShader.metal */,
+				8FE3F403242177C700497EA6 /* FaceShader.swift */,
+				8FE3F40C242177C700497EA6 /* FacePixelShader.swift */,
+				77B275D0248816F4005E85E1 /* FaceColorFillShader.swift */,
+				77B275D224881720005E85E1 /* FaceColorNoiseShader.swift */,
+				77B275D42488174A005E85E1 /* FaceBWNoiseShader.swift */,
+				8FE3F402242177C700497EA6 /* FacePixelShader.metal */,
+				8FE3F408242177C700497EA6 /* FaceBlurShader.swift */,
+				8FE3F3FE242177C700497EA6 /* FaceBlurShader.metal */,
+				7740E3CB248587DE00694FE4 /* NoiseView.swift */,
+				7761577D24879512000C00AF /* AnonLocation.swift */,
 			);
 			path = Anonymous;
+			sourceTree = "<group>";
+		};
+		8FEB1CF0242C93750024352A /* Interview Mode */ = {
+			isa = PBXGroup;
+			children = (
+				8FB251652424A83D0021600C /* ACInterviewModeContainerViewController.swift */,
+				8FA8EA812431183500BE1EC4 /* ACInterviewModeSectionView.swift */,
+				8FA8EA7D24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift */,
+				8FB2516B2424AB900021600C /* ACInterviewControl.swift */,
+				8FA8EA8324312CEF00BE1EC4 /* ACInterviewControlIndicator.swift */,
+				8FA8EA8524312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift */,
+				8FEB1CF6242CF06E0024352A /* ACCloseInterviewModeControl.swift */,
+			);
+			path = "Interview Mode";
+			sourceTree = "<group>";
+		};
+		8FEB1CF1242C939B0024352A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8F4CEB802423EDEC00369D46 /* Helpers.swift */,
+				77B312E82424F2CD007172A0 /* MotionManager.swift */,
+				7752359424291AB200483BFA /* InAppManager.swift */,
+				8FE3F3F4242177C700497EA6 /* Anonymous */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8FEB1CF2242C93AC0024352A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8F0B229F2421798A0096A444 /* ACAnonymisation.swift */,
+				8FEB1CF4242C9CF90024352A /* ACScene.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8FEB1CF3242C93D10024352A /* Dynamic Icon Views */ = {
+			isa = PBXGroup;
+			children = (
+				77D09085242DEFCF00E6727D /* ACBlurFilterIconView.swift */,
+				77D09084242DEFCF00E6727D /* ACNoFilterIconView.swift */,
+			);
+			path = "Dynamic Icon Views";
 			sourceTree = "<group>";
 		};
 		DECF7013C07D9655D61F774E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77523596242A231500483BFA /* StoreKit.framework */,
 				6D25B48F5FABF904723EE05B /* Pods_anonymous_camera.framework */,
+				77EE1BC12489647E00D96F27 /* PhotosUI.framework */,
+				77EE1BC32489647E00D96F27 /* Photos.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		77662D5F248A57C600BA6ED6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77662D68248A57C600BA6ED6 /* image_processing.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		77662D63248A57C600BA6ED6 /* image.processing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77662D70248A57C600BA6ED6 /* Build configuration list for PBXNativeTarget "image.processing" */;
+			buildPhases = (
+				77662D5F248A57C600BA6ED6 /* Headers */,
+				77662D60248A57C600BA6ED6 /* Sources */,
+				77662D61248A57C600BA6ED6 /* Frameworks */,
+				77662D62248A57C600BA6ED6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = image.processing;
+			productName = image.processing;
+			productReference = 77662D64248A57C600BA6ED6 /* image_processing.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		8FE3F3D7242176E400497EA6 /* anonymous-camera */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FE3F3EC242176E500497EA6 /* Build configuration list for PBXNativeTarget "anonymous-camera" */;
@@ -195,10 +431,13 @@
 				8FE3F3D5242176E400497EA6 /* Frameworks */,
 				8FE3F3D6242176E400497EA6 /* Resources */,
 				9E211A6BAAAA37A73608A555 /* [CP] Embed Pods Frameworks */,
+				77EE1BCF2489647E00D96F27 /* Embed App Extensions */,
+				77662D6D248A57C600BA6ED6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				77662D6A248A57C600BA6ED6 /* PBXTargetDependency */,
 			);
 			name = "anonymous-camera";
 			productName = "anonymous-camera";
@@ -211,10 +450,14 @@
 		8FE3F3D0242176E400497EA6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Aaron Abentheuer";
 				TargetAttributes = {
+					77662D63248A57C600BA6ED6 = {
+						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1150;
+					};
 					8FE3F3D7242176E400497EA6 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -236,11 +479,19 @@
 			projectRoot = "";
 			targets = (
 				8FE3F3D7242176E400497EA6 /* anonymous-camera */,
+				77662D63248A57C600BA6ED6 /* image.processing */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		77662D62248A57C600BA6ED6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FE3F3D6242176E400497EA6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -296,39 +547,88 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		77662D60248A57C600BA6ED6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77662D72248A582600BA6ED6 /* AnonCoreImageProcessing.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FE3F3D4242176E400497EA6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8F0B22A824217B830096A444 /* CameraFeed.swift in Sources */,
+				8F4FAF1B24326B320017347F /* BottomSheetView.swift in Sources */,
+				8F25F4752486917D00615989 /* ACShutterKnob.swift in Sources */,
+				8FEB1CF5242C9CF90024352A /* ACScene.swift in Sources */,
+				77EE1BD8248985A600D96F27 /* BodyBwNoiseShader.swift in Sources */,
 				8F0B22A424217B780096A444 /* BodyShader.swift in Sources */,
+				8FB2516E2424BE780021600C /* MainHostingViewController.swift in Sources */,
+				8FA8EA8624312E7A00BE1EC4 /* ACInterviewControlIndicatorViewController.swift in Sources */,
 				8F0B22A624217B7D0096A444 /* CameraShader.swift in Sources */,
-				8F0B22A724217B7F0096A444 /* ShaderView.swift in Sources */,
 				8F0B22B724217BB60096A444 /* BodyPixelShader.metal in Sources */,
+				77D09086242DEFCF00E6727D /* ACNoFilterIconView.swift in Sources */,
+				8FCB5407248B8C5A00ED4177 /* ACProPurchaseElement.swift in Sources */,
 				8F0B22B624217BB30096A444 /* FacePixelShader.swift in Sources */,
+				8FB251662424A83D0021600C /* ACInterviewModeContainerViewController.swift in Sources */,
+				7761577E24879512000C00AF /* AnonLocation.swift in Sources */,
+				77B312E92424F2CD007172A0 /* MotionManager.swift in Sources */,
+				8F25F48D2486E70A00615989 /* SafetyCard.swift in Sources */,
+				77EE1BD62489857B00D96F27 /* BodyColorNoiseShader.swift in Sources */,
+				77D09087242DEFCF00E6727D /* ACBlurFilterIconView.swift in Sources */,
+				8FB251702424BED70021600C /* ContainerView.swift in Sources */,
+				8F25F48A2486E6FF00615989 /* PrivacyPolicyView.swift in Sources */,
+				77B275D324881720005E85E1 /* FaceColorNoiseShader.swift in Sources */,
+				8F24A07024D21DFB00679067 /* PGInteractiveLogo.swift in Sources */,
 				8FE3F3DC242176E400497EA6 /* AppDelegate.swift in Sources */,
+				8FA8EA8424312CEF00BE1EC4 /* ACInterviewControlIndicator.swift in Sources */,
 				8F0B22B124217BA40096A444 /* BaseShader.swift in Sources */,
 				8FE3F3DE242176E400497EA6 /* SceneDelegate.swift in Sources */,
+				7740E3CC248587DE00694FE4 /* NoiseView.swift in Sources */,
+				8F7C58332487B62C00C408AD /* Reachability.swift in Sources */,
+				77B275D1248816F4005E85E1 /* FaceColorFillShader.swift in Sources */,
+				77B275D52488174A005E85E1 /* FaceBWNoiseShader.swift in Sources */,
 				8F0B22B424217BAC0096A444 /* BodyBlurShader.metal in Sources */,
+				8F25F492248742B000615989 /* ACShutterLockArea.swift in Sources */,
 				8F0B22B324217BA90096A444 /* FaceBlurShader.swift in Sources */,
 				8F0B22AC24217B8E0096A444 /* BodyPixelShader.swift in Sources */,
+				8F648B052483002500703C44 /* UIScrollViewWrapper.swift in Sources */,
+				8FA8EA822431183500BE1EC4 /* ACInterviewModeSectionView.swift in Sources */,
 				8F0B22AA24217B890096A444 /* AnonVideo.swift in Sources */,
+				8FB2516C2424AB900021600C /* ACInterviewControl.swift in Sources */,
+				7752359524291AB200483BFA /* InAppManager.swift in Sources */,
 				8F0B22B024217BA20096A444 /* Easing.swift in Sources */,
-				8FE3F40F2421789D00497EA6 /* ACViewFinderViewController.swift in Sources */,
+				8F4CEB812423EDEC00369D46 /* Helpers.swift in Sources */,
+				8FE3F40F2421789D00497EA6 /* ACCameraFeedViewController.swift in Sources */,
 				8F0B22AF24217B9C0096A444 /* FaceShader.swift in Sources */,
+				8F25F48B2486E6FF00615989 /* EULAView.swift in Sources */,
+				8F25F49424874DEE00615989 /* ACHuD.swift in Sources */,
 				8F0B22A224217B3C0096A444 /* Anon.swift in Sources */,
 				8F0B22AB24217B8C0096A444 /* FaceBlurShader.metal in Sources */,
-				8F0B22A02421798A0096A444 /* ACSettingsStore.swift in Sources */,
+				8F0B22A02421798A0096A444 /* ACAnonymisation.swift in Sources */,
 				8F0B22AE24217B990096A444 /* FacePixelShader.metal in Sources */,
 				8F0B22B524217BB10096A444 /* AnonPhoto.swift in Sources */,
 				8FE3F3E0242176E400497EA6 /* ContentView.swift in Sources */,
 				8F0B22B224217BA70096A444 /* BasicShader.swift in Sources */,
+				77EE1BD42489848500D96F27 /* BodyColorFillShader.swift in Sources */,
 				8F0B22A924217B860096A444 /* BasicShader.metal in Sources */,
+				8FEB1CF7242CF06E0024352A /* ACCloseInterviewModeControl.swift in Sources */,
+				8FA8EA7E24310CC900BE1EC4 /* ACInterviewModeSectionLabel.swift in Sources */,
 				8F0B22AD24217B910096A444 /* BodyBlurShader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		77662D6A248A57C600BA6ED6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 77662D63248A57C600BA6ED6 /* image.processing */;
+			targetProxy = 77662D69248A57C600BA6ED6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8FE3F3E6242176E500497EA6 /* LaunchScreen.storyboard */ = {
@@ -342,8 +642,6 @@
 		8FE3F3F02421770B00497EA6 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8FE3F3F12421770B00497EA6 /* en-GB */,
-				8FE3F3F22421770B00497EA6 /* zh-HK */,
 				8FE3F3F32421770B00497EA6 /* en */,
 			);
 			name = Localizable.strings;
@@ -352,10 +650,70 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		77662D6E248A57C600BA6ED6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8NMAC9567F;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = image.processing/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "playground.ai.image-processing";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		77662D6F248A57C600BA6ED6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 6NDKXMMXT5;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = image.processing/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "playground.ai.image-processing";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		8FE3F3EA242176E500497EA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -378,6 +736,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -416,6 +775,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -438,6 +798,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -470,22 +831,23 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3E726ED89E5B81BB920D9AE /* Pods-anonymous-camera.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0001;
+				CURRENT_PROJECT_VERSION = 1006;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
-				DEVELOPMENT_TEAM = 8NMAC9567F;
+				DEVELOPMENT_TEAM = 6NDKXMMXT5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "anonymous-camera/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
-				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aaab.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
-				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Anonymous/anonymous-camera-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Helpers/Anonymous/anonymous-camera-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -495,22 +857,23 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 87E0CD81544DDAFF536CCB89 /* Pods-anonymous-camera.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0001;
+				CURRENT_PROJECT_VERSION = 1006;
 				DEVELOPMENT_ASSET_PATHS = "\"anonymous-camera/Preview Content\"";
-				DEVELOPMENT_TEAM = 8NMAC9567F;
+				DEVELOPMENT_TEAM = 6NDKXMMXT5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "anonymous-camera/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
-				PRODUCT_BUNDLE_IDENTIFIER = "ai.playground.anonymous-camera";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aaab.anonymous-camera";
 				PRODUCT_NAME = Anonymous;
-				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Anonymous/anonymous-camera-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "anonymous-camera/Helpers/Anonymous/anonymous-camera-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -519,6 +882,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		77662D70248A57C600BA6ED6 /* Build configuration list for PBXNativeTarget "image.processing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77662D6E248A57C600BA6ED6 /* Debug */,
+				77662D6F248A57C600BA6ED6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8FE3F3D3242176E400497EA6 /* Build configuration list for PBXProject "anonymous-camera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
